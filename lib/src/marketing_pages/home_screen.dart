@@ -8,18 +8,25 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const SizedBox box = SizedBox(height: 20);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Sorcery')),
-      body: Column(children: [
-        const Text('Welcome to Sorcery'),
-        ElevatedButton(
-            onPressed: () => context.goNamed(AppRoute.signIn.name),
-            child: const Text('Sign In')),
-        ElevatedButton(
-          onPressed: () => context.goNamed(AppRoute.signUp.name),
-          child: const Text('Sign Up'),
-        ),
-      ]),
+      body: Center(
+        child: Column(children: [
+          box,
+          const Text('Welcome to Sorcery'),
+          box,
+          ElevatedButton(
+              onPressed: () => context.goNamed(AppRoute.signIn.name),
+              child: const Text('Sign In')),
+          box,
+          ElevatedButton(
+            onPressed: () => context.goNamed(AppRoute.signUp.name),
+            child: const Text('Sign Up'),
+          ),
+        ]),
+      ),
     );
   }
 }
