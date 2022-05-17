@@ -5,6 +5,15 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const SignUp();
+  }
+}
+
+class SignUp extends StatelessWidget {
+  const SignUp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     const SizedBox box = SizedBox(height: 20);
 
     return Scaffold(
@@ -13,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
         child: Column(
           children: const [
             box,
-            Text('Sign In'),
+            Text('Sign Up'),
           ],
         ),
       ),
