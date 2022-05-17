@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_in_form.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -23,6 +24,8 @@ class SignIn extends StatelessWidget {
           children: const [
             box,
             Text('Sign In'),
+            box,
+            SignInForm(),
           ],
         ),
       ),
