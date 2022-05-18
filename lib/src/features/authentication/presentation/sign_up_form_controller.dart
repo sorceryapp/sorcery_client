@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/authentication/data/auth_repository.dart';
-import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_up_state.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_state.dart';
 
 class SignUpFormController extends StateNotifier<SignUpState> {
   SignUpFormController({required this.authRepository}) : super(SignUpState());

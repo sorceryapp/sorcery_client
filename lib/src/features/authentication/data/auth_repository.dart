@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/authentication/data/auth_api.dart';
-import 'package:sorcery_desktop_v3/src/authentication/domain/user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
