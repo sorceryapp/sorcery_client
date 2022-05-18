@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sorcery_desktop_v3/src/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_in_screen.dart';
 import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_up_screen.dart';
-import 'package:sorcery_desktop_v3/src/marketing_pages/home_screen.dart';
+import 'package:sorcery_desktop_v3/src/pages/home_screen.dart';
 
 enum AppRoute {
   home,
@@ -12,9 +13,22 @@ enum AppRoute {
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
+    redirect: (state) {
+      final isAuthenticated = authRepository.currentUser != null;
+
+      if (isAuthenticated) {
+        if (state.location == '/signIn' || state.location == 'signUp') {
+          return '/';
+        }
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',

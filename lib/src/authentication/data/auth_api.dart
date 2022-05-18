@@ -8,65 +8,63 @@ class Signup implements Exception {}
 
 class AuthApi {
   AuthApi({Dio? httpClient}) : _httpClient = httpClient ?? Dio();
-
-  static const _baseUrl = 'localhost:3000';
   final Dio _httpClient;
+  final _baseUrl = 'http://localhost:3000';
 
   Future<dynamic> signup({
     required String firstName,
     required String lastName,
     required String email,
     required String password,
-    required String passwordConfirm,
+    required String confirmPassword,
   }) async {
-    const url = '$_baseUrl/create-account';
+    final url = '$_baseUrl/create-account';
     final data = json.encode({
       'first_name': firstName,
       'last_name': lastName,
-      'email': email,
+      'login': email,
       'password': password,
-      'password-confirm': passwordConfirm,
+      'password-confirm': confirmPassword,
     });
 
     try {
-      final response = await _httpClient.post(
+      return await _httpClient.post(
         url,
         data: data,
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
       );
-      return response;
     } catch (e) {
-      // handle request failure
+      print('Error: $e');
+      return e;
     }
   }
 
   Future<dynamic> login(
       {required String email, required String password}) async {
-    const url = '$_baseUrl/login';
+    final url = '$_baseUrl/login';
     final data = json.encode({'email': email, 'password': password});
 
     try {
-      final response = await _httpClient.post(
+      return await _httpClient.post(
         url,
         data: data,
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
       );
-      return response;
     } catch (e) {
-      // handle request failure
+      return e;
     }
   }
 
   Future<dynamic> logout() async {
     final jwt = SecureStorage().getJwt();
-    const url = '$_baseUrl/logout';
+    final url = '$_baseUrl/logout';
 
     try {
-      final response = await _httpClient.post(
+      return await _httpClient.post(
         url,
         options: Options(
           headers: {
@@ -75,9 +73,8 @@ class AuthApi {
           },
         ),
       );
-      return response;
     } catch (e) {
-      // handle request failure
+      return e;
     }
   }
 }

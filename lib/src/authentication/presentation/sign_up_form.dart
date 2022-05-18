@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_up_form_controller.dart';
 
-class SignUpForm extends StatefulWidget {
+class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
 
   @override
-  SignUpFormState createState() {
-    return SignUpFormState();
-  }
+  ConsumerState<SignUpForm> createState() => _SignUpFormState();
 }
 
-class SignUpFormState extends State<SignUpForm> {
+class _SignUpFormState extends ConsumerState<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  final firstTextController = TextEditingController();
-  final lastTextController = TextEditingController();
-  final emailTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
-  final confirmPasswordTextController = TextEditingController();
+  final _firstNameTextController = TextEditingController();
+  final _lastNameTextController = TextEditingController();
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  final _confirmPasswordTextController = TextEditingController();
+
+  String get _firstName => _firstNameTextController.text;
+  String get _lastName => _lastNameTextController.text;
+  String get _email => _emailTextController.text;
+  String get _password => _passwordTextController.text;
+  String get _confirmPassword => _confirmPasswordTextController.text;
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
-    firstTextController.dispose();
-    lastTextController.dispose();
-    emailTextController.dispose();
-    passwordTextController.dispose();
-    confirmPasswordTextController.dispose();
-
+    _firstNameTextController.dispose();
+    _lastNameTextController.dispose();
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+    _confirmPasswordTextController.dispose();
     super.dispose();
   }
 
@@ -36,6 +40,22 @@ class SignUpFormState extends State<SignUpForm> {
     return null;
   }
 
+  _submit() async {
+    if (_formKey.currentState!.validate()) {
+      final controller = ref.read(signUpFormControllerProvider.notifier);
+      final success = await controller.submit(
+        firstName: _firstName,
+        lastName: _lastName,
+        email: _email,
+        password: _password,
+        confirmPassword: _confirmPassword,
+      );
+      if (success) {
+        // widget.onSignedIn?.call();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -44,7 +64,7 @@ class SignUpFormState extends State<SignUpForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            controller: lastTextController,
+            controller: _lastNameTextController,
             validator: (value) => _validator(value),
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -52,7 +72,7 @@ class SignUpFormState extends State<SignUpForm> {
             ),
           ),
           TextFormField(
-            controller: firstTextController,
+            controller: _firstNameTextController,
             validator: (value) => _validator(value),
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -60,7 +80,7 @@ class SignUpFormState extends State<SignUpForm> {
             ),
           ),
           TextFormField(
-            controller: emailTextController,
+            controller: _emailTextController,
             validator: (value) => _validator(value),
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -68,7 +88,7 @@ class SignUpFormState extends State<SignUpForm> {
             ),
           ),
           TextFormField(
-            controller: passwordTextController,
+            controller: _passwordTextController,
             validator: (value) => _validator(value),
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -76,7 +96,7 @@ class SignUpFormState extends State<SignUpForm> {
             ),
           ),
           TextFormField(
-            controller: confirmPasswordTextController,
+            controller: _confirmPasswordTextController,
             validator: (value) => _validator(value),
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
@@ -84,9 +104,7 @@ class SignUpFormState extends State<SignUpForm> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {}
-            },
+            onPressed: () => _submit(),
             child: const Text('Submit'),
           )
         ],
