@@ -23,6 +23,7 @@ class SignUpFormController extends StateNotifier<SignUpState> {
         confirmPassword: confirmPassword,
       ),
     );
+
     state = state.copyWith(value: value);
     return value.hasError == false;
   }

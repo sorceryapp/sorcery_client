@@ -5,7 +5,6 @@ class SignUpState {
   SignUpState({
     this.value = const AsyncValue.data(null),
   });
-
   final AsyncValue<void> value;
 
   bool get isLoading => value.isLoading;

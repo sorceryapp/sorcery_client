@@ -85,8 +85,18 @@ class HttpAuthRepository implements AuthRepository {
       confirmPassword: confirmPassword,
     );
 
+    // Responses from the API
+    // On create:
+    // {
+    // 	"success": "An email has been sent to you with a link to verify your account"
+    // }
+    // On verify:
+    // {
+    //   "success": "Your account has been verified"
+    // }
+
     if (response.statusCode == 200 && currentUser == null) {
-      final isVerified = response.data['success'] ==
+      final isVerified = response.data['success'] !=
           'An email has been sent to you with a link to verify your account';
       _handleAuthSuccess(response: response, isVerified: isVerified);
     }
@@ -98,8 +108,9 @@ class HttpAuthRepository implements AuthRepository {
     final response = await _authApi.login(email: email, password: password);
 
     if (response.statusCode == 200 && currentUser == null) {
-      final isVerified = response.data['success'] ==
-          'An email has been sent to you with a link to verify your account';
+      const isVerified = true;
+      // final isVerified = response.data['success'] ==
+      //     'An email has been sent to you with a link to verify your account';
       _handleAuthSuccess(response: response, isVerified: isVerified);
     }
   }
@@ -107,16 +118,20 @@ class HttpAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() async {
     await _authApi.logout();
-    _unsetUset();
+    _unsetUser();
   }
 
   void dispose() => _authState.close();
 
   Future<void> _handleAuthSuccess(
       {required response, required isVerified}) async {
+    // save jwt
     await _setJwt(jwt: response.headers['authorization'].toString());
-    final user =
-        createUser(payload: await _getPayload(), isVerified: isVerified);
+    // get payload from jwt
+    final payload = await _getPayload();
+    // create user from payload
+    final user = _createUser(payload: payload, isVerified: isVerified);
+    // set user in memory
     _setUser(user: user);
   }
 
@@ -132,7 +147,7 @@ class HttpAuthRepository implements AuthRepository {
     return await SecureStorage().getPayload();
   }
 
-  User createUser({required payload, isVerified = true}) {
+  User _createUser({required payload, isVerified = true}) {
     final id = payload['data']['account_id'];
     final userData = payload['data']['user'];
 
@@ -146,31 +161,21 @@ class HttpAuthRepository implements AuthRepository {
   }
 
   void _setUser({required user}) {
-    // Responses from the API
-    // On create:
-    // {
-    // 	"success": "An email has been sent to you with a link to verify your account"
-    // }
-    // On verify:
-    // {
-    //   "success": "Your account has been verified"
-    // }
-
     _authState.value = user;
   }
 
-  void _unsetUset() {
+  void _unsetUser() {
     _authState.value = null;
   }
 }
 
 final authRepositoryProvider = Provider<HttpAuthRepository>((ref) {
-  final auth = HttpAuthRepository();
-  ref.onDispose(() => auth.dispose());
-  return auth;
+  final authRepository = HttpAuthRepository();
+  ref.onDispose(() => authRepository.dispose());
+  return authRepository;
 });
 
 final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
-  final auth = ref.watch(authRepositoryProvider);
-  return auth.authStateChanges();
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.authStateChanges();
 });

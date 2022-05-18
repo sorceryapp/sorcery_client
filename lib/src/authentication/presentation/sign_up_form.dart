@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/authentication/presentation/sign_up_form_controller.dart';
+// import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -50,14 +52,20 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
         password: _password,
         confirmPassword: _confirmPassword,
       );
+
       if (success) {
-        // widget.onSignedIn?.call();
+        if (!mounted) return;
+        context.go('/');
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // ref.listen<AsyncValue>(
+    //   signUpFormControllerProvider.select((state) => state.value),
+    //   (_, state) => state.showAlertDialogOnError(context),
+    // );
     return Form(
       key: _formKey,
       child: Column(
@@ -106,7 +114,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           ElevatedButton(
             onPressed: () => _submit(),
             child: const Text('Submit'),
-          )
+          ),
         ],
       ),
     );

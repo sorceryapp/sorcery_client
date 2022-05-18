@@ -22,7 +22,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isAuthenticated = authRepository.currentUser != null;
 
       if (isAuthenticated) {
-        if (state.location == '/signIn' || state.location == 'signUp') {
+        if (state.location == '/signIn' || state.location == '/signUp') {
           return '/';
         }
       }
