@@ -33,8 +33,8 @@ class SignUpFormController extends StateNotifier<SignUpState> {
     required String email,
     required String password,
     required String confirmPassword,
-  }) {
-    return authRepository.signUpWithEmailAndPassword(
+  }) async {
+    await authRepository.signUpWithEmailAndPassword(
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -45,7 +45,8 @@ class SignUpFormController extends StateNotifier<SignUpState> {
 }
 
 final signUpFormControllerProvider =
-    StateNotifierProvider.autoDispose<SignUpFormController, SignUpState>((ref) {
+    // StateNotifierProvider.autoDispose<SignUpFormController, SignUpState>((ref) {
+    StateNotifierProvider<SignUpFormController, SignUpState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return SignUpFormController(authRepository: authRepository);
 });

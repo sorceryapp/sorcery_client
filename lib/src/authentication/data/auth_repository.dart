@@ -85,7 +85,7 @@ class HttpAuthRepository implements AuthRepository {
       confirmPassword: confirmPassword,
     );
 
-    if (response.status && response.statusCode == 200 && currentUser == null) {
+    if (response.statusCode == 200 && currentUser == null) {
       final isVerified = response.data['success'] ==
           'An email has been sent to you with a link to verify your account';
       _handleAuthSuccess(response: response, isVerified: isVerified);
@@ -97,7 +97,7 @@ class HttpAuthRepository implements AuthRepository {
       {required String email, required String password}) async {
     final response = await _authApi.login(email: email, password: password);
 
-    if (response.status && response.statusCode == 200 && currentUser == null) {
+    if (response.statusCode == 200 && currentUser == null) {
       final isVerified = response.data['success'] ==
           'An email has been sent to you with a link to verify your account';
       _handleAuthSuccess(response: response, isVerified: isVerified);
