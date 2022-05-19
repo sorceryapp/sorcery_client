@@ -26,7 +26,8 @@ class VerifyAccountError implements Exception {
   factory VerifyAccountError.fromCode({required int code}) {
     switch (code) {
       case 401:
-        return VerifyAccountError('Unable to verify account: unauthorized');
+        return VerifyAccountError(
+            'Unable to verify account: unauthorized (401)');
       default:
         return VerifyAccountError();
     }
@@ -34,13 +35,27 @@ class VerifyAccountError implements Exception {
 }
 
 class SignInError implements Exception {
-  SignInError([this.message = 'Signup error: an unknown exception occured.']);
+  SignInError([this.message = 'Signin error: an unknown exception occured.']);
   final String message;
 
   factory SignInError.fromCode({required int code}) {
     switch (code) {
       default:
         return SignInError();
+    }
+  }
+}
+
+class LogoutError implements Exception {
+  LogoutError([this.message = 'Logout error: an unknown exception occured.']);
+  final String message;
+
+  factory LogoutError.fromCode({required int code}) {
+    switch (code) {
+      case 400:
+        return LogoutError('Unable to logout: bad request (400)');
+      default:
+        return LogoutError();
     }
   }
 }
@@ -90,13 +105,18 @@ class HttpAuthRepository implements AuthRepository {
       password: password,
       confirmPassword: confirmPassword,
     );
+    int? statusCode = _getHttpStatusCode(response: response);
 
-    switch (response.statusCode) {
-      case 200:
-        _handleSignUpSuccess(response: response);
-        break;
-      default:
-        throw SignUpError();
+    if (statusCode != null) {
+      switch (response.statusCode) {
+        case 200:
+          await _handleSignUpSuccess(response: response);
+          break;
+        default:
+          throw SignUpError();
+      }
+    } else {
+      throw SignUpError();
     }
   }
 
@@ -109,10 +129,10 @@ class HttpAuthRepository implements AuthRepository {
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          _handleVerifySuccess(response: response);
+          await _handleVerifySuccess(response: response);
           break;
         case 401:
-          throw VerifyAccountError.fromCode(code: 401);
+          throw VerifyAccountError.fromCode(code: statusCode);
         default:
           throw VerifyAccountError();
       }
@@ -180,7 +200,7 @@ class HttpAuthRepository implements AuthRepository {
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          _handleSignInSuccess(response: response);
+          await _handleSignInSuccess(response: response);
           break;
         default:
           throw SignUpError();
@@ -193,9 +213,21 @@ class HttpAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {
     final response = await _authApi.logout();
-    print('response');
-    await _deleteJwt();
-    _unsetUser();
+    int? statusCode = _getHttpStatusCode(response: response);
+
+    if (statusCode != null) {
+      switch (statusCode) {
+        case 200:
+          await _handleLogoutSuccess();
+          break;
+        case 400:
+          throw LogoutError.fromCode(code: statusCode);
+        default:
+          throw LogoutError();
+      }
+    } else {
+      throw LogoutError();
+    }
   }
 
   Future<void> _handleSignUpSuccess({required response}) async {
@@ -224,6 +256,11 @@ class HttpAuthRepository implements AuthRepository {
     //   final user = _createUser(payload: payload);
     //   _setUser(user: user);
     // }
+  }
+
+  Future<void> _handleLogoutSuccess() async {
+    await _deleteJwt();
+    _unsetUser();
   }
 
   int? _getHttpStatusCode({required response}) {
