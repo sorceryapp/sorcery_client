@@ -53,8 +53,16 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Text(
+            'Verify Your Account',
+            style: TextStyle(fontSize: 20),
+          ),
+          const Text(
+            'Check your email, copy the verify token, then paste it in the field below:',
+            style: TextStyle(fontSize: 14),
+          ),
           TextFormField(
             controller: _tokenTextController,
             validator: (value) => _validator(value),
@@ -65,7 +73,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
           ),
           ElevatedButton(
             onPressed: () => _submit(),
-            child: const Text('Submit'),
+            child: const Text('Verify Account'),
           ),
         ],
       ),

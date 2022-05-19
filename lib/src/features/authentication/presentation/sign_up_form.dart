@@ -113,7 +113,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           ),
           ElevatedButton(
             onPressed: () => _submit(),
-            child: const Text('Submit'),
+            child: const Text('Sign Up'),
           ),
         ],
       ),
