@@ -5,6 +5,7 @@ import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_reposit
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_resend_form.dart';
 
 import '../routing/router.dart';
 
@@ -56,7 +57,12 @@ class AuthenticatedContent extends StatelessWidget {
                     LogoutForm(),
                   ],
                 )
-              : const VerifyAccountForm()),
+              : Column(
+                  children: const [
+                    VerifyAccountForm(),
+                    VerifyAccountResendForm()
+                  ],
+                )),
         ],
       ),
     );

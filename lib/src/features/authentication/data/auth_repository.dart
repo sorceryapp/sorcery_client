@@ -11,6 +11,10 @@ class SignUpError implements Exception {
 
   factory SignUpError.fromCode({required int code}) {
     switch (code) {
+      case 422:
+        return SignUpError(
+            'There was an error creating your account: Unprocessable Entity (422)');
+
       default:
         return SignUpError();
     }
@@ -27,9 +31,29 @@ class VerifyAccountError implements Exception {
     switch (code) {
       case 401:
         return VerifyAccountError(
-            'Unable to verify account: unauthorized (401)');
+            'Unable to verify account: Unauthorized (401)');
       default:
         return VerifyAccountError();
+    }
+  }
+}
+
+class VerifyAccountResendError implements Exception {
+  VerifyAccountResendError(
+      [this.message =
+          'Unable to verify account: an unknown exception occurred.']);
+  final String message;
+
+  factory VerifyAccountResendError.fromCode({required int code}) {
+    switch (code) {
+      case 400:
+        return VerifyAccountResendError(
+            'An email has recently been sent to you with a link to verify your account. Please wait 30 seconds before trying again: Bad Request (400)');
+      case 401:
+        return VerifyAccountResendError(
+            'Unable to resend verify account email: Unauthorized (401)');
+      default:
+        return VerifyAccountResendError();
     }
   }
 }
@@ -53,7 +77,7 @@ class LogoutError implements Exception {
   factory LogoutError.fromCode({required int code}) {
     switch (code) {
       case 400:
-        return LogoutError('Unable to logout: bad request (400)');
+        return LogoutError('Unable to logout: Bad Request (400)');
       default:
         return LogoutError();
     }
@@ -70,6 +94,8 @@ abstract class AuthRepository {
     required String confirmPassword,
   });
   Future<void> verifyAccount({required String token});
+  Future<void> verifyAccountResend(
+      {required String email, required String password});
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> logout();
@@ -110,14 +136,24 @@ class HttpAuthRepository implements AuthRepository {
     if (statusCode != null) {
       switch (response.statusCode) {
         case 200:
-          await _handleSignUpSuccess(response: response);
+          await _handleSignUpWithEmailAndPasswordSuccess(response: response);
           break;
+        case 422:
+          throw SignUpError.fromCode(code: statusCode);
         default:
           throw SignUpError();
       }
     } else {
       throw SignUpError();
     }
+  }
+
+  Future<void> _handleSignUpWithEmailAndPasswordSuccess(
+      {required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload, isVerified: false);
+    _setUser(user: user);
   }
 
   @override
@@ -139,6 +175,48 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw VerifyAccountError();
     }
+  }
+
+  Future<void> _handleVerifySuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload);
+    _setUser(user: user);
+
+    // TODO Determine if the following checks are needed
+    // if (payload['data']['authenticated_by'] == 'autologin' &&
+    //     payload['data']['autologin_type'] == 'verify_account') {
+    //   final user = _createUser(payload: payload);
+    //   _setUser(user: user);
+    // }
+  }
+
+  @override
+  Future<void> verifyAccountResend(
+      {required String email, required String password}) async {
+    final response =
+        await _authApi.verifyAccountResend(email: email, password: password);
+    int? statusCode = _getHttpStatusCode(response: response);
+
+    if (statusCode != null) {
+      switch (statusCode) {
+        case 200:
+          await _handleVerifyAccountResendSuccess(response: response);
+          break;
+        case 400:
+          throw VerifyAccountResendError.fromCode(code: statusCode);
+        case 401:
+          throw VerifyAccountResendError.fromCode(code: statusCode);
+        default:
+          throw VerifyAccountResendError();
+      }
+    } else {
+      throw VerifyAccountResendError();
+    }
+  }
+
+  Future<void> _handleVerifyAccountResendSuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
   }
 
   @override
@@ -200,7 +278,7 @@ class HttpAuthRepository implements AuthRepository {
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          await _handleSignInSuccess(response: response);
+          await _handleSignInWithEmailAndPasswordSuccess(response: response);
           break;
         default:
           throw SignUpError();
@@ -208,6 +286,14 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw SignInError();
     }
+  }
+
+  Future<void> _handleSignInWithEmailAndPasswordSuccess(
+      {required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload);
+    _setUser(user: user);
   }
 
   @override
@@ -228,34 +314,6 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw LogoutError();
     }
-  }
-
-  Future<void> _handleSignUpSuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload, isVerified: false);
-    _setUser(user: user);
-  }
-
-  Future<void> _handleSignInSuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
-    _setUser(user: user);
-  }
-
-  Future<void> _handleVerifySuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
-    _setUser(user: user);
-
-    // TODO Determine if the following checks are needed
-    // if (payload['data']['authenticated_by'] == 'autologin' &&
-    //     payload['data']['autologin_type'] == 'verify_account') {
-    //   final user = _createUser(payload: payload);
-    //   _setUser(user: user);
-    // }
   }
 
   Future<void> _handleLogoutSuccess() async {

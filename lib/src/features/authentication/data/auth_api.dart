@@ -61,6 +61,27 @@ class AuthApi {
     }
   }
 
+  Future<dynamic> verifyAccountResend(
+      {required String email, required String password}) async {
+    final url = '$_baseUrl/verify-account-resend';
+    final data = json.encode({'login': email, 'password': password});
+
+    try {
+      return await _httpClient.post(
+        url,
+        data: data,
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+    } on DioError catch (e) {
+      return e.response?.statusCode;
+    } catch (e) {
+      print('Error: $e');
+      return e;
+    }
+  }
+
   Future<dynamic> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     final url = '$_baseUrl/login';
