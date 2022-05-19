@@ -64,7 +64,7 @@ class AuthApi {
   Future<dynamic> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     final url = '$_baseUrl/login';
-    final data = json.encode({'email': email, 'password': password});
+    final data = json.encode({'login': email, 'password': password});
 
     try {
       return await _httpClient.post(
