@@ -182,13 +182,6 @@ class HttpAuthRepository implements AuthRepository {
     final payload = await _getJwtPayload();
     final user = _createUser(payload: payload);
     _setUser(user: user);
-
-    // TODO Determine if the following checks are needed
-    // if (payload['data']['authenticated_by'] == 'autologin' &&
-    //     payload['data']['autologin_type'] == 'verify_account') {
-    //   final user = _createUser(payload: payload);
-    //   _setUser(user: user);
-    // }
   }
 
   @override
@@ -273,6 +266,12 @@ class HttpAuthRepository implements AuthRepository {
     //   "jti": "b67a5fa433ce7d46bac5",
     //   "nbf": 1652930432,
     //   "sub": 204
+    // }
+
+    // if (payload['data']['authenticated_by'] == 'autologin' &&
+    //     payload['data']['autologin_type'] == 'verify_account') {
+    //   final user = _createUser(payload: payload);
+    //   _setUser(user: user);
     // }
 
     if (statusCode != null) {
