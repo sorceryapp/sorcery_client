@@ -36,11 +36,17 @@ class _LogoutFormState extends ConsumerState<LogoutForm> {
       (_, state) => state.showAlertDialogOnError(context),
     );
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      ElevatedButton(
-        onPressed: () => _submit(),
-        child: const Text('Logout'),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElevatedButton(
+            onPressed: () => _submit(),
+            child: const Text('Logout'),
+          ),
+        ],
       ),
-    ]);
+    );
   }
 }

@@ -92,7 +92,7 @@ class AuthApi {
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': jwt,
+            'Authentication': jwt,
           },
         ),
       );

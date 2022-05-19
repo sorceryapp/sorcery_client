@@ -192,7 +192,8 @@ class HttpAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    await _authApi.logout();
+    final response = await _authApi.logout();
+    print('response');
     await _deleteJwt();
     _unsetUser();
   }
