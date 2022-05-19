@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_state.dart';
 
-class SignUpFormController extends StateNotifier<SignUpState> {
-  SignUpFormController({required this.authRepository}) : super(SignUpState());
+class AuthFormController extends StateNotifier<SignUpState> {
+  AuthFormController({required this.authRepository}) : super(SignUpState());
   final HttpAuthRepository authRepository;
 
   Future<bool> submit({
@@ -28,6 +28,13 @@ class SignUpFormController extends StateNotifier<SignUpState> {
     return value.hasError == false;
   }
 
+  Future<bool> verify({required String token}) async {
+    state = state.copyWith(value: const AsyncValue.loading());
+    final value = await AsyncValue.guard(() => _verifyAccount(token: token));
+    state = state.copyWith(value: value);
+    return value.hasError == false;
+  }
+
   Future<void> _authenticate({
     required String firstName,
     required String lastName,
@@ -43,11 +50,15 @@ class SignUpFormController extends StateNotifier<SignUpState> {
       confirmPassword: confirmPassword,
     );
   }
+
+  Future<void> _verifyAccount({required String token}) async {
+    await authRepository.verifyAccount(token: token);
+  }
 }
 
-final signUpFormControllerProvider =
-    // StateNotifierProvider.autoDispose<SignUpFormController, SignUpState>((ref) {
-    StateNotifierProvider<SignUpFormController, SignUpState>((ref) {
+final authControllerProvider =
+    // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
+    StateNotifierProvider<AuthFormController, SignUpState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return SignUpFormController(authRepository: authRepository);
+  return AuthFormController(authRepository: authRepository);
 });

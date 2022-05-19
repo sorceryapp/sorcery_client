@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 
-/// Exception thrown when signup fails.
-class Signup implements Exception {}
-
 class AuthApi {
   AuthApi({Dio? httpClient}) : _httpClient = httpClient ?? Dio();
   final Dio _httpClient;
@@ -35,6 +32,29 @@ class AuthApi {
           headers: {'Content-Type': 'application/json'},
         ),
       );
+    } on DioError catch (e) {
+      return e.response?.statusCode;
+    } catch (e) {
+      print('Error: $e');
+      return e;
+    }
+  }
+
+  Future<dynamic> verify({required String token, String? jwt}) async {
+    final url = '$_baseUrl/verify-account?key=$token';
+    final headers = jwt != null
+        ? {'Content-Type': 'application/json', 'Authentication': jwt}
+        : {'Content-Type': 'application/json'};
+
+    try {
+      return await _httpClient.post(
+        url,
+        options: Options(
+          headers: headers,
+        ),
+      );
+    } on DioError catch (e) {
+      return e.response?.statusCode;
     } catch (e) {
       print('Error: $e');
       return e;
@@ -54,7 +74,10 @@ class AuthApi {
           headers: {'Content-Type': 'application/json'},
         ),
       );
+    } on DioError catch (e) {
+      return e.response?.statusCode;
     } catch (e) {
+      print('Error: $e');
       return e;
     }
   }
@@ -73,7 +96,10 @@ class AuthApi {
           },
         ),
       );
+    } on DioError catch (e) {
+      return e.response?.statusCode;
     } catch (e) {
+      print('Error: $e');
       return e;
     }
   }

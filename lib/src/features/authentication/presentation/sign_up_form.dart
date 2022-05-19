@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_form_controller.dart';
-// import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
+import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
 
   _submit() async {
     if (_formKey.currentState!.validate()) {
-      final controller = ref.read(signUpFormControllerProvider.notifier);
+      final controller = ref.read(authControllerProvider.notifier);
       final success = await controller.submit(
         firstName: _firstName,
         lastName: _lastName,
@@ -62,10 +62,10 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    // ref.listen<AsyncValue>(
-    //   signUpFormControllerProvider.select((state) => state.value),
-    //   (_, state) => state.showAlertDialogOnError(context),
-    // );
+    ref.listen<AsyncValue>(
+      authControllerProvider.select((state) => state.value),
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     return Form(
       key: _formKey,
       child: Column(

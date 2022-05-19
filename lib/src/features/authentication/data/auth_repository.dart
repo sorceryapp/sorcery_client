@@ -1,46 +1,37 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
-// class SignUpWithEmailAndPasswordFailure implements Exception {
-//   SignUpWithEmailAndPasswordFailure(
-//       [this.message = 'An unknown exception occurred.']);
+class SignUpError implements Exception {
+  SignUpError([this.message = 'Signup error: an unknown exception occured.']);
+  final String message;
 
-//   factory SignUpWithEmailAndPasswordFailure.fromCode(String code) {
-//     switch (code) {
-//       // to-do: add cases
-//       case 'The account you tried to create is currently awaiting verification':
-//         return SignUpWithEmailAndPasswordFailure(
-//             'This account is awaiting verification');
-//       default:
-//         return SignUpWithEmailAndPasswordFailure();
-//     }
-//   }
+  factory SignUpError.fromCode({required int code}) {
+    switch (code) {
+      default:
+        return SignUpError();
+    }
+  }
+}
 
-//   final String message;
-// }
+class VerifyAccountError implements Exception {
+  VerifyAccountError(
+      [this.message =
+          'Unable to verify account: an unknown exception occurred.']);
+  final String message;
 
-// class LoginWithEmailAndPasswordFailure implements Exception {
-//   LoginWithEmailAndPasswordFailure(
-//       [this.message = 'An unknown exception occurred.']);
-
-//   factory LoginWithEmailAndPasswordFailure.fromCode(String code) {
-//     switch (code) {
-//       // to-do: add cases
-//       case 'The account you tried to create is currently awaiting verification':
-//         return LoginWithEmailAndPasswordFailure(
-//             'This account is awaiting verification');
-//       default:
-//         return LoginWithEmailAndPasswordFailure();
-//     }
-//   }
-
-//   final String message;
-// }
-
-// class LogOutFailure implements Exception {}
+  factory VerifyAccountError.fromCode({required int code}) {
+    switch (code) {
+      case 401:
+        return VerifyAccountError('Unable to verify account: unauthorized');
+      default:
+        return VerifyAccountError();
+    }
+  }
+}
 
 abstract class AuthRepository {
   Stream<User?> authStateChanges();
@@ -51,6 +42,7 @@ abstract class AuthRepository {
     required String password,
     required String confirmPassword,
   });
+  Future<void> verifyAccount({required String token});
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> signOut();
@@ -62,6 +54,8 @@ class HttpAuthRepository implements AuthRepository {
   final AuthApi _authApi;
 
   final _authState = InMemoryStore<User?>(null);
+
+  void dispose() => _authState.close();
 
   @override
   Stream<User?> authStateChanges() => _authState.stream;
@@ -85,20 +79,33 @@ class HttpAuthRepository implements AuthRepository {
       confirmPassword: confirmPassword,
     );
 
-    // Responses from the API
-    // On create:
-    // {
-    // 	"success": "An email has been sent to you with a link to verify your account"
-    // }
-    // On verify:
-    // {
-    //   "success": "Your account has been verified"
-    // }
+    switch (response.statusCode) {
+      case 200:
+        _handleSignUpSuccess(response: response);
+        break;
+      default:
+        SignUpError();
+    }
+  }
 
-    if (response.statusCode == 200 && currentUser == null) {
-      final isVerified = response.data['success'] !=
-          'An email has been sent to you with a link to verify your account';
-      _handleAuthSuccess(response: response, isVerified: isVerified);
+  @override
+  Future<void> verifyAccount({required String token}) async {
+    final jwt = await _getJwt();
+    final response = await _authApi.verify(token: token, jwt: jwt);
+    int? statusCode = _getStatusCode(response: response);
+
+    if (statusCode != null) {
+      switch (statusCode) {
+        case 200:
+          _handleVerifySuccess(response: response);
+          break;
+        case 401:
+          throw VerifyAccountError.fromCode(code: 401);
+        default:
+          throw VerifyAccountError();
+      }
+    } else {
+      throw VerifyAccountError();
     }
   }
 
@@ -107,11 +114,12 @@ class HttpAuthRepository implements AuthRepository {
       {required String email, required String password}) async {
     final response = await _authApi.login(email: email, password: password);
 
-    if (response.statusCode == 200 && currentUser == null) {
-      const isVerified = true;
-      // final isVerified = response.data['success'] ==
-      //     'An email has been sent to you with a link to verify your account';
-      _handleAuthSuccess(response: response, isVerified: isVerified);
+    switch (response.statusCode) {
+      case 200:
+        _handleSignInSuccess(response: response);
+        break;
+      default:
+        SignUpError();
     }
   }
 
@@ -119,32 +127,62 @@ class HttpAuthRepository implements AuthRepository {
   Future<void> signOut() async {
     await _authApi.logout();
     _unsetUser();
+    // delete jwt??
   }
 
-  void dispose() => _authState.close();
-
-  Future<void> _handleAuthSuccess(
-      {required response, required isVerified}) async {
-    // save jwt
+  Future<void> _handleSignUpSuccess({required response}) async {
     await _setJwt(jwt: response.headers['authorization'].toString());
-    // get payload from jwt
-    final payload = await _getPayload();
-    // create user from payload
-    final user = _createUser(payload: payload, isVerified: isVerified);
-    // set user in memory
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload, isVerified: false);
     _setUser(user: user);
+  }
+
+  Future<void> _handleSignInSuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload);
+    _setUser(user: user);
+  }
+
+  Future<void> _handleVerifySuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload);
+    _setUser(user: user);
+
+    // TODO Determine if the following checks are needed
+    // if (payload['data']['authenticated_by'] == 'autologin' &&
+    //     payload['data']['autologin_type'] == 'verify_account') {
+    //   final user = _createUser(payload: payload);
+    //   _setUser(user: user);
+    // }
+  }
+
+  int? _getStatusCode({required response}) {
+    if (response is Response<dynamic>) {
+      return response.statusCode;
+    } else if (response is int) {
+      return response;
+    }
+
+    return null;
   }
 
   Future _setJwt({required String jwt}) async {
     return await SecureStorage().setJwt(jwt);
   }
 
-  // Future<String> _getJwt() async {
-  //   return await SecureStorage().getJwt();
-  // }
+  Future<String?> _getJwt() async {
+    try {
+      return await SecureStorage().getJwt();
+    } catch (e) {
+      print('GET_JWT ERROR: $e');
+      return null;
+    }
+  }
 
-  Future<Map<String, dynamic>> _getPayload() async {
-    return await SecureStorage().getPayload();
+  Future<Map<String, dynamic>> _getJwtPayload() async {
+    return await SecureStorage().getJwtPayload();
   }
 
   User _createUser({required payload, isVerified = true}) {

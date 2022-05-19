@@ -14,7 +14,7 @@ class Jwt {
     await store.write(key: 'jwt', value: jwt);
   }
 
-  static Future<Map<String, dynamic>> getPayload(
+  static Future<Map<String, dynamic>> getJwtPayload(
       {required FlutterSecureStorage store}) async {
     final jwt = await store.read(key: 'jwt');
     return _parseJwt(jwt.toString());

@@ -62,7 +62,7 @@ Future<void> showExceptionAlertDialog({
     showAlertDialog(
       context: context,
       title: title,
-      content: exception.toString(),
+      content: exception.message,
       defaultActionText: 'OK'.hardcoded,
     );
 
