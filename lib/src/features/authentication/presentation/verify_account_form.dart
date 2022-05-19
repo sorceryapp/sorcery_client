@@ -33,7 +33,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
   _submit() async {
     if (_formKey.currentState!.validate()) {
       final controller = ref.read(authControllerProvider.notifier);
-      final success = await controller.verify(
+      final success = await controller.verifyAccount(
         token: _token,
       );
 

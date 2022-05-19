@@ -45,7 +45,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   _submit() async {
     if (_formKey.currentState!.validate()) {
       final controller = ref.read(authControllerProvider.notifier);
-      final success = await controller.submit(
+      final success = await controller.signUpWithEmailAndPassword(
         firstName: _firstName,
         lastName: _lastName,
         email: _email,
@@ -66,6 +66,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
       authControllerProvider.select((state) => state.value),
       (_, state) => state.showAlertDialogOnError(context),
     );
+
     return Form(
       key: _formKey,
       child: Column(

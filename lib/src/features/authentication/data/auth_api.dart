@@ -8,7 +8,7 @@ class AuthApi {
   final Dio _httpClient;
   final _baseUrl = 'http://localhost:3000';
 
-  Future<dynamic> signup({
+  Future<dynamic> signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
     required String email,
@@ -40,7 +40,7 @@ class AuthApi {
     }
   }
 
-  Future<dynamic> verify({required String token, String? jwt}) async {
+  Future<dynamic> verifyAccount({required String token, String? jwt}) async {
     final url = '$_baseUrl/verify-account?key=$token';
     final headers = jwt != null
         ? {'Content-Type': 'application/json', 'Authentication': jwt}
@@ -61,7 +61,7 @@ class AuthApi {
     }
   }
 
-  Future<dynamic> login(
+  Future<dynamic> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     final url = '$_baseUrl/login';
     final data = json.encode({'email': email, 'password': password});

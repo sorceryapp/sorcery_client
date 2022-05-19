@@ -33,6 +33,18 @@ class VerifyAccountError implements Exception {
   }
 }
 
+class SignInError implements Exception {
+  SignInError([this.message = 'Signup error: an unknown exception occured.']);
+  final String message;
+
+  factory SignInError.fromCode({required int code}) {
+    switch (code) {
+      default:
+        return SignInError();
+    }
+  }
+}
+
 abstract class AuthRepository {
   Stream<User?> authStateChanges();
   Future<void> signUpWithEmailAndPassword({
@@ -71,7 +83,7 @@ class HttpAuthRepository implements AuthRepository {
     required String password,
     required String confirmPassword,
   }) async {
-    final response = await _authApi.signup(
+    final response = await _authApi.signUpWithEmailAndPassword(
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -84,14 +96,14 @@ class HttpAuthRepository implements AuthRepository {
         _handleSignUpSuccess(response: response);
         break;
       default:
-        SignUpError();
+        throw SignUpError();
     }
   }
 
   @override
   Future<void> verifyAccount({required String token}) async {
     final jwt = await _getJwt();
-    final response = await _authApi.verify(token: token, jwt: jwt);
+    final response = await _authApi.verifyAccount(token: token, jwt: jwt);
     int? statusCode = _getStatusCode(response: response);
 
     if (statusCode != null) {
@@ -112,14 +124,69 @@ class HttpAuthRepository implements AuthRepository {
   @override
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password}) async {
-    final response = await _authApi.login(email: email, password: password);
+    final response = await _authApi.signInWithEmailAndPassword(
+        email: email, password: password);
+    int? statusCode = _getStatusCode(response: response);
 
-    switch (response.statusCode) {
-      case 200:
-        _handleSignInSuccess(response: response);
-        break;
-      default:
-        SignUpError();
+    // Signup, logout, signin (no verify):
+    // {
+    //   "data": {
+    //     "user": {
+    //       "id": 204,
+    //       "login": "eswsa@43d12v49112d2.com",
+    //       "first_name": "gfds",
+    //       "last_name": "sdfg"
+    //     },
+    //     "account_id": 204,
+    //     "unverified_account": 1653016661,
+    //     "last_password_entry": 1652930261,
+    //     "authenticated_by": [
+    //       "password"
+    //     ]
+    //   },
+    //   "iss": "Sorcery",
+    //   "aud": "Sorcery",
+    //   "iat": 1652930261,
+    //   "exp": 1652930381,
+    //   "jti": "9d4101ea69177c532739",
+    //   "nbf": 1652930231,
+    //   "sub": 204
+    // }
+
+    // then verify:
+    // {
+    //   "data": {
+    //     "user": {
+    //       "id": 204,
+    //       "login": "eswsa@43d12v49112d2.com",
+    //       "first_name": "gfds",
+    //       "last_name": "sdfg"
+    //     },
+    //     "account_id": 204,
+    //     "authenticated_by": [
+    //       "autologin"
+    //     ],
+    //     "autologin_type": "verify_account"
+    //   },
+    //   "iss": "Sorcery",
+    //   "aud": "Sorcery",
+    //   "iat": 1652930462,
+    //   "exp": 1652930582,
+    //   "jti": "b67a5fa433ce7d46bac5",
+    //   "nbf": 1652930432,
+    //   "sub": 204
+    // }
+
+    if (statusCode != null) {
+      switch (statusCode) {
+        case 200:
+          _handleSignInSuccess(response: response);
+          break;
+        default:
+          throw SignUpError();
+      }
+    } else {
+      throw SignInError();
     }
   }
 

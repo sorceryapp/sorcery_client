@@ -6,7 +6,7 @@ class AuthFormController extends StateNotifier<SignUpState> {
   AuthFormController({required this.authRepository}) : super(SignUpState());
   final HttpAuthRepository authRepository;
 
-  Future<bool> submit({
+  Future<bool> signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
     required String email,
@@ -15,7 +15,7 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
-      () => _authenticate(
+      () => _signUpWithEmailAndPassword(
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -28,14 +28,7 @@ class AuthFormController extends StateNotifier<SignUpState> {
     return value.hasError == false;
   }
 
-  Future<bool> verify({required String token}) async {
-    state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(() => _verifyAccount(token: token));
-    state = state.copyWith(value: value);
-    return value.hasError == false;
-  }
-
-  Future<void> _authenticate({
+  Future<void> _signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
     required String email,
@@ -51,8 +44,41 @@ class AuthFormController extends StateNotifier<SignUpState> {
     );
   }
 
+  Future<bool> verifyAccount({required String token}) async {
+    state = state.copyWith(value: const AsyncValue.loading());
+    final value = await AsyncValue.guard(() => _verifyAccount(token: token));
+    state = state.copyWith(value: value);
+    return value.hasError == false;
+  }
+
   Future<void> _verifyAccount({required String token}) async {
     await authRepository.verifyAccount(token: token);
+  }
+
+  Future<bool> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    state = state.copyWith(value: const AsyncValue.loading());
+    final value = await AsyncValue.guard(
+      () => _signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      ),
+    );
+
+    state = state.copyWith(value: value);
+    return value.hasError == false;
+  }
+
+  Future<void> _signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    await authRepository.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 }
 
