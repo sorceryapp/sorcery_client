@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
 
 import '../routing/router.dart';
@@ -49,7 +50,12 @@ class AuthenticatedContent extends StatelessWidget {
           Text('Hello ${user.firstName}!'),
           box,
           (isVerified
-              ? const Text("You're Verified!")
+              ? Column(
+                  children: const [
+                    Text("You're Verified!"),
+                    LogoutForm(),
+                  ],
+                )
               : const VerifyAccountForm()),
         ],
       ),

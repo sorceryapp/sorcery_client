@@ -57,7 +57,7 @@ abstract class AuthRepository {
   Future<void> verifyAccount({required String token});
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
-  Future<void> signOut();
+  Future<void> logout();
   User? get currentUser;
 }
 
@@ -104,7 +104,7 @@ class HttpAuthRepository implements AuthRepository {
   Future<void> verifyAccount({required String token}) async {
     final jwt = await _getJwt();
     final response = await _authApi.verifyAccount(token: token, jwt: jwt);
-    int? statusCode = _getStatusCode(response: response);
+    int? statusCode = _getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -126,7 +126,7 @@ class HttpAuthRepository implements AuthRepository {
       {required String email, required String password}) async {
     final response = await _authApi.signInWithEmailAndPassword(
         email: email, password: password);
-    int? statusCode = _getStatusCode(response: response);
+    int? statusCode = _getHttpStatusCode(response: response);
 
     // Signup, logout, signin (no verify):
     // {
@@ -191,10 +191,10 @@ class HttpAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() async {
+  Future<void> logout() async {
     await _authApi.logout();
+    await _deleteJwt();
     _unsetUser();
-    // delete jwt??
   }
 
   Future<void> _handleSignUpSuccess({required response}) async {
@@ -225,7 +225,7 @@ class HttpAuthRepository implements AuthRepository {
     // }
   }
 
-  int? _getStatusCode({required response}) {
+  int? _getHttpStatusCode({required response}) {
     if (response is Response<dynamic>) {
       return response.statusCode;
     } else if (response is int) {
@@ -235,16 +235,28 @@ class HttpAuthRepository implements AuthRepository {
     return null;
   }
 
-  Future _setJwt({required String jwt}) async {
-    return await SecureStorage().setJwt(jwt);
+  Future<void> _setJwt({required String jwt}) async {
+    try {
+      await SecureStorage().setJwt(jwt);
+    } catch (e) {
+      print('Error in _setJwt: $e');
+    }
   }
 
   Future<String?> _getJwt() async {
     try {
       return await SecureStorage().getJwt();
     } catch (e) {
-      print('GET_JWT ERROR: $e');
+      print('Error in _getJwt: $e');
       return null;
+    }
+  }
+
+  Future<void> _deleteJwt() async {
+    try {
+      await SecureStorage().deleteJwt();
+    } catch (e) {
+      print('Error in _deleteJwt: $e');
     }
   }
 

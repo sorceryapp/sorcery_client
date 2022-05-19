@@ -55,27 +55,33 @@ class _SignInFormState extends ConsumerState<SignInForm> {
       (_, state) => state.showAlertDialogOnError(context),
     );
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      TextFormField(
-        controller: _emailTextController,
-        validator: (value) => _validator(value),
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Email',
-        ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            controller: _emailTextController,
+            validator: (value) => _validator(value),
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Email',
+            ),
+          ),
+          TextFormField(
+            controller: _passwordTextController,
+            validator: (value) => _validator(value),
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Password',
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => _submit(),
+            child: const Text('Sign In'),
+          ),
+        ],
       ),
-      TextFormField(
-        controller: _passwordTextController,
-        validator: (value) => _validator(value),
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Password',
-        ),
-      ),
-      ElevatedButton(
-        onPressed: () => _submit(),
-        child: const Text('Sign In'),
-      ),
-    ]);
+    );
   }
 }

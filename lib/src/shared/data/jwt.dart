@@ -14,6 +14,10 @@ class Jwt {
     await store.write(key: 'jwt', value: jwt);
   }
 
+  static Future<void> deleteJwt({required FlutterSecureStorage store}) async {
+    await store.delete(key: 'jwt');
+  }
+
   static Future<Map<String, dynamic>> getJwtPayload(
       {required FlutterSecureStorage store}) async {
     final jwt = await store.read(key: 'jwt');

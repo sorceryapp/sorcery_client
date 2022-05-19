@@ -80,6 +80,20 @@ class AuthFormController extends StateNotifier<SignUpState> {
       password: password,
     );
   }
+
+  Future<bool> logout() async {
+    state = state.copyWith(value: const AsyncValue.loading());
+    final value = await AsyncValue.guard(
+      () => _logout(),
+    );
+
+    state = state.copyWith(value: value);
+    return value.hasError == false;
+  }
+
+  Future<void> _logout() async {
+    await authRepository.logout();
+  }
 }
 
 final authControllerProvider =

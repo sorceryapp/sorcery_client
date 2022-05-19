@@ -12,8 +12,12 @@ class SecureStorage {
     return await Jwt.getJwt(store: _flutterSecureStorage);
   }
 
-  Future setJwt(String jwt) async {
+  Future<void> setJwt(String jwt) async {
     await Jwt.setJwt(store: _flutterSecureStorage, jwt: jwt);
+  }
+
+  Future<void> deleteJwt() async {
+    await Jwt.deleteJwt(store: _flutterSecureStorage);
   }
 
   Future<Map<String, dynamic>> getJwtPayload() async {
