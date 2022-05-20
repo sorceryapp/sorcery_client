@@ -23,7 +23,10 @@ class SignIn extends StatelessWidget {
         child: Column(
           children: const [
             box,
-            Text('Sign In'),
+            Text(
+              'Sign In',
+              style: TextStyle(fontSize: 20),
+            ),
             box,
             SignInForm(),
           ],

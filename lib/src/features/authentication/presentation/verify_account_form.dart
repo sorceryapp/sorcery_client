@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 import 'package:url_launcher/link.dart';
@@ -53,8 +52,6 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(authStateChangesProvider).value;
-
     ref.listen<AsyncValue>(
       authControllerProvider.select((state) => state.value),
       (_, state) => state.showAlertDialogOnError(context),
@@ -67,13 +64,12 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '${user?.firstName}, please verify your account',
-              style: const TextStyle(fontSize: 20),
-            ),
-            const Text(
-              'Check your email, grab the verify token, then paste it in the field below:',
-              style: TextStyle(fontSize: 14),
+            const Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(
+                'We just sent you an email with a verification token. Grab the token, then paste it in the field below:',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
             TextFormField(
               controller: _tokenTextController,

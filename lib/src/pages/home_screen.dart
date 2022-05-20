@@ -47,7 +47,10 @@ class AuthenticatedContent extends StatelessWidget {
       child: Column(
         children: [
           box,
-          Text('Hello ${user.firstName}!'),
+          Text(
+            'Hello ${user.firstName}!',
+            style: const TextStyle(fontSize: 20),
+          ),
           box,
           if (!isVerified)
             Link(
@@ -78,7 +81,10 @@ class UnauthenticatedContent extends StatelessWidget {
       child: Column(
         children: [
           box,
-          const Text('Welcome to Sorcery'),
+          const Text(
+            'Welcome to Sorcery',
+            style: TextStyle(fontSize: 20),
+          ),
           box,
           ElevatedButton(
               onPressed: () => context.goNamed(AppRoute.signIn.name),
