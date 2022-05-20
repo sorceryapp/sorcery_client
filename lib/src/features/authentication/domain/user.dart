@@ -1,60 +1,61 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:isar/isar.dart';
+
+part 'user.g.dart';
+
+@Collection()
 class User {
-  const User({
-    required this.id,
+  User({
+    required this.accountId,
     required this.email,
     required this.firstName,
     required this.lastName,
-    this.isAuthenticated = false,
-    this.isVerified = false,
+    required this.status,
   });
 
-  final int id;
+  @Id()
+  int? id;
+  final int accountId;
   final String email;
   final String firstName;
   final String lastName;
-  final bool isAuthenticated;
-  final bool isVerified;
+  final String status;
 
   User copyWith({
-    int? id,
+    int? accountId,
     String? email,
     String? firstName,
     String? lastName,
-    bool? isAuthenticated,
-    bool? isVerified,
+    String? status,
   }) {
     return User(
-      id: id ?? this.id,
+      accountId: accountId ?? this.accountId,
       email: email ?? this.email,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      isVerified: isVerified ?? this.isVerified,
+      status: status ?? this.status,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'accountId': accountId,
       'email': email,
       'firstName': firstName,
       'lastName': lastName,
-      'isAuthenticated': isAuthenticated,
-      'isVerified': isVerified,
+      'status': status,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as int,
+      accountId: map['accountId'] as int,
       email: map['email'] as String,
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,
-      isAuthenticated: map['isAuthenticated'] as bool,
-      isVerified: map['isVerified'] as bool,
+      status: map['status'] as String,
     );
   }
 
@@ -65,7 +66,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, isAuthenticated: $isAuthenticated, isVerified: $isVerified)';
+    return 'User(accountId: $accountId, email: $email, firstName: $firstName, lastName: $lastName, status: $status)';
   }
 
   @override
@@ -73,21 +74,19 @@ class User {
     if (identical(this, other)) return true;
 
     return other is User &&
-        other.id == id &&
+        other.accountId == accountId &&
         other.email == email &&
         other.firstName == firstName &&
         other.lastName == lastName &&
-        other.isAuthenticated == isAuthenticated &&
-        other.isVerified == isVerified;
+        other.status == status;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return accountId.hashCode ^
         email.hashCode ^
         firstName.hashCode ^
         lastName.hashCode ^
-        isAuthenticated.hashCode ^
-        isVerified.hashCode;
+        status.hashCode;
   }
 }

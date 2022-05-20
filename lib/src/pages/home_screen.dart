@@ -42,7 +42,7 @@ class AuthenticatedContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const SizedBox box = SizedBox(height: 20);
-    final isVerified = user.isVerified;
+    final isVerified = user.status == 'verified';
 
     return Center(
       child: Column(
