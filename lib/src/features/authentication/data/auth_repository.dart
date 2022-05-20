@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_database.dart';
+// import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_database.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
@@ -310,10 +310,10 @@ class HttpAuthRepository implements AuthRepository {
     _authState.value = user;
   }
 
-  Future<void> _saveUser({required User user}) async {
-    final authDatabase = AuthDatabase();
-    await authDatabase.saveUser(user: user);
-  }
+  // Future<void> _saveUser({required User user}) async {
+  //   final authDatabase = AuthDatabase();
+  //   await authDatabase.saveUser(user: user);
+  // }
 
   void _unsetUser() {
     _authState.value = null;
