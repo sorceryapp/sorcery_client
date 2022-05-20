@@ -239,11 +239,11 @@ class HttpAuthRepository implements AuthRepository {
     final user = _createUser(payload: payload);
     _setUser(user: user);
 
-    try {
-      _saveUser(user: user);
-    } catch (e) {
-      print('save user error: $e');
-    }
+    // try {
+    //   _saveUser(user: user);
+    // } catch (e) {
+    //   print('save user error: $e');
+    // }
   }
 
   Future<void> _handleVerifyAccountResendSuccess({required response}) async {
