@@ -50,6 +50,11 @@ class _VerifyAccountResendFormState
     }
   }
 
+  _cancel() {
+    if (!mounted) return;
+    context.go('/verifyAccount');
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
@@ -61,7 +66,7 @@ class _VerifyAccountResendFormState
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           TextFormField(
             controller: _emailTextController,
             validator: (value) => _validator(value),
@@ -78,10 +83,20 @@ class _VerifyAccountResendFormState
               labelText: 'Password',
             ),
           ),
-          ElevatedButton(
-            onPressed: () => _submit(),
-            child: const Text('Resend Verify Account Token'),
-          ),
+          Row(children: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => _submit(),
+                child: const Text('Resend Verify Account Token'),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => _cancel(),
+                child: const Text('Cancel'),
+              ),
+            )
+          ]),
         ],
       ),
     );
