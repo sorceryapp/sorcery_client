@@ -62,40 +62,49 @@ class _SignInFormState extends ConsumerState<SignInForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: _emailTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Email',
-            ),
-          ),
-          TextFormField(
-            controller: _passwordTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Password',
-            ),
-          ),
-          Row(children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _submit(),
-                child: const Text('Sign In'),
+      child: SizedBox(
+        width: 350,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            TextFormField(
+              controller: _emailTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Email',
               ),
             ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _cancel(),
-                child: const Text('Cancel'),
+            TextFormField(
+              controller: _passwordTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Password',
               ),
-            )
-          ]),
-        ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _submit(),
+                    child: const Text('Sign In'),
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _cancel(),
+                    child: const Text('Cancel'),
+                  ),
+                )
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

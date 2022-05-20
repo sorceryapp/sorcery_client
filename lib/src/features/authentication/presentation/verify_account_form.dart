@@ -46,6 +46,11 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
     }
   }
 
+  _cancel() {
+    if (!mounted) return;
+    context.go('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateChangesProvider).value;
@@ -57,40 +62,59 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            '${user?.firstName}, please verify your account',
-            style: const TextStyle(fontSize: 20),
-          ),
-          const Text(
-            'Check your email, grab the verify token, then paste it in the field below:',
-            style: TextStyle(fontSize: 14),
-          ),
-          TextFormField(
-            controller: _tokenTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Token',
+      child: SizedBox(
+        width: 350,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '${user?.firstName}, please verify your account',
+              style: const TextStyle(fontSize: 20),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => _submit(),
-            child: const Text('Verify Account'),
-          ),
-          Link(
-            uri: Uri.parse('/requestVerifyAccountResend'),
-            builder: (context, followLink) => TextButton(
-              onPressed: followLink,
-              child: const Text(
-                'request a new verification email',
-                style: TextStyle(fontSize: 12),
+            const Text(
+              'Check your email, grab the verify token, then paste it in the field below:',
+              style: TextStyle(fontSize: 14),
+            ),
+            TextFormField(
+              controller: _tokenTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Token',
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _submit(),
+                    child: const Text('Verify Account'),
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _cancel(),
+                    child: const Text('Cancel'),
+                  ),
+                )
+              ]),
+            ),
+            Link(
+              uri: Uri.parse('/requestVerifyAccountResend'),
+              builder: (context, followLink) => TextButton(
+                onPressed: followLink,
+                child: const Text(
+                  'request a new verification email',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

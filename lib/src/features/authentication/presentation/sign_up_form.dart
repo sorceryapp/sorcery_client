@@ -74,64 +74,73 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: _lastNameTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'First',
-            ),
-          ),
-          TextFormField(
-            controller: _firstNameTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Last',
-            ),
-          ),
-          TextFormField(
-            controller: _emailTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Email',
-            ),
-          ),
-          TextFormField(
-            controller: _passwordTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Password',
-            ),
-          ),
-          TextFormField(
-            controller: _confirmPasswordTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Confirm Password',
-            ),
-          ),
-          Row(children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _submit(),
-                child: const Text('Sign Up'),
+      child: SizedBox(
+        width: 350,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              controller: _lastNameTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'First',
               ),
             ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _cancel(),
-                child: const Text('Cancel'),
+            TextFormField(
+              controller: _firstNameTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Last',
               ),
-            )
-          ]),
-        ],
+            ),
+            TextFormField(
+              controller: _emailTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Email',
+              ),
+            ),
+            TextFormField(
+              controller: _passwordTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Password',
+              ),
+            ),
+            TextFormField(
+              controller: _confirmPasswordTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Confirm Password',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _submit(),
+                    child: const Text('Sign Up'),
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _cancel(),
+                    child: const Text('Cancel'),
+                  ),
+                )
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

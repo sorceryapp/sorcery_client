@@ -64,40 +64,49 @@ class _VerifyAccountResendFormState
 
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: _emailTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Email',
-            ),
-          ),
-          TextFormField(
-            controller: _passwordTextController,
-            validator: (value) => _validator(value),
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Password',
-            ),
-          ),
-          Row(children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _submit(),
-                child: const Text('Resend Verify Account Token'),
+      child: SizedBox(
+        width: 350,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              controller: _emailTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Email',
               ),
             ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () => _cancel(),
-                child: const Text('Cancel'),
+            TextFormField(
+              controller: _passwordTextController,
+              validator: (value) => _validator(value),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Password',
               ),
-            )
-          ]),
-        ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _submit(),
+                    child: const Text('Resend Verify Account Token'),
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 10,
+                  child: ElevatedButton(
+                    onPressed: () => _cancel(),
+                    child: const Text('Cancel'),
+                  ),
+                )
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
