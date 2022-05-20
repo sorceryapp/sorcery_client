@@ -60,6 +60,11 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
     }
   }
 
+  _cancel() {
+    if (!mounted) return;
+    context.go('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
@@ -71,7 +76,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           TextFormField(
             controller: _lastNameTextController,
             validator: (value) => _validator(value),
@@ -112,10 +117,20 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               labelText: 'Confirm Password',
             ),
           ),
-          ElevatedButton(
-            onPressed: () => _submit(),
-            child: const Text('Sign Up'),
-          ),
+          Row(children: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => _submit(),
+                child: const Text('Sign Up'),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => _cancel(),
+                child: const Text('Cancel'),
+              ),
+            )
+          ]),
         ],
       ),
     );
