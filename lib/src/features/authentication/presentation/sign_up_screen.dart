@@ -6,12 +6,12 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SignUp();
+    return const _SignUp();
   }
 }
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+class _SignUp extends StatelessWidget {
+  const _SignUp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
