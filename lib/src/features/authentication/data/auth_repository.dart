@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_database.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
@@ -14,7 +15,6 @@ class SignUpError implements Exception {
       case 422:
         return SignUpError(
             'There was an error creating your account: Unprocessable Entity (422)');
-
       default:
         return SignUpError();
     }
@@ -134,9 +134,9 @@ class HttpAuthRepository implements AuthRepository {
     int? statusCode = _getHttpStatusCode(response: response);
 
     if (statusCode != null) {
-      switch (response.statusCode) {
+      switch (statusCode) {
         case 200:
-          await _handleSignUpWithEmailAndPasswordSuccess(response: response);
+          await _handleSuccess(response: response);
           break;
         case 422:
           throw SignUpError.fromCode(code: statusCode);
@@ -148,14 +148,6 @@ class HttpAuthRepository implements AuthRepository {
     }
   }
 
-  Future<void> _handleSignUpWithEmailAndPasswordSuccess(
-      {required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload, isVerified: false);
-    _setUser(user: user);
-  }
-
   @override
   Future<void> verifyAccount({required String token}) async {
     final jwt = await _getJwt();
@@ -165,7 +157,7 @@ class HttpAuthRepository implements AuthRepository {
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          await _handleVerifySuccess(response: response);
+          await _handleSuccess(response: response);
           break;
         case 401:
           throw VerifyAccountError.fromCode(code: statusCode);
@@ -175,13 +167,6 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw VerifyAccountError();
     }
-  }
-
-  Future<void> _handleVerifySuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
-    _setUser(user: user);
   }
 
   @override
@@ -208,10 +193,6 @@ class HttpAuthRepository implements AuthRepository {
     }
   }
 
-  Future<void> _handleVerifyAccountResendSuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-  }
-
   @override
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -219,65 +200,10 @@ class HttpAuthRepository implements AuthRepository {
         email: email, password: password);
     int? statusCode = _getHttpStatusCode(response: response);
 
-    // Signup, logout, signin (no verify):
-    // {
-    //   "data": {
-    //     "user": {
-    //       "id": 204,
-    //       "login": "eswsa@43d12v49112d2.com",
-    //       "first_name": "gfds",
-    //       "last_name": "sdfg"
-    //     },
-    //     "account_id": 204,
-    //     "unverified_account": 1653016661,
-    //     "last_password_entry": 1652930261,
-    //     "authenticated_by": [
-    //       "password"
-    //     ]
-    //   },
-    //   "iss": "Sorcery",
-    //   "aud": "Sorcery",
-    //   "iat": 1652930261,
-    //   "exp": 1652930381,
-    //   "jti": "9d4101ea69177c532739",
-    //   "nbf": 1652930231,
-    //   "sub": 204
-    // }
-
-    // then verify:
-    // {
-    //   "data": {
-    //     "user": {
-    //       "id": 204,
-    //       "login": "eswsa@43d12v49112d2.com",
-    //       "first_name": "gfds",
-    //       "last_name": "sdfg"
-    //     },
-    //     "account_id": 204,
-    //     "authenticated_by": [
-    //       "autologin"
-    //     ],
-    //     "autologin_type": "verify_account"
-    //   },
-    //   "iss": "Sorcery",
-    //   "aud": "Sorcery",
-    //   "iat": 1652930462,
-    //   "exp": 1652930582,
-    //   "jti": "b67a5fa433ce7d46bac5",
-    //   "nbf": 1652930432,
-    //   "sub": 204
-    // }
-
-    // if (payload['data']['authenticated_by'] == 'autologin' &&
-    //     payload['data']['autologin_type'] == 'verify_account') {
-    //   final user = _createUser(payload: payload);
-    //   _setUser(user: user);
-    // }
-
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          await _handleSignInWithEmailAndPasswordSuccess(response: response);
+          await _handleSuccess(response: response);
           break;
         default:
           throw SignUpError();
@@ -285,14 +211,6 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw SignInError();
     }
-  }
-
-  Future<void> _handleSignInWithEmailAndPasswordSuccess(
-      {required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
-    _setUser(user: user);
   }
 
   @override
@@ -313,6 +231,23 @@ class HttpAuthRepository implements AuthRepository {
     } else {
       throw LogoutError();
     }
+  }
+
+  Future<void> _handleSuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await _getJwtPayload();
+    final user = _createUser(payload: payload);
+    _setUser(user: user);
+
+    try {
+      _saveUser(user: user);
+    } catch (e) {
+      print('save user error: $e');
+    }
+  }
+
+  Future<void> _handleVerifyAccountResendSuccess({required response}) async {
+    await _setJwt(jwt: response.headers['authorization'].toString());
   }
 
   Future<void> _handleLogoutSuccess() async {
@@ -359,21 +294,25 @@ class HttpAuthRepository implements AuthRepository {
     return await SecureStorage().getJwtPayload();
   }
 
-  User _createUser({required payload, isVerified = true}) {
-    final id = payload['data']['account_id'];
+  User _createUser({required payload}) {
     final userData = payload['data']['user'];
 
     return User(
-      id: id,
+      accountId: userData['id'],
       email: userData['login'].toString(),
       firstName: userData['first_name'].toString(),
       lastName: userData['last_name'].toString(),
-      isVerified: isVerified,
+      status: userData['status'].toString(),
     );
   }
 
   void _setUser({required user}) {
     _authState.value = user;
+  }
+
+  Future<void> _saveUser({required User user}) async {
+    final authDatabase = AuthDatabase();
+    await authDatabase.saveUser(user: user);
   }
 
   void _unsetUser() {
