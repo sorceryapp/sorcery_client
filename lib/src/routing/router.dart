@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/presentation/request_verify_resend_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/request_verify_account_resend_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_in_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_screen.dart';
 import 'package:sorcery_desktop_v3/src/pages/home_screen.dart';
 
 enum AppRoute {
   home,
   signIn,
   signUp,
-  requestVerifyResend,
+  verifyAccount,
+  requestVerifyAccountResend,
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -21,12 +23,9 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
     debugLogDiagnostics: true,
     redirect: (state) {
-      final isAuthenticated = authRepository.currentUser != null;
-      bool isVerified = false;
-
-      if (isAuthenticated && authRepository.currentUser?.status == 'verified') {
-        isVerified = true;
-      }
+      final bool isAuthenticated = authRepository.currentUser != null;
+      final bool isVerified =
+          isAuthenticated && authRepository.currentUser?.status == 'verified';
 
       if (isAuthenticated) {
         if (state.location == '/signIn' || state.location == '/signUp') {
@@ -34,7 +33,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         }
 
         if (isVerified) {
-          if (state.location == '/requestVerifyResend') {
+          if (state.location == '/verifyAccount' ||
+              state.location == '/requestVerifyAccountResend') {
             return '/';
           }
         }
@@ -67,12 +67,21 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
-            path: 'requestVerifyResend',
-            name: AppRoute.requestVerifyResend.name,
+            path: 'verifyAccount',
+            name: AppRoute.verifyAccount.name,
             pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
               fullscreenDialog: true,
-              child: const RequestVerifyResendScreen(),
+              child: const VerifyAccountScreen(),
+            ),
+          ),
+          GoRoute(
+            path: 'requestVerifyAccountResend',
+            name: AppRoute.requestVerifyAccountResend.name,
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              fullscreenDialog: true,
+              child: const RequestVerifyAccountResendScreen(),
             ),
           ),
         ],

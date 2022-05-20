@@ -81,7 +81,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
             child: const Text('Verify Account'),
           ),
           Link(
-            uri: Uri.parse('/requestVerifyResend'),
+            uri: Uri.parse('/requestVerifyAccountResend'),
             builder: (context, followLink) => TextButton(
               onPressed: followLink,
               child: const Text(
