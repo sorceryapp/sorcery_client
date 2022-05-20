@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Jwt {
@@ -10,12 +9,16 @@ class Jwt {
     return jwt.toString();
   }
 
-  static Future setJwt(
+  static Future<void> setJwt(
       {required FlutterSecureStorage store, required String jwt}) async {
     await store.write(key: 'jwt', value: jwt);
   }
 
-  static Future<Map<String, dynamic>> getPayload(
+  static Future<void> deleteJwt({required FlutterSecureStorage store}) async {
+    await store.delete(key: 'jwt');
+  }
+
+  static Future<Map<String, dynamic>> getJwtPayload(
       {required FlutterSecureStorage store}) async {
     final jwt = await store.read(key: 'jwt');
     return _parseJwt(jwt.toString());

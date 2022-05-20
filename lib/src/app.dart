@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/localization/string_hardcoded.dart';
 import 'package:sorcery_desktop_v3/src/routing/router.dart';
 
 class App extends ConsumerWidget {
@@ -15,7 +14,7 @@ class App extends ConsumerWidget {
       routeInformationParser: goRouter.routeInformationParser,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
-      onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
+      onGenerateTitle: (BuildContext context) => 'Sorcery',
       theme: ThemeData(
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(

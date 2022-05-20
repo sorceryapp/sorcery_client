@@ -1,5 +1,4 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import './jwt.dart';
 
 class SecureStorage {
@@ -13,11 +12,15 @@ class SecureStorage {
     return await Jwt.getJwt(store: _flutterSecureStorage);
   }
 
-  Future setJwt(String jwt) async {
+  Future<void> setJwt(String jwt) async {
     await Jwt.setJwt(store: _flutterSecureStorage, jwt: jwt);
   }
 
-  Future<Map<String, dynamic>> getPayload() async {
-    return await Jwt.getPayload(store: _flutterSecureStorage);
+  Future<void> deleteJwt() async {
+    await Jwt.deleteJwt(store: _flutterSecureStorage);
+  }
+
+  Future<Map<String, dynamic>> getJwtPayload() async {
+    return await Jwt.getJwtPayload(store: _flutterSecureStorage);
   }
 }
