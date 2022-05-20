@@ -45,7 +45,7 @@ class _VerifyAccountResendFormState
 
       if (success) {
         if (!mounted) return;
-        context.go('/');
+        context.go('/verifyAccount');
       }
     }
   }

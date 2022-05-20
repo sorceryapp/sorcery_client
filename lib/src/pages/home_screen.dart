@@ -6,6 +6,7 @@ import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart'
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_resend_form.dart';
+import 'package:url_launcher/link.dart';
 
 import '../routing/router.dart';
 
@@ -50,19 +51,17 @@ class AuthenticatedContent extends StatelessWidget {
           box,
           Text('Hello ${user.firstName}!'),
           box,
-          (isVerified
-              ? Column(
-                  children: const [
-                    Text("You're Verified!"),
-                    LogoutForm(),
-                  ],
-                )
-              : Column(
-                  children: const [
-                    VerifyAccountForm(),
-                    VerifyAccountResendForm()
-                  ],
-                )),
+          if (!isVerified)
+            Link(
+              uri: Uri.parse('/verifyAccount'),
+              builder: (context, followLink) => TextButton(
+                onPressed: followLink,
+                child: const Text(
+                  'Please verify your account.',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
         ],
       ),
     );
