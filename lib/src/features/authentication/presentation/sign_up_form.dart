@@ -80,7 +80,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
-              controller: _lastNameTextController,
+              controller: _firstNameTextController,
               validator: (value) => _validator(value),
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
@@ -88,7 +88,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               ),
             ),
             TextFormField(
-              controller: _firstNameTextController,
+              controller: _lastNameTextController,
               validator: (value) => _validator(value),
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
