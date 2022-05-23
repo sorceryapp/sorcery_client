@@ -1,23 +1,32 @@
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 
 class AuthDatabase {
   AuthDatabase();
 
   Future<void> saveUser({required User user}) async {
-    final isar = await _openIsar();
-    await isar.writeTxn((isar) async {
-      user.id = await isar.users.put(user);
-    });
+    // needs to be done once...
+    await Hive.initFlutter();
+
+    // needs to be done once
+    Hive.registerAdapter(UserAdapter());
+
+    await _saveUser(user: user);
   }
 
-  Future<Isar> _openIsar() async {
-    final dir = await getApplicationSupportDirectory();
+  Future<void> getUser({required int accountId}) async {
+    await _getUser(accountId: accountId);
+  }
 
-    return await Isar.open(
-      schemas: [UserSchema],
-      directory: dir.path,
-    );
+  Future<void> _saveUser({required User user}) async {
+    final box = await Hive.openBox('user');
+    final key = '${user.accountId}_user';
+    box.put(key, user);
+  }
+
+  Future<void> _getUser({required int accountId}) async {
+    final box = Hive.box('user');
+    final key = '${accountId}_user';
+    await box.get(key);
   }
 }

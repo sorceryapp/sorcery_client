@@ -240,7 +240,7 @@ class HttpAuthRepository implements AuthRepository {
     _setUser(user: user);
 
     try {
-      _saveUser(user: user);
+      await _saveUser(user: user);
     } catch (e) {
       print('save user error: $e');
     }
@@ -314,6 +314,11 @@ class HttpAuthRepository implements AuthRepository {
     final authDatabase = AuthDatabase();
     await authDatabase.saveUser(user: user);
   }
+
+  // Future<void> _getUser({required int accountId}) async {
+  //   final authDatabase = AuthDatabase();
+  //   await authDatabase.getUser(accountId: accountId);
+  // }
 
   void _unsetUser() {
     _authState.value = null;
