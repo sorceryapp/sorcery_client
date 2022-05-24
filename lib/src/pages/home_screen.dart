@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
-// import 'package:sorcery_desktop_v3/src/features/authentication/domain/isar_user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:url_launcher/link.dart';
 
