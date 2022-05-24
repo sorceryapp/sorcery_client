@@ -253,11 +253,14 @@ class HttpAuthRepository implements AuthRepository {
 
     _setUser(user: user);
 
-    // try {
-    //   await _saveUser(user: user);
-    // } catch (e) {
-    //   print('save user error: $e');
-    // }
+    try {
+      await _saveUser(user: user);
+      await _getUser(user: user);
+      // final isarUser = await _getUser(user: user);
+      // print('Isar User: $isarUser');
+    } catch (e) {
+      print('save user error: $e');
+    }
   }
 
   Future<void> _handleVerifyAccountResendSuccess({required response}) async {
@@ -351,10 +354,10 @@ class HttpAuthRepository implements AuthRepository {
     await authDatabase.saveUser(user: user);
   }
 
-  // Future<void> _getUser({required int accountId}) async {
-  //   final authDatabase = IsarUserDB();
-  //   await authDatabase.getUser(accountId: accountId);
-  // }
+  Future _getUser({required IsarUser user}) async {
+    final authDatabase = IsarUserDB();
+    return await authDatabase.getUser(id: user.id!);
+  }
 
   void _unsetUser() {
     _authState.value = null;

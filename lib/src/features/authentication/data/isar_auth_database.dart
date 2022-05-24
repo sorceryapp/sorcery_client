@@ -8,12 +8,15 @@ class IsarUserDB {
     await isar.writeTxn((isar) async {
       user.id = await isar.isarUsers.put(user);
     });
+    await isar.close();
   }
 
-  // Future<void> getUser({required int accountId}) {
-  //   // TODO: implement getUser
-  //   throw UnimplementedError();
-  // }
+  Future getUser({required int id}) async {
+    final isar = await _openIsar();
+    final user = await isar.isarUsers.get(id);
+    await isar.close();
+    return user;
+  }
 
   Future<Isar> _openIsar() async {
     final dir = await getApplicationSupportDirectory();
