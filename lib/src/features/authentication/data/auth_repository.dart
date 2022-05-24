@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/data/hive_auth_database.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/user_db.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
@@ -85,7 +85,7 @@ class LogoutError implements Exception {
 }
 
 abstract class AuthRepository {
-  Stream<HiveUser?> authStateChanges();
+  Stream<User?> authStateChanges();
   Future<void> signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
@@ -99,20 +99,20 @@ abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> logout();
-  HiveUser? get currentUser;
+  User? get currentUser;
 }
 
 class HttpAuthRepository implements AuthRepository {
   HttpAuthRepository({AuthApi? authApi}) : _authApi = authApi ?? AuthApi();
   final AuthApi _authApi;
 
-  final _authState = InMemoryStore<HiveUser?>(null);
+  final _authState = InMemoryStore<User?>(null);
 
   @override
-  Stream<HiveUser?> authStateChanges() => _authState.stream;
+  Stream<User?> authStateChanges() => _authState.stream;
 
   @override
-  HiveUser? get currentUser => _authState.value;
+  User? get currentUser => _authState.value;
 
   void dispose() => _authState.close();
 
@@ -294,10 +294,10 @@ class HttpAuthRepository implements AuthRepository {
     return await SecureStorage().getJwtPayload();
   }
 
-  HiveUser _createHiveUser({required payload}) {
+  User _createHiveUser({required payload}) {
     final userData = payload['data']['user'];
 
-    return HiveUser(
+    return User(
       accountId: userData['id'],
       email: userData['login'].toString(),
       firstName: userData['first_name'].toString(),
@@ -310,13 +310,13 @@ class HttpAuthRepository implements AuthRepository {
     _authState.value = user;
   }
 
-  Future<void> _saveUser({required HiveUser user}) async {
-    final authDatabase = HiveUserDB();
+  Future<void> _saveUser({required User user}) async {
+    final authDatabase = UserDb();
     await authDatabase.saveUser(user: user);
   }
 
   // Future<void> _getUser({required int accountId}) async {
-  //   final authDatabase = HiveUserDB();
+  //   final authDatabase = UserDb();
   //   await authDatabase.getUser(accountId: accountId);
   // }
 
@@ -331,7 +331,7 @@ final authRepositoryProvider = Provider<HttpAuthRepository>((ref) {
   return authRepository;
 });
 
-final authStateChangesProvider = StreamProvider.autoDispose<HiveUser?>((ref) {
+final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });

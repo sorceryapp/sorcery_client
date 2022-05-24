@@ -1,8 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 
-class HiveUserDB {
-  Future<void> saveUser({required HiveUser user}) async {
+class UserDb {
+  Future<void> saveUser({required User user}) async {
     await _saveUser(user: user);
   }
 
