@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:ffi' as ffi; // Need to open libisar.dylib
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,9 @@ void main() async {
   Hive.registerAdapter(HiveUserAdapter());
 
   await runZonedGuarded(() async {
+    // ffi.DynamicLibrary.open(
+    //     '/Users/holdenhinkle/Development/flutter/.pub-cache/hosted/pub.dartlang.org/isar_flutter_libs-3.0.0-dev.0/macos/libisar.dylib');
+
     // * Turn off the # in the URLs on the web
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
 

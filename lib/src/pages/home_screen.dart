@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
-// import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/isar_user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
+// import 'package:sorcery_desktop_v3/src/features/authentication/domain/isar_user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:url_launcher/link.dart';
 
@@ -37,7 +37,8 @@ class Home extends ConsumerWidget {
 
 class AuthenticatedContent extends StatelessWidget {
   const AuthenticatedContent({Key? key, required this.user}) : super(key: key);
-  final IsarUser user;
+  final HiveUser user;
+  // final IsarUser user;
 
   @override
   Widget build(BuildContext context) {
