@@ -1,8 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
 
-class AuthDatabase {
-  Future<void> saveUser({required User user}) async {
+class HiveUserDB {
+  Future<void> saveUser({required HiveUser user}) async {
     await _saveUser(user: user);
   }
 
@@ -10,7 +10,7 @@ class AuthDatabase {
     await _getUser(accountId: accountId);
   }
 
-  Future<void> _saveUser({required User user}) async {
+  Future<void> _saveUser({required user}) async {
     final box = await Hive.openBox('user');
     final key = '${user.accountId}_user';
     box.put(key, user);

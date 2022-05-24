@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sorcery_desktop_v3/src/app.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
 import 'package:sorcery_desktop_v3/src/localization/string_hardcoded.dart';
 
 void main() async {
@@ -17,7 +17,7 @@ void main() async {
   await Hive.initFlutter();
 
   // * Register Hive adapters
-  Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(HiveUserAdapter());
 
   await runZonedGuarded(() async {
     // * Turn off the # in the URLs on the web

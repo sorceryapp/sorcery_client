@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_database.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
+// import 'package:sorcery_desktop_v3/src/features/authentication/data/hive_auth_database.dart';
+// import 'package:sorcery_desktop_v3/src/features/authentication/domain/hive_user.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/isar_auth_database.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/domain/isar_user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
@@ -85,7 +87,8 @@ class LogoutError implements Exception {
 }
 
 abstract class AuthRepository {
-  Stream<User?> authStateChanges();
+  // Stream<HiveUser?> authStateChanges();
+  Stream<IsarUser?> authStateChanges();
   Future<void> signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
@@ -99,22 +102,31 @@ abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> logout();
-  User? get currentUser;
+  // HiveUser? get currentUser;
+  IsarUser? get currentUser;
 }
 
 class HttpAuthRepository implements AuthRepository {
   HttpAuthRepository({AuthApi? authApi}) : _authApi = authApi ?? AuthApi();
   final AuthApi _authApi;
 
-  final _authState = InMemoryStore<User?>(null);
+  // final _authState = InMemoryStore<HiveUser?>(null);
+
+  // @override
+  // Stream<HiveUser?> authStateChanges() => _authState.stream;
+
+  // @override
+  // HiveUser? get currentUser => _authState.value;
+
+  final _authState = InMemoryStore<IsarUser?>(null);
+
+  @override
+  Stream<IsarUser?> authStateChanges() => _authState.stream;
+
+  @override
+  IsarUser? get currentUser => _authState.value;
 
   void dispose() => _authState.close();
-
-  @override
-  Stream<User?> authStateChanges() => _authState.stream;
-
-  @override
-  User? get currentUser => _authState.value;
 
   @override
   Future<void> signUpWithEmailAndPassword({
@@ -236,14 +248,16 @@ class HttpAuthRepository implements AuthRepository {
   Future<void> _handleSuccess({required response}) async {
     await _setJwt(jwt: response.headers['authorization'].toString());
     final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
+    // final user = _createHiveUser(payload: payload);
+    final user = _createIsarUser(payload: payload);
+
     _setUser(user: user);
 
-    try {
-      await _saveUser(user: user);
-    } catch (e) {
-      print('save user error: $e');
-    }
+    // try {
+    //   await _saveUser(user: user);
+    // } catch (e) {
+    //   print('save user error: $e');
+    // }
   }
 
   Future<void> _handleVerifyAccountResendSuccess({required response}) async {
@@ -294,10 +308,22 @@ class HttpAuthRepository implements AuthRepository {
     return await SecureStorage().getJwtPayload();
   }
 
-  User _createUser({required payload}) {
+  // HiveUser _createHiveUser({required payload}) {
+  //   final userData = payload['data']['user'];
+
+  //   return HiveUser(
+  //     accountId: userData['id'],
+  //     email: userData['login'].toString(),
+  //     firstName: userData['first_name'].toString(),
+  //     lastName: userData['last_name'].toString(),
+  //     status: userData['status'].toString(),
+  //   );
+  // }
+
+  IsarUser _createIsarUser({required payload}) {
     final userData = payload['data']['user'];
 
-    return User(
+    return IsarUser(
       accountId: userData['id'],
       email: userData['login'].toString(),
       firstName: userData['first_name'].toString(),
@@ -310,13 +336,23 @@ class HttpAuthRepository implements AuthRepository {
     _authState.value = user;
   }
 
-  Future<void> _saveUser({required User user}) async {
-    final authDatabase = AuthDatabase();
+  // Future<void> _saveUser({required HiveUser user}) async {
+  //   final authDatabase = HiveUserDB();
+  //   await authDatabase.saveUser(user: user);
+  // }
+
+  // Future<void> _getUser({required int accountId}) async {
+  //   final authDatabase = HiveUserDB();
+  //   await authDatabase.getUser(accountId: accountId);
+  // }
+
+  Future<void> _saveUser({required IsarUser user}) async {
+    final authDatabase = IsarUserDB();
     await authDatabase.saveUser(user: user);
   }
 
   // Future<void> _getUser({required int accountId}) async {
-  //   final authDatabase = AuthDatabase();
+  //   final authDatabase = IsarUserDB();
   //   await authDatabase.getUser(accountId: accountId);
   // }
 
@@ -331,7 +367,7 @@ final authRepositoryProvider = Provider<HttpAuthRepository>((ref) {
   return authRepository;
 });
 
-final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
+final authStateChangesProvider = StreamProvider.autoDispose<IsarUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });
