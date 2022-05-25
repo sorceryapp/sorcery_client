@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
-// import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_database.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/user_db.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
@@ -108,13 +108,13 @@ class HttpAuthRepository implements AuthRepository {
 
   final _authState = InMemoryStore<User?>(null);
 
-  void dispose() => _authState.close();
-
   @override
   Stream<User?> authStateChanges() => _authState.stream;
 
   @override
   User? get currentUser => _authState.value;
+
+  void dispose() => _authState.close();
 
   @override
   Future<void> signUpWithEmailAndPassword({
@@ -236,14 +236,14 @@ class HttpAuthRepository implements AuthRepository {
   Future<void> _handleSuccess({required response}) async {
     await _setJwt(jwt: response.headers['authorization'].toString());
     final payload = await _getJwtPayload();
-    final user = _createUser(payload: payload);
+    final user = _createHiveUser(payload: payload);
     _setUser(user: user);
 
-    // try {
-    //   _saveUser(user: user);
-    // } catch (e) {
-    //   print('save user error: $e');
-    // }
+    try {
+      await _saveUser(user: user);
+    } catch (e) {
+      print('save user error: $e');
+    }
   }
 
   Future<void> _handleVerifyAccountResendSuccess({required response}) async {
@@ -294,7 +294,7 @@ class HttpAuthRepository implements AuthRepository {
     return await SecureStorage().getJwtPayload();
   }
 
-  User _createUser({required payload}) {
+  User _createHiveUser({required payload}) {
     final userData = payload['data']['user'];
 
     return User(
@@ -310,9 +310,14 @@ class HttpAuthRepository implements AuthRepository {
     _authState.value = user;
   }
 
-  // Future<void> _saveUser({required User user}) async {
-  //   final authDatabase = AuthDatabase();
-  //   await authDatabase.saveUser(user: user);
+  Future<void> _saveUser({required User user}) async {
+    final authDatabase = UserDb();
+    await authDatabase.saveUser(user: user);
+  }
+
+  // Future<void> _getUser({required int accountId}) async {
+  //   final authDatabase = UserDb();
+  //   await authDatabase.getUser(accountId: accountId);
   // }
 
   void _unsetUser() {
