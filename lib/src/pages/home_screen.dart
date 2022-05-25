@@ -5,6 +5,7 @@ import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_reposit
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../routing/router.dart';
 
@@ -81,9 +82,9 @@ class UnauthenticatedContent extends StatelessWidget {
       child: Column(
         children: [
           box,
-          const Text(
-            'Welcome to Sorcery',
-            style: TextStyle(fontSize: 20),
+          Text(
+            '${AppLocalizations.of(context)!.welcomeTo} Sorcery',
+            style: const TextStyle(fontSize: 20),
           ),
           box,
           ElevatedButton(

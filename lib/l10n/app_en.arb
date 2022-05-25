@@ -2,5 +2,9 @@
   "helloWorld": "Hello World!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
+  },
+  "welcomeTo": "Welcome to",
+  "@welcomeTo": {
+    "description": "Welcoming new Sorcery users"
   }
 }
