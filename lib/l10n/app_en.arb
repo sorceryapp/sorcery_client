@@ -24,7 +24,7 @@
   # auth verify account page
   "verifyAccountPageTitle": "verify your account",
   "@verifyAccountPageTitle": {
-    "description": "verify your account page title"
+    "description": "verify account page title"
   },
   "verifyAccountPageBody": "We just sent you an email with a verification token. Grab the token, then paste it in the field below:",
   "@verifyAccountPageBody": {
@@ -80,7 +80,7 @@
   },
   "accountButtonSignUp": "sign up",
   "@accountButtonSignUp": {
-    "description": "text for the sign up"
+    "description": "text for the sign up button"
   },
   "accountButtonLogout": "logout",
   "@accountButtonLogout": {
