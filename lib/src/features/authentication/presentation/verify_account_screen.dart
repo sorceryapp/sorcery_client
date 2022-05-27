@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerifyAccountScreen extends ConsumerStatefulWidget {
   const VerifyAccountScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
           children: [
             box,
             Text(
-              '$firstName, please verify your account',
+              '$firstName, ${AppLocalizations.of(context)!.verifyAccountPageTitle}',
               style: const TextStyle(fontSize: 20),
             ),
             const VerifyAccountForm(),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -82,41 +83,43 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             TextFormField(
               controller: _firstNameTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'First',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.accountFieldFirstName,
               ),
             ),
             TextFormField(
               controller: _lastNameTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Last',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.accountFieldLastName,
               ),
             ),
             TextFormField(
               controller: _emailTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Email',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText:
+                    AppLocalizations.of(context)!.accountFieldEmailAddress,
               ),
             ),
             TextFormField(
               controller: _passwordTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Password',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.accountFieldPassword,
               ),
             ),
             TextFormField(
               controller: _confirmPasswordTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Confirm Password',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText:
+                    AppLocalizations.of(context)!.accountFieldConfirmPassword,
               ),
             ),
             Padding(
@@ -126,7 +129,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                   flex: 10,
                   child: ElevatedButton(
                     onPressed: () => _submit(),
-                    child: const Text('Sign Up'),
+                    child:
+                        Text(AppLocalizations.of(context)!.accountButtonSignIn),
                   ),
                 ),
                 const Spacer(flex: 2),
@@ -134,7 +138,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                   flex: 10,
                   child: ElevatedButton(
                     onPressed: () => _cancel(),
-                    child: const Text('Cancel'),
+                    child:
+                        Text(AppLocalizations.of(context)!.accountButtonCancel),
                   ),
                 )
               ]),

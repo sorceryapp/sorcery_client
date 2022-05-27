@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -21,14 +22,14 @@ class _SignUp extends StatelessWidget {
       appBar: AppBar(title: const Text('Sorcery')),
       body: Center(
         child: Column(
-          children: const [
+          children: [
             box,
             Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 20),
+              AppLocalizations.of(context)!.signUpPageTitle,
+              style: const TextStyle(fontSize: 20),
             ),
             box,
-            SignUpForm(),
+            const SignUpForm(),
           ],
         ),
       ),

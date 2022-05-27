@@ -33,6 +33,7 @@ dependencies:
   go_router: 3.0.3
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0
   flutter_riverpod: 2.0.0-dev.7
   flutter_secure_storage: ^5.0.2
   dio: ^4.0.6
@@ -67,6 +68,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

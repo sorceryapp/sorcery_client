@@ -5,6 +5,7 @@ import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_reposit
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../routing/router.dart';
 
@@ -48,7 +49,7 @@ class AuthenticatedContent extends StatelessWidget {
         children: [
           box,
           Text(
-            'Hello ${user.firstName}!',
+            '${AppLocalizations.of(context)!.homePageTitleAuthenticated} ${user.firstName}!',
             style: const TextStyle(fontSize: 20),
           ),
           box,
@@ -57,9 +58,9 @@ class AuthenticatedContent extends StatelessWidget {
               uri: Uri.parse('/verifyAccount'),
               builder: (context, followLink) => TextButton(
                 onPressed: followLink,
-                child: const Text(
-                  'Please verify your account.',
-                  style: TextStyle(fontSize: 12),
+                child: Text(
+                  AppLocalizations.of(context)!.verifyAccountTextLink,
+                  style: const TextStyle(fontSize: 12),
                 ),
               ),
             ),
@@ -81,18 +82,19 @@ class UnauthenticatedContent extends StatelessWidget {
       child: Column(
         children: [
           box,
-          const Text(
-            'Welcome to Sorcery',
-            style: TextStyle(fontSize: 20),
+          Text(
+            '${AppLocalizations.of(context)!.homePageTitleUnauthenticated} Sorcery',
+            style: const TextStyle(fontSize: 20),
           ),
           box,
           ElevatedButton(
-              onPressed: () => context.goNamed(AppRoute.signIn.name),
-              child: const Text('Sign In')),
+            onPressed: () => context.goNamed(AppRoute.signIn.name),
+            child: Text(AppLocalizations.of(context)!.accountButtonSignIn),
+          ),
           box,
           ElevatedButton(
             onPressed: () => context.goNamed(AppRoute.signUp.name),
-            child: const Text('Sign Up'),
+            child: Text(AppLocalizations.of(context)!.accountButtonSignUp),
           ),
         ],
       ),

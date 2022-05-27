@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_resend_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestVerifyAccountResendScreen extends StatelessWidget {
   const RequestVerifyAccountResendScreen({Key? key}) : super(key: key);
@@ -21,13 +22,13 @@ class _RequestVerifyAccountResend extends StatelessWidget {
       appBar: AppBar(title: const Text('Sorcery')),
       body: Center(
         child: Column(
-          children: const [
+          children: [
             box,
             Text(
-              'Request A New Verification Email',
-              style: TextStyle(fontSize: 20),
+              AppLocalizations.of(context)!.resendVerifyAccountPageTitle,
+              style: const TextStyle(fontSize: 20),
             ),
-            VerifyAccountResendForm(),
+            const VerifyAccountResendForm(),
           ],
         ),
       ),
