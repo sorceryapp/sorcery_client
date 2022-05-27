@@ -1,5 +1,4 @@
 {
-  # home page
   "homePageTitleUnauthenticated": "welcome to",
   "@homePageTitleUnauthenticated": {
     "description": "welcome unauthenticated users to Sorcery"
@@ -8,21 +7,15 @@
   "@homePageTitleAuthenticated": {
     "description": "welcome authenticated users to Sorcery"
   },
-
-  # auth sign in page
   "signInPageTitle": "sign in",
   "@signInPageTitle": {
     "description": "sign in page title"
   },
-
-  # auth sign up page
   "signUpPageTitle": "sign up",
   "@signUpPageTitle": {
     "description": "sign up page title"
   },
-
-  # auth verify account page
-  "verifyAccountPageTitle": "verify your account",
+  "verifyAccountPageTitle": "please verify your account",
   "@verifyAccountPageTitle": {
     "description": "verify account page title"
   },
@@ -30,14 +23,10 @@
   "@verifyAccountPageBody": {
     "description": "verify account page body"
   },
-
-  # auth resend verify account page
   "resendVerifyAccountPageTitle": "resend verify account email",
   "@resendVerifyAccountPageTitle": {
     "description": "resend verify account page title"
   },
-
-  # auth text links
   "resendVerifyAccountTextLink": "request a new verification email",
   "@resendVerifyAccountTextLink": {
     "description": "text for the request a new verification email link"
@@ -46,8 +35,6 @@
   "@verifyAccountTextLink": {
     "description": "text for the verify your account link"
   },
-  
-  # account form fields
   "accountFieldFirstName": "first",
   "@accountFieldFirstName": {
     "description": "field name for first name"
@@ -72,8 +59,6 @@
   "@accountFieldVerifyToken": {
     "description": "field name for token"
   },
-  
-  # account form buttons
   "accountButtonSignIn": "sign in",
   "@accountButtonSignIn": {
     "description": "text for the sign in button"
@@ -97,5 +82,5 @@
   "accountButtonResendVerifyAccountEmail": "resend",
   "@accountButtonResendVerifyAccountEmail": {
     "description": "text for the resend verify account email button"
-  },
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogoutForm extends ConsumerStatefulWidget {
   const LogoutForm({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _LogoutFormState extends ConsumerState<LogoutForm> {
         children: [
           ElevatedButton(
             onPressed: () => _submit(),
-            child: const Text('Logout'),
+            child: Text(AppLocalizations.of(context)!.accountButtonLogout),
           ),
         ],
       ),

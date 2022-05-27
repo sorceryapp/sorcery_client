@@ -1,38 +1,23 @@
 {
-  # home page
-  "homePageTitleUnauthenticated": "welcome to",
+  "homePageTitleUnauthenticated": "bienvenida a",
   "homePageTitleAuthenticated": "hello",
-
-  # auth sign in page
   "signInPageTitle": "iniciar sesión",
-
-  # auth sign up page
   "signUpPageTitle": "inscribirse",
-
-  # auth verify account page
   "verifyAccountPageTitle": "verifica tu cuenta",
   "verifyAccountPageBody": "Acabamos de enviarle un correo electrónico con un token de verificación. Copie el token, luego péguelo en el campo a continuación:",
-
-  # auth resend verify account page
   "resendVerifyAccountPageTitle": "reenviar el correo electrónico de verificación de la cuenta",
-
-  # auth text links
   "resendVerifyAccountTextLink": "solicitar un nuevo correo electrónico de verificación",
   "verifyAccountTextLink": "verifica tu cuenta",
-  
-  # account form fields
   "accountFieldFirstName": "primer nombre",
   "accountFieldLastName": "apellido",
   "accountFieldEmailAddress": "email",
   "accountFieldPassword": "contraseña",
   "accountFieldConfirmPassword": "confirmar contraseña",
   "accountFieldVerifyToken": "token",
-  
-  # account form buttons
   "accountButtonSignIn": "iniciar sesión",
   "accountButtonSignUp": "inscribirse",
   "accountButtonLogout": "cerrar sesión",
   "accountButtonCancel": "cancelar",
   "accountButtonVerifyAccount": "verificar",
-  "accountButtonResendVerifyAccountEmail": "reenviar",
+  "accountButtonResendVerifyAccountEmail": "reenviar"
 }

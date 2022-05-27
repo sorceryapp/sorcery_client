@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_in_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -21,14 +22,14 @@ class SignIn extends StatelessWidget {
       appBar: AppBar(title: const Text('Sorcery')),
       body: Center(
         child: Column(
-          children: const [
+          children: [
             box,
             Text(
-              'Sign In',
-              style: TextStyle(fontSize: 20),
+              AppLocalizations.of(context)!.signInPageTitle,
+              style: const TextStyle(fontSize: 20),
             ),
             box,
-            SignInForm(),
+            const SignInForm(),
           ],
         ),
       ),

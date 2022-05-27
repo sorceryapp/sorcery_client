@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerifyAccountForm extends ConsumerStatefulWidget {
   const VerifyAccountForm({Key? key}) : super(key: key);
@@ -64,19 +65,20 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.only(top: 10),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
               child: Text(
-                'We just sent you an email with a verification token. Grab the token, then paste it in the field below:',
-                style: TextStyle(fontSize: 12),
+                AppLocalizations.of(context)!.verifyAccountPageBody,
+                style: const TextStyle(fontSize: 12),
               ),
             ),
             TextFormField(
               controller: _tokenTextController,
               validator: (value) => _validator(value),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Token',
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                labelText:
+                    AppLocalizations.of(context)!.accountFieldVerifyToken,
               ),
             ),
             Padding(
@@ -86,7 +88,8 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
                   flex: 10,
                   child: ElevatedButton(
                     onPressed: () => _submit(),
-                    child: const Text('Verify Account'),
+                    child: Text(AppLocalizations.of(context)!
+                        .accountButtonVerifyAccount),
                   ),
                 ),
                 const Spacer(flex: 2),
@@ -94,7 +97,8 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
                   flex: 10,
                   child: ElevatedButton(
                     onPressed: () => _cancel(),
-                    child: const Text('Cancel'),
+                    child:
+                        Text(AppLocalizations.of(context)!.accountButtonCancel),
                   ),
                 )
               ]),
@@ -103,9 +107,9 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
               uri: Uri.parse('/requestVerifyAccountResend'),
               builder: (context, followLink) => TextButton(
                 onPressed: followLink,
-                child: const Text(
-                  'request a new verification email',
-                  style: TextStyle(fontSize: 12),
+                child: Text(
+                  AppLocalizations.of(context)!.resendVerifyAccountTextLink,
+                  style: const TextStyle(fontSize: 12),
                 ),
               ),
             ),
