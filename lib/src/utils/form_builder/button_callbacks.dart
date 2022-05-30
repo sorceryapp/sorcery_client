@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ButtonCallback {
+class ButtonCallbacks {
   final BuildContext _context;
 
-  ButtonCallback({
+  ButtonCallbacks({
     required context,
   }) : _context = context;
 

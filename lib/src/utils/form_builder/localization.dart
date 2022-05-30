@@ -6,23 +6,17 @@ class Localization {
   Localization({required context}) : _context = context;
 
   String getText({required String localizationKey}) {
-    String text = '';
-
     switch (localizationKey) {
       case 'accountFieldPassword':
-        text = AppLocalizations.of(_context)!.accountFieldPassword;
-        break;
+        return AppLocalizations.of(_context)!.accountFieldPassword;
       case 'accountFieldConfirmPassword':
-        text = AppLocalizations.of(_context)!.accountFieldConfirmPassword;
-        break;
+        return AppLocalizations.of(_context)!.accountFieldConfirmPassword;
       case 'accountButtonResetPassword':
-        text = AppLocalizations.of(_context)!.accountButtonResetPassword;
-        break;
+        return AppLocalizations.of(_context)!.accountButtonResetPassword;
       case 'accountButtonCancel':
-        text = AppLocalizations.of(_context)!.accountButtonCancel;
-        break;
+        return AppLocalizations.of(_context)!.accountButtonCancel;
     }
 
-    return text;
+    throw ('Error in Localization#getText');
   }
 }

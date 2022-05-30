@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/button_callback.dart';
+import 'package:sorcery_desktop_v3/src/utils/form_builder/button_callbacks.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/localization.dart';
@@ -46,12 +44,12 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     final List<Widget> formFieldWidgets = [];
 
     for (final field in widget.blueprint['formFields']) {
-      final controller = _makeController(type: field['type']);
-      formControllers[field['name']] = controller;
+      // final controller = _makeController(type: field['type']);
+      formControllers[field['name']] = _makeController(type: field['type']);
       final newField = _makeField(
         name: field['name'],
         type: field['type'],
-        controller: controller,
+        controller: formControllers[field['name']],
         labelText: Localization(context: context)
             .getText(localizationKey: field['labelText']),
       );
@@ -65,7 +63,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
               .read(authControllerProvider.notifier)
               .signInWithEmailAndPassword;
           final payload = _makePayload(controllers: formControllers);
-          final callback = ButtonCallback(context: context).submit(
+          final callback = ButtonCallbacks(context: context).submit(
             redirectPath: buttonProps['redirectPath'],
             formKey: _formKey,
             controllerAction: controllerAction,
@@ -79,7 +77,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           formFieldWidgets.add(newButton);
           break;
         case 'cancel':
-          final callback = ButtonCallback(context: context).cancel(
+          final callback = ButtonCallbacks(context: context).cancel(
             redirectPath: buttonProps['redirectPath'],
           );
           final newButton = FormButtons().secondary(
@@ -118,8 +116,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     switch (type) {
       case 'textFormField':
         final validator = _getValidator(name: name);
-        final formElements = FormElements(
-            context: context, controller: controller, validator: validator);
+        final formElements =
+            FormElements(controller: controller, validator: validator);
         return formElements.textFormField(labelText: labelText);
       default:
         return TextFormField();
