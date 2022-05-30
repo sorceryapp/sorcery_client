@@ -40,22 +40,27 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
       (_, state) => state.showAlertDialogOnError(context),
     );
 
+    // Each controller holds the value for a field
     final Map<String, dynamic> formControllers = {};
+
+    // Render formFieldWidgets below
     final List<Widget> formFieldWidgets = [];
 
-    for (final field in widget.blueprint['formFields']) {
-      // final controller = _makeController(type: field['type']);
-      formControllers[field['name']] = _makeController(type: field['type']);
+    // Dynamically create all formField widgets
+    for (final fieldProps in widget.blueprint['formFields']) {
+      formControllers[fieldProps['name']] =
+          _makeController(type: fieldProps['type']);
       final newField = _makeField(
-        name: field['name'],
-        type: field['type'],
-        controller: formControllers[field['name']],
+        name: fieldProps['name'],
+        type: fieldProps['type'],
+        controller: formControllers[fieldProps['name']],
         labelText: Localization(context: context)
-            .getText(localizationKey: field['labelText']),
+            .getText(localizationKey: fieldProps['labelText']),
       );
       formFieldWidgets.add(newField);
     }
 
+    // Dynamically create all buttons
     for (final buttonProps in widget.blueprint['formButtons']) {
       switch (buttonProps['name']) {
         case 'submit':
@@ -69,24 +74,25 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
             controllerAction: controllerAction,
             payload: payload,
           );
-          final newButton = FormButtons().primary(
+
+          // Add new button to Widgets array
+          formFieldWidgets.add(FormButtons().primary(
             callback: callback,
             text: Localization(context: context)
                 .getText(localizationKey: buttonProps['text']),
-          );
-          formFieldWidgets.add(newButton);
+          ));
           break;
         case 'cancel':
           final callback = ButtonCallbacks(context: context).cancel(
             redirectPath: buttonProps['redirectPath'],
           );
-          final newButton = FormButtons().secondary(
+
+          // Add new button to Widgets array
+          formFieldWidgets.add(FormButtons().secondary(
             callback: callback,
             text: Localization(context: context)
                 .getText(localizationKey: buttonProps['text']),
-          );
-          formFieldWidgets.add(newButton);
-          break;
+          ));
       }
     }
 
@@ -106,9 +112,9 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     switch (type) {
       case 'textFormField':
         return TextEditingController();
-      default:
-        throw ('Error in _FormBuilderState#_makeController');
     }
+
+    throw ('Error in _FormBuilderState#_makeController');
   }
 
   Widget _makeField(
@@ -119,9 +125,9 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
         final formElements =
             FormElements(controller: controller, validator: validator);
         return formElements.textFormField(labelText: labelText);
-      default:
-        return TextFormField();
     }
+
+    throw ('Error in _FormBuilderState#_makeField');
   }
 
   dynamic _getValidator({required name}) {
