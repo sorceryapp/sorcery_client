@@ -3,6 +3,7 @@
   "homePageTitleAuthenticated": "hello",
   "signInPageTitle": "iniciar sesión",
   "signUpPageTitle": "inscribirse",
+  "resetPasswordPageTitle": "restablecer su contraseña",
   "verifyAccountPageTitle": "verifica tu cuenta",
   "verifyAccountPageBody": "Acabamos de enviarle un correo electrónico con un token de verificación. Copie el token, luego péguelo en el campo a continuación:",
   "resendVerifyAccountPageTitle": "reenviar el correo electrónico de verificación de la cuenta",
@@ -19,5 +20,6 @@
   "accountButtonLogout": "cerrar sesión",
   "accountButtonCancel": "cancelar",
   "accountButtonVerifyAccount": "verificar",
-  "accountButtonResendVerifyAccountEmail": "reenviar"
+  "accountButtonResendVerifyAccountEmail": "reenviar",
+  "accountButtonResetPassword": "reiniciar"
 }

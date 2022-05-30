@@ -35,6 +35,10 @@
   "@verifyAccountTextLink": {
     "description": "text for the verify your account link"
   },
+  "resetPasswordPageTitle": "reset your password",
+  "@resetPasswordPageTitle": {
+    "description": "reset password page title"
+  },
   "accountFieldFirstName": "first",
   "@accountFieldFirstName": {
     "description": "field name for first name"
@@ -82,5 +86,9 @@
   "accountButtonResendVerifyAccountEmail": "resend",
   "@accountButtonResendVerifyAccountEmail": {
     "description": "text for the resend verify account email button"
+  },
+  "accountButtonResetPassword": "reset",
+  "@accountButtonResetPassword": {
+    "description": "text for the reset password button"
   }
 }

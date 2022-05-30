@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/request_verify_account_resend_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/reset_password_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_in_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_screen.dart';
@@ -14,6 +15,7 @@ enum AppRoute {
   signUp,
   verifyAccount,
   requestVerifyAccountResend,
+  resetPassword,
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -82,6 +84,15 @@ final routerProvider = Provider<GoRouter>((ref) {
               key: state.pageKey,
               fullscreenDialog: true,
               child: const RequestVerifyAccountResendScreen(),
+            ),
+          ),
+          GoRoute(
+            path: 'resetPassword',
+            name: AppRoute.resetPassword.name,
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              fullscreenDialog: true,
+              child: const ResetPasswordScreen(),
             ),
           ),
         ],

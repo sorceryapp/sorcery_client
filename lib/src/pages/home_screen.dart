@@ -64,6 +64,17 @@ class AuthenticatedContent extends StatelessWidget {
                 ),
               ),
             ),
+          if (isVerified)
+            Link(
+              uri: Uri.parse('/resetPassword'),
+              builder: (context, followLink) => TextButton(
+                onPressed: followLink,
+                child: const Text(
+                  'Reset password',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
           const LogoutForm(),
         ],
       ),
