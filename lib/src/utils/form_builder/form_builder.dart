@@ -41,6 +41,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
 
     // Each controller holds the value for a field
+    // formControllers keys are the field names
+    // formControllers values are the field values
     final Map<String, dynamic> formControllers = {};
 
     // Render formFieldWidgets below
