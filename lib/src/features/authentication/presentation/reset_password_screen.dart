@@ -17,7 +17,8 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final file = File(
-        '/Users/holdenhinkle/Documents/Projects/sorcery_app/desktops-apps/sorcery_desktop_v3/lib/src/features/authentication/presentation/reset_password.yaml');
+        'lib/src/features/authentication/presentation/reset_password.yaml');
+
     final yamlToString = file.readAsStringSync();
     Map blueprint = loadYaml(yamlToString);
 
