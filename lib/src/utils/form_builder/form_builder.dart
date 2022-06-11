@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
-import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/button_callbacks.dart';
+import 'package:sorcery_desktop_v3/src/utils/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/localization.dart';
 import 'package:sorcery_desktop_v3/src/utils/form_builder/validations.dart';
 
 class FormBuilder extends ConsumerStatefulWidget {
-  final Map blueprint;
+  final Map<dynamic, dynamic> blueprint;
 
   const FormBuilder({
     Key? key,
@@ -23,6 +22,7 @@ class FormBuilder extends ConsumerStatefulWidget {
 class _FormBuilderState extends ConsumerState<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
+  final List<Widget> formWidgets = [];
 
   @override
   void dispose() {
@@ -35,65 +35,61 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue>(
-      authControllerProvider.select((state) => state.value),
-      (_, state) => state.showAlertDialogOnError(context),
+    final controllerProvider = ControllerProviders(
+        providerName: widget.blueprint['controllerProviderName']);
+    final controllerAction = controllerProvider.getAction(
+      ref: ref,
+      controllerActionName: widget.blueprint['controllerActionName'],
     );
-
-    // Each controller holds the value for a field
-    // formControllers keys are the field names
-    // formControllers values are the field values
-    final Map<String, dynamic> formControllers = {};
-
-    // Render formFieldWidgets below
-    final List<Widget> formFieldWidgets = [];
+    controllerProvider.handleErrors(ref: ref, context: context);
 
     // Dynamically create all formField widgets
     for (final fieldProps in widget.blueprint['formFields']) {
-      formControllers[fieldProps['name']] =
-          _makeController(type: fieldProps['type']);
+      final name = fieldProps['name'];
+      final type = fieldProps['type'];
+      final labelText = Localization(context: context)
+          .getText(localizationKey: fieldProps['labelText']);
+
+      _controllers[name] = _makeController(type: type);
+
       final newField = _makeField(
-        name: fieldProps['name'],
-        type: fieldProps['type'],
-        controller: formControllers[fieldProps['name']],
-        labelText: Localization(context: context)
-            .getText(localizationKey: fieldProps['labelText']),
+        name: name,
+        type: type,
+        controller: _controllers[name],
+        labelText: labelText,
       );
-      formFieldWidgets.add(newField);
+
+      formWidgets.add(newField);
     }
 
     // Dynamically create all buttons
     for (final buttonProps in widget.blueprint['formButtons']) {
       switch (buttonProps['name']) {
         case 'submit':
-          final controllerAction = ref
-              .read(authControllerProvider.notifier)
-              .signInWithEmailAndPassword;
-          final payload = _makePayload(controllers: formControllers);
           final callback = ButtonCallbacks(context: context).submit(
-            redirectPath: buttonProps['redirectPath'],
             formKey: _formKey,
+            getFormData: _getFormData,
             controllerAction: controllerAction,
-            payload: payload,
+            redirectPath: buttonProps['redirectPath'],
           );
+          final text = Localization(context: context)
+              .getText(localizationKey: buttonProps['text']);
 
-          // Add new button to Widgets array
-          formFieldWidgets.add(FormButtons().primary(
+          formWidgets.add(FormButtons().primary(
             callback: callback,
-            text: Localization(context: context)
-                .getText(localizationKey: buttonProps['text']),
+            text: text,
           ));
           break;
         case 'cancel':
           final callback = ButtonCallbacks(context: context).cancel(
             redirectPath: buttonProps['redirectPath'],
           );
+          final text = Localization(context: context)
+              .getText(localizationKey: buttonProps['text']);
 
-          // Add new button to Widgets array
-          formFieldWidgets.add(FormButtons().secondary(
+          formWidgets.add(FormButtons().secondary(
             callback: callback,
-            text: Localization(context: context)
-                .getText(localizationKey: buttonProps['text']),
+            text: text,
           ));
       }
     }
@@ -104,10 +100,20 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
         width: 350,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: formFieldWidgets,
+          children: formWidgets,
         ),
       ),
     );
+  }
+
+  Map<dynamic, dynamic> _getFormData() {
+    Map formData = {};
+
+    _controllers.forEach((fieldName, controller) {
+      formData[fieldName] = controller.text;
+    });
+
+    return formData;
   }
 
   dynamic _makeController({required type}) {
@@ -134,21 +140,12 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   dynamic _getValidator({required name}) {
     switch (name) {
+      case 'email':
+        return Validations().email();
       case 'password':
         return Validations().password();
       case 'confirmPassword':
         return Validations().confirmPassword();
     }
-  }
-
-  Map<dynamic, dynamic> _makePayload(
-      {required Map<String, dynamic> controllers}) {
-    Map payload = {};
-
-    controllers.forEach((key, value) {
-      payload[key] = value.text;
-    });
-
-    return payload;
   }
 }

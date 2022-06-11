@@ -1,0 +1,20 @@
+---
+formName: 'sign_in'
+controllerProviderName: 'authControllerProvider'
+controllerActionName: 'signInWithEmailAndPassword'
+formFields:
+  - name: 'email'
+    type: 'textFormField'
+    labelText: 'accountFieldEmailAddress'
+  - name: 'password'
+    type: 'textFormField'
+    labelText: 'accountFieldPassword'
+formButtons:
+  - name: 'submit'
+    type: 'primary'
+    text: 'accountButtonSignIn'
+    redirectPath: '/'
+  - name: 'cancel'
+    type: 'secondary'
+    text: 'accountButtonCancel'
+    redirectPath: '/'

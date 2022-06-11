@@ -7,12 +7,16 @@ class Localization {
 
   String getText({required String localizationKey}) {
     switch (localizationKey) {
+      case 'accountFieldEmailAddress':
+        return AppLocalizations.of(_context)!.accountFieldEmailAddress;
       case 'accountFieldPassword':
         return AppLocalizations.of(_context)!.accountFieldPassword;
       case 'accountFieldConfirmPassword':
         return AppLocalizations.of(_context)!.accountFieldConfirmPassword;
       case 'accountButtonResetPassword':
         return AppLocalizations.of(_context)!.accountButtonResetPassword;
+      case 'accountButtonSignIn':
+        return AppLocalizations.of(_context)!.accountButtonSignIn;
       case 'accountButtonCancel':
         return AppLocalizations.of(_context)!.accountButtonCancel;
     }

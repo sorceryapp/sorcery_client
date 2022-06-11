@@ -8,19 +8,21 @@ class ButtonCallbacks {
     required context,
   }) : _context = context;
 
-  Function submit(
-      {required String redirectPath,
-      required GlobalKey<FormState> formKey,
-      required Function controllerAction,
-      required Map<dynamic, dynamic> payload}) {
+  Function submit({
+    required GlobalKey<FormState> formKey,
+    required Function getFormData,
+    required Function controllerAction,
+    required String redirectPath,
+  }) {
     return () async {
       if (formKey.currentState!.validate()) {
-        final success = await controllerAction(payload);
+        final formData = getFormData();
+        final success = await controllerAction(formData: formData);
 
         if (success) {
           // if (!mounted) return;
           _context.go(redirectPath);
-        }
+        } else {}
       }
     };
   }

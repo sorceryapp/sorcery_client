@@ -82,14 +82,13 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<bool> signInWithEmailAndPassword({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
       () => _signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: formData['email'],
+        password: formData['password'],
       ),
     );
 
@@ -123,8 +122,8 @@ class AuthFormController extends StateNotifier<SignUpState> {
 }
 
 final authControllerProvider =
-    // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
     StateNotifierProvider<AuthFormController, SignUpState>((ref) {
+  // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return AuthFormController(authRepository: authRepository);
 });

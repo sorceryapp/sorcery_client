@@ -1,5 +1,4 @@
-import "dart:io";
-import 'package:yaml/yaml.dart';
+import 'package:sorcery_desktop_v3/src/utils/form_builder/form_config.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,14 +13,10 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
 }
 
 class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
+  final String _formFileName = 'reset_password.yaml';
+
   @override
   Widget build(BuildContext context) {
-    final file = File(
-        'lib/src/features/authentication/presentation/reset_password.yaml');
-
-    final yamlToString = file.readAsStringSync();
-    Map blueprint = loadYaml(yamlToString);
-
     const SizedBox box = SizedBox(height: 40);
 
     return Scaffold(
@@ -34,7 +29,17 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
               AppLocalizations.of(context)!.resetPasswordPageTitle,
               style: const TextStyle(fontSize: 20),
             ),
-            FormBuilder(blueprint: blueprint),
+            FutureBuilder<Map>(
+              future: FormConfig()
+                  .getFormConfig(context: context, formFileName: _formFileName),
+              builder: (context, AsyncSnapshot<Map> snapshot) {
+                if (snapshot.hasData) {
+                  return FormBuilder(blueprint: snapshot.data as Map);
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
           ],
         ),
       ),
