@@ -18,6 +18,8 @@ class ControllerProviders {
 
   getAction({required WidgetRef ref, required String controllerActionName}) {
     switch (controllerActionName) {
+      case 'signUpWithEmailAndPassword':
+        return ref.read(getProvider().notifier).signUpWithEmailAndPassword;
       case 'signInWithEmailAndPassword':
         return ref.read(getProvider().notifier).signInWithEmailAndPassword;
     }
@@ -32,8 +34,9 @@ class ControllerProviders {
           getProvider().select((state) => state.value),
           (_, state) => state.showAlertDialogOnError(context),
         );
+        break;
+      default:
+        throw ('Error in ControllerProviders#listenForErrors');
     }
-
-    throw ('Error in ControllerProviders#listenForErrors');
   }
 }

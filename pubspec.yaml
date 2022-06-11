@@ -72,8 +72,9 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/form_configs/reset_password.yaml
+    - assets/form_configs/sign_up.yaml
     - assets/form_configs/sign_in.yaml
+    - assets/form_configs/reset_password.yaml
 
   # To add assets to your application, add an assets section, like this:
   # assets:

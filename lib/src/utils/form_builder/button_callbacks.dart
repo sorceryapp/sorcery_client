@@ -22,7 +22,7 @@ class ButtonCallbacks {
         if (success) {
           // if (!mounted) return;
           _context.go(redirectPath);
-        } else {}
+        }
       }
     };
   }

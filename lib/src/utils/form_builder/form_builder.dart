@@ -140,6 +140,10 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   dynamic _getValidator({required name}) {
     switch (name) {
+      case 'firstName':
+        return Validations().firstName();
+      case 'lastName':
+        return Validations().lastName();
       case 'email':
         return Validations().email();
       case 'password':

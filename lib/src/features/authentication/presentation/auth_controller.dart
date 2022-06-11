@@ -7,20 +7,12 @@ class AuthFormController extends StateNotifier<SignUpState> {
   final HttpAuthRepository authRepository;
 
   Future<bool> signUpWithEmailAndPassword({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String confirmPassword,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
       () => _signUpWithEmailAndPassword(
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
+        formData: formData,
       ),
     );
 
@@ -29,18 +21,14 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<void> _signUpWithEmailAndPassword({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String confirmPassword,
+    required Map formData,
   }) async {
     await authRepository.signUpWithEmailAndPassword(
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
+      firstName: formData['firstName'],
+      lastName: formData['lastName'],
+      email: formData['email'],
+      password: formData['password'],
+      confirmPassword: formData['confirmPassword'],
     );
   }
 
@@ -87,8 +75,7 @@ class AuthFormController extends StateNotifier<SignUpState> {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
       () => _signInWithEmailAndPassword(
-        email: formData['email'],
-        password: formData['password'],
+        formData: formData,
       ),
     );
 
@@ -97,12 +84,11 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<void> _signInWithEmailAndPassword({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     await authRepository.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: formData['email'],
+      password: formData['password'],
     );
   }
 
