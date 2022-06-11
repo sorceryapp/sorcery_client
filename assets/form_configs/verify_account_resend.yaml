@@ -1,0 +1,17 @@
+---
+formName: 'verify_account_resend'
+controllerProviderName: 'authControllerProvider'
+controllerActionName: 'verifyAccountResend'
+formFields:
+  - name: 'email'
+    type: 'textFormField'
+    labelText: 'accountFieldEmailAddress'
+formButtons:
+  - name: 'submit'
+    type: 'primary'
+    text: 'accountButtonResendVerifyAccountEmail'
+    redirectPath: '/verifyAccount'
+  - name: 'cancel'
+    type: 'secondary'
+    text: 'accountButtonCancel'
+    redirectPath: '/verifyAccount'

@@ -44,29 +44,20 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<bool> verifyAccountResend({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(
-      () => _verifyAccountResend(
-        email: email,
-        password: password,
-      ),
-    );
+    final value =
+        await AsyncValue.guard(() => _verifyAccountResend(formData: formData));
 
     state = state.copyWith(value: value);
     return value.hasError == false;
   }
 
   Future<void> _verifyAccountResend({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
-    await authRepository.verifyAccountResend(
-      email: email,
-      password: password,
-    );
+    await authRepository.verifyAccountResend(email: formData['email']);
   }
 
   Future<bool> signInWithEmailAndPassword({

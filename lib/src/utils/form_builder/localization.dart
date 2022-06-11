@@ -23,6 +23,9 @@ class Localization {
         return AppLocalizations.of(_context)!.accountButtonSignUp;
       case 'accountButtonSignIn':
         return AppLocalizations.of(_context)!.accountButtonSignIn;
+      case 'accountButtonResendVerifyAccountEmail':
+        return AppLocalizations.of(_context)!
+            .accountButtonResendVerifyAccountEmail;
       case 'accountButtonCancel':
         return AppLocalizations.of(_context)!.accountButtonCancel;
     }

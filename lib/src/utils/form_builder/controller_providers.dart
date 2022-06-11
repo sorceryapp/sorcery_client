@@ -22,6 +22,8 @@ class ControllerProviders {
         return ref.read(getProvider().notifier).signUpWithEmailAndPassword;
       case 'signInWithEmailAndPassword':
         return ref.read(getProvider().notifier).signInWithEmailAndPassword;
+      case 'verifyAccountResend':
+        return ref.read(getProvider().notifier).verifyAccountResend;
     }
 
     throw ('Error in ControllerProviders#getAction');

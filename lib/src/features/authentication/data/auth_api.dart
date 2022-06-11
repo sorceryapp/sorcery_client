@@ -61,10 +61,9 @@ class AuthApi {
     }
   }
 
-  Future<dynamic> verifyAccountResend(
-      {required String email, required String password}) async {
+  Future<dynamic> verifyAccountResend({required String email}) async {
     final url = '$_baseUrl/verify-account-resend';
-    final data = json.encode({'login': email, 'password': password});
+    final data = json.encode({'login': email});
 
     try {
       return await _httpClient.post(
