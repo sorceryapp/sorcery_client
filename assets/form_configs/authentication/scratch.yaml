@@ -1,0 +1,78 @@
+---
+formName: 'scratch'
+formType: authentication
+controllerProviderName: 'authControllerProvider'
+controllerActionName: 'signUpWithEmailAndPassword'
+form:
+  formFields:
+    - name: 'firstName'
+      type: 'textFormField'
+      labelText: 'accountFieldFirstName'
+    - name: 'lastName'
+      type: 'textFormField'
+      labelText: 'accountFieldLastName'
+    - name: 'email'
+      type: 'textFormField'
+      labelText: 'accountFieldEmailAddress'
+    - name: 'password'
+      type: 'textFormField'
+      labelText: 'accountFieldPassword'
+    - name: 'confirmPassword'
+      type: 'textFormField'
+      labelText: 'accountFieldConfirmPassword'
+  row:
+    - formButtons:
+        - name: 'submit'
+          type: 'primary'
+          text: 'accountButtonSignUp'
+          redirectPath: '/verifyAccount'
+    - spacer:
+        flex: 2
+    - formButtons:
+        - name: 'cancel'
+          type: 'secondary'
+          text: 'accountButtonCancel'
+          redirectPath: '/'
+  link:
+    uri: '/requestVerifyAccountResend'
+    target: 'resendVerifyAccountTextLink'
+# ---
+# formName: 'scratch'
+# formType: authentication
+# controllerProviderName: 'authControllerProvider'
+# controllerActionName: 'signUpWithEmailAndPassword'
+# form:
+#   formFields:
+#     - name: 'firstName'
+#       type: 'textFormField'
+#       labelText: 'accountFieldFirstName'
+#     - name: 'lastName'
+#       type: 'textFormField'
+#       labelText: 'accountFieldLastName'
+#     - name: 'email'
+#       type: 'textFormField'
+#       labelText: 'accountFieldEmailAddress'
+#     - name: 'password'
+#       type: 'textFormField'
+#       labelText: 'accountFieldPassword'
+#     - name: 'confirmPassword'
+#       type: 'textFormField'
+#       labelText: 'accountFieldConfirmPassword'
+#   row:
+#     numCols: 2
+#     cols:
+#       - col1:
+#           formButtons:
+#             - name: 'submit'
+#               type: 'primary'
+#               text: 'accountButtonSignUp'
+#               redirectPath: '/verifyAccount'
+#       - col2:
+#           formButtons:
+#             - name: 'cancel'
+#               type: 'secondary'
+#               text: 'accountButtonCancel'
+#               redirectPath: '/'
+#   link:
+#     uri: '/requestVerifyAccountResend'
+#     target: 'resendVerifyAccountTextLink'

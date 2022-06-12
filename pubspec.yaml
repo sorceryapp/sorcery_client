@@ -78,6 +78,7 @@ flutter:
     - assets/form_configs/authentication/reset_password.yaml
     - assets/form_configs/authentication/verify_account.yaml
     - assets/form_configs/authentication/verify_account_resend.yaml
+    - assets/form_configs/authentication/scratch.yaml
 
 flutter_intl:
   enabled: true

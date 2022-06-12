@@ -5,6 +5,7 @@ import 'package:sorcery_desktop_v3/src/form_builder/button_callbacks.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_props.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/validators/validators.dart';
 
@@ -23,7 +24,7 @@ class FormBuilder extends ConsumerStatefulWidget {
 class _FormBuilderState extends ConsumerState<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
-  final List<Widget> formWidgets = [];
+  List<Widget> formWidgets = [];
 
   @override
   void dispose() {
@@ -36,6 +37,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final formProps = getFormProps(formType: widget.blueprint['formType']);
     final controllerProvider = ControllerProviders(
         providerName: widget.blueprint['controllerProviderName']);
     final controllerAction = controllerProvider.getAction(
@@ -44,27 +46,147 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    // Dynamically create all formField widgets
-    for (final fieldProps in widget.blueprint['formFields']) {
-      final name = fieldProps['name'];
-      final type = fieldProps['type'];
-      final labelText = Localization(context: context)
-          .getText(localizationKey: fieldProps['labelText']);
+    widget.blueprint['form'].keys.forEach((branch) {
+      final widgets = _makeFormWidgets(branches: branch);
+      formWidgets = [...formWidgets, ...widgets];
 
-      _controllers[name] = _makeController(type: type);
+      // for (final Widget widget in widgets) {
+      //   formWidgets.add(widget);
+      // }
+    });
 
-      final newField = _makeField(
-        name: name,
-        type: type,
-        controller: _controllers[name],
-        labelText: labelText,
-      );
+    return Form(
+      key: _formKey,
+      child: SizedBox(
+        width: formProps['width'],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: formWidgets,
+        ),
+      ),
+    );
+  }
 
-      formWidgets.add(newField);
+  _makeFormWidgets({required branches}) {
+    branches.keys.forEach((branch) {
+      final branchName =
+          branch != 'cols' && branch.startsWith('col') ? 'col' : branch;
+
+      switch (branchName) {
+        case 'formFields':
+          List<Widget> widgets = [];
+
+          widget.blueprint['form']['formFields'].forEach((formField) {
+            // i don't like this hardcoded path
+            Widget widget = _makeFormWidgets(branches: {
+              'formField': formField,
+            });
+
+            widgets.add(widget);
+          });
+
+          return widgets;
+        case 'formField':
+          final name = branch['name'];
+          final type = branch['type'];
+          final labelText = Localization(context: context)
+              .getText(localizationKey: branch['labelText']);
+
+          _controllers[name] = _makeController(type: type);
+
+          return _makeFormField(
+            name: name,
+            type: type,
+            controller: _controllers[name],
+            labelText: labelText,
+          );
+        case 'row':
+          List<Widget> widgets = [];
+
+          // LEFT OFF HERE
+
+          widget.blueprint['form']['row'].forEach((formField) {
+            // i don't like this hardcoded path
+            Widget widget = _makeFormWidgets(branches: {
+              'formField': formField,
+            });
+
+            widgets.add(widget);
+          });
+
+          // iterate through the row, recursively calling _makeFormWidgets
+          List<Widget> widgets;
+          // do this
+          break;
+        case 'col':
+          // do this
+          break;
+        case 'formButtons':
+          widgets = _makeFormButtons(
+              formButtons: widget.blueprint['formFields'],
+              controllerAction: controllerAction);
+
+          for (final Widget widget in widgets) {
+            formWidgets.add(widget);
+          }
+          break;
+        case 'formButton':
+          // this
+          break;
+        case 'link':
+          // do this
+          break;
+        default:
+          throw ('Error: unknown section name');
+      }
+    });
+  }
+
+  // List<Widget> _makeFormFields(
+  //     {required List<Map<dynamic, dynamic>> formFields}) {
+  //   final List<Widget> widgets = [];
+
+  //   // Dynamically create all formField widgets
+  //   for (final fieldProps in formFields) {
+  //     final name = fieldProps['name'];
+  //     final type = fieldProps['type'];
+  //     final labelText = Localization(context: context)
+  //         .getText(localizationKey: fieldProps['labelText']);
+
+  //     _controllers[name] = _makeController(type: type);
+
+  //     final newField = _makeFormField(
+  //       name: name,
+  //       type: type,
+  //       controller: _controllers[name],
+  //       labelText: labelText,
+  //     );
+
+  //     widgets.add(newField);
+  //   }
+
+  //   return widgets;
+  // }
+
+  Widget _makeFormField(
+      {required type, required controller, required name, required labelText}) {
+    switch (type) {
+      case 'textFormField':
+        final validator = _getValidator(name: name);
+        final formElements =
+            FormElements(controller: controller, validator: validator);
+        return formElements.textFormField(labelText: labelText);
     }
 
-    // Dynamically create all buttons
-    for (final buttonProps in widget.blueprint['formButtons']) {
+    throw ('Error in _FormBuilderState#_makeFormField');
+  }
+
+  List<Widget> _makeFormButtons(
+      {required List<Map<dynamic, dynamic>> formButtons,
+      required controllerAction}) {
+    final List<Widget> widgets = [];
+
+    for (final buttonProps in formButtons) {
       switch (buttonProps['name']) {
         case 'submit':
           final callback = ButtonCallbacks(context: context).submit(
@@ -76,7 +198,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           final text = Localization(context: context)
               .getText(localizationKey: buttonProps['text']);
 
-          formWidgets.add(FormButtons().primary(
+          widgets.add(FormButtons().primary(
             callback: callback,
             text: text,
           ));
@@ -88,23 +210,14 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           final text = Localization(context: context)
               .getText(localizationKey: buttonProps['text']);
 
-          formWidgets.add(FormButtons().secondary(
+          widgets.add(FormButtons().secondary(
             callback: callback,
             text: text,
           ));
       }
     }
 
-    return Form(
-      key: _formKey,
-      child: SizedBox(
-        width: 350,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: formWidgets,
-        ),
-      ),
-    );
+    return widgets;
   }
 
   Map<dynamic, dynamic> _getFormData() {
@@ -124,19 +237,6 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     }
 
     throw ('Error in _FormBuilderState#_makeController');
-  }
-
-  Widget _makeField(
-      {required type, required controller, required name, required labelText}) {
-    switch (type) {
-      case 'textFormField':
-        final validator = _getValidator(name: name);
-        final formElements =
-            FormElements(controller: controller, validator: validator);
-        return formElements.textFormField(labelText: labelText);
-    }
-
-    throw ('Error in _FormBuilderState#_makeField');
   }
 
   dynamic _getValidator({required name}) {
