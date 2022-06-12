@@ -1,4 +1,6 @@
 {
+  "@@last_modified": "2022-06-12T10:00:00.000000",
+  "@@locale": "en",
   "homePageTitleUnauthenticated": "welcome to",
   "@homePageTitleUnauthenticated": {
     "description": "welcome unauthenticated users to Sorcery"

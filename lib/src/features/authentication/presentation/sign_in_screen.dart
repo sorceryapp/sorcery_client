@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_builder.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_config.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_builder.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_config.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class SignIn extends StatelessWidget {
           children: [
             box,
             Text(
-              AppLocalizations.of(context)!.signInPageTitle,
+              SorceryLocalizations.current.signInPageTitle,
               style: const TextStyle(fontSize: 20),
             ),
             box,

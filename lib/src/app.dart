@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/routing/router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -12,15 +12,14 @@ class App extends ConsumerWidget {
     final goRouter = ref.watch(routerProvider);
 
     return MaterialApp.router(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('es'),
+      ],
       localizationsDelegates: const [
-        AppLocalizations.delegate, //
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        // GlobalCupertinoLocalizations.delegate, // Not using Cupertino
-      ],
-      supportedLocales: const [
-        Locale('en', ''), // English, no country code
-        Locale('es', ''), // Spanish, no country code
+        SorceryLocalizations.delegate,
       ],
       routerDelegate: goRouter.routerDelegate,
       routeInformationParser: goRouter.routeInformationParser,

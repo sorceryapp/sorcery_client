@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_builder.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_config.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_builder.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_config.dart';
 
 class VerifyAccountScreen extends ConsumerStatefulWidget {
   const VerifyAccountScreen({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
           children: [
             box,
             Text(
-              '$firstName, ${AppLocalizations.of(context)!.verifyAccountPageTitle}',
+              '$firstName, ${SorceryLocalizations.current.verifyAccountPageTitle}',
               style: const TextStyle(fontSize: 20),
             ),
             box,

@@ -1,9 +1,9 @@
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_config.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_builder.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_config.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_builder.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
           children: [
             box,
             Text(
-              AppLocalizations.of(context)!.resetPasswordPageTitle,
+              SorceryLocalizations.current.resetPasswordPageTitle,
               style: const TextStyle(fontSize: 20),
             ),
             FutureBuilder<Map>(

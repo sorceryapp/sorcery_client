@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_controller.dart';
 import 'package:sorcery_desktop_v3/src/utils/async_value_ui.dart';
 import 'package:url_launcher/link.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerifyAccountForm extends ConsumerStatefulWidget {
   const VerifyAccountForm({Key? key}) : super(key: key);
@@ -68,7 +68,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
-                AppLocalizations.of(context)!.verifyAccountPageBody,
+                SorceryLocalizations.current.verifyAccountPageBody,
                 style: const TextStyle(fontSize: 12),
               ),
             ),
@@ -77,8 +77,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
               validator: (value) => _validator(value),
               decoration: InputDecoration(
                 border: const UnderlineInputBorder(),
-                labelText:
-                    AppLocalizations.of(context)!.accountFieldVerifyToken,
+                labelText: SorceryLocalizations.current.accountFieldVerifyToken,
               ),
             ),
             Padding(
@@ -88,8 +87,8 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
                   flex: 10,
                   child: ElevatedButton(
                     onPressed: () => _submit(),
-                    child: Text(AppLocalizations.of(context)!
-                        .accountButtonVerifyAccount),
+                    child: Text(SorceryLocalizations
+                        .current.accountButtonVerifyAccount),
                   ),
                 ),
                 const Spacer(flex: 2),
@@ -98,7 +97,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
                   child: ElevatedButton(
                     onPressed: () => _cancel(),
                     child:
-                        Text(AppLocalizations.of(context)!.accountButtonCancel),
+                        Text(SorceryLocalizations.current.accountButtonCancel),
                   ),
                 )
               ]),
@@ -108,7 +107,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
               builder: (context, followLink) => TextButton(
                 onPressed: followLink,
                 child: Text(
-                  AppLocalizations.of(context)!.resendVerifyAccountTextLink,
+                  SorceryLocalizations.current.resendVerifyAccountTextLink,
                   style: const TextStyle(fontSize: 12),
                 ),
               ),

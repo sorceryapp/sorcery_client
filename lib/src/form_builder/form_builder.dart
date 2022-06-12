@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/button_callbacks.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/controller_providers.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_elements.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/form_buttons.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/localization.dart';
-import 'package:sorcery_desktop_v3/src/utils/form_builder/validations.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/button_callbacks.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/validations.dart';
 
 class FormBuilder extends ConsumerStatefulWidget {
   final Map<dynamic, dynamic> blueprint;

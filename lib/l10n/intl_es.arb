@@ -1,4 +1,6 @@
 {
+  "@@last_modified": "2022-06-12T10:00:00.000000",
+  "@@locale": "es",
   "homePageTitleUnauthenticated": "bienvenida a",
   "homePageTitleAuthenticated": "hello",
   "signInPageTitle": "iniciar sesión",
