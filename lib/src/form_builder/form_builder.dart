@@ -5,7 +5,7 @@ import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
-import 'package:sorcery_desktop_v3/src/form_builder/validations.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/validators/validators.dart';
 
 class FormBuilder extends ConsumerStatefulWidget {
   final Map<dynamic, dynamic> blueprint;
@@ -141,17 +141,32 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
   dynamic _getValidator({required name}) {
     switch (name) {
       case 'firstName':
-        return Validations().firstName();
+        return FormBuilderValidators.required();
       case 'lastName':
-        return Validations().lastName();
+        return FormBuilderValidators.required();
       case 'email':
-        return Validations().email();
+        return FormBuilderValidators.compose([
+          FormBuilderValidators.required(),
+          FormBuilderValidators.email(),
+        ]);
       case 'password':
-        return Validations().password();
+        return FormBuilderValidators.compose([
+          FormBuilderValidators.required(),
+          FormBuilderValidators.minLength(8),
+        ]);
       case 'confirmPassword':
-        return Validations().confirmPassword();
+        return FormBuilderValidators.compose([
+          FormBuilderValidators.required(),
+          (valueCandidate) {
+            if (valueCandidate != _controllers['password']!.text) {
+              return 'password and confirm password must match';
+            }
+
+            return null;
+          }
+        ]);
       case 'accountVerifyToken':
-        return Validations().accountVerifyToken();
+        return FormBuilderValidators.required();
     }
   }
 }
