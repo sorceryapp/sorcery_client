@@ -19,6 +19,8 @@ class Localization {
         return AppLocalizations.of(_context)!.accountFieldConfirmPassword;
       case 'accountButtonResetPassword':
         return AppLocalizations.of(_context)!.accountButtonResetPassword;
+      case 'accountFieldVerifyToken':
+        return AppLocalizations.of(_context)!.accountFieldVerifyToken;
       case 'accountButtonSignUp':
         return AppLocalizations.of(_context)!.accountButtonSignUp;
       case 'accountButtonSignIn':
@@ -26,6 +28,8 @@ class Localization {
       case 'accountButtonResendVerifyAccountEmail':
         return AppLocalizations.of(_context)!
             .accountButtonResendVerifyAccountEmail;
+      case 'accountButtonVerifyAccount':
+        return AppLocalizations.of(_context)!.accountButtonVerifyAccount;
       case 'accountButtonCancel':
         return AppLocalizations.of(_context)!.accountButtonCancel;
     }
