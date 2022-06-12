@@ -150,6 +150,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
         return Validations().password();
       case 'confirmPassword':
         return Validations().confirmPassword();
+      case 'accountVerifyToken':
+        return Validations().accountVerifyToken();
     }
   }
 }

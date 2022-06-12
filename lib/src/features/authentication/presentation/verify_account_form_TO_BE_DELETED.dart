@@ -17,7 +17,7 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
   final _formKey = GlobalKey<FormState>();
   final _tokenTextController = TextEditingController();
 
-  String get _token => _tokenTextController.text;
+  // String get _token => _tokenTextController.text;
 
   @override
   void dispose() {
@@ -33,17 +33,17 @@ class _VerifyAccountFormState extends ConsumerState<VerifyAccountForm> {
   }
 
   _submit() async {
-    if (_formKey.currentState!.validate()) {
-      final controller = ref.read(authControllerProvider.notifier);
-      final success = await controller.verifyAccount(
-        token: _token,
-      );
+    // if (_formKey.currentState!.validate()) {
+    //   final controller = ref.read(authControllerProvider.notifier);
+    //   final success = await controller.verifyAccount(
+    //     token: _token,
+    //   );
 
-      if (success) {
-        if (!mounted) return;
-        context.go('/');
-      }
-    }
+    //   if (success) {
+    //     if (!mounted) return;
+    //     context.go('/');
+    //   }
+    // }
   }
 
   _cancel() {

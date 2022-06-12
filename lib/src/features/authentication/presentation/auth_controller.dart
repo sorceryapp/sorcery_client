@@ -32,15 +32,16 @@ class AuthFormController extends StateNotifier<SignUpState> {
     );
   }
 
-  Future<bool> verifyAccount({required String token}) async {
+  Future<bool> verifyAccount({required Map formData}) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(() => _verifyAccount(token: token));
+    final value =
+        await AsyncValue.guard(() => _verifyAccount(formData: formData));
     state = state.copyWith(value: value);
     return value.hasError == false;
   }
 
-  Future<void> _verifyAccount({required String token}) async {
-    await authRepository.verifyAccount(token: token);
+  Future<void> _verifyAccount({required Map formData}) async {
+    await authRepository.verifyAccount(token: formData['accountVerifyToken']);
   }
 
   Future<bool> verifyAccountResend({

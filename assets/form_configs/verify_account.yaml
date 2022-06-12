@@ -1,0 +1,17 @@
+---
+formName: 'verify_account'
+controllerProviderName: 'authControllerProvider'
+controllerActionName: 'verifyAccount'
+formFields:
+  - name: 'accountVerifyToken'
+    type: 'textFormField'
+    labelText: 'accountFieldVerifyToken'
+formButtons:
+  - name: 'submit'
+    type: 'primary'
+    text: 'accountButtonVerifyAccount'
+    redirectPath: '/'
+  - name: 'cancel'
+    type: 'secondary'
+    text: 'accountButtonCancel'
+    redirectPath: '/'
