@@ -13,6 +13,7 @@ class VerifyAccountScreen extends ConsumerStatefulWidget {
 }
 
 class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
+  final String _directoryName = 'authentication';
   final String _formFileName = 'verify_account.yaml';
 
   @override
@@ -34,8 +35,10 @@ class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
             ),
             box,
             FutureBuilder<Map>(
-              future: FormConfig()
-                  .getFormConfig(context: context, formFileName: _formFileName),
+              future: FormConfig().getFormConfig(
+                  context: context,
+                  directoryName: _directoryName,
+                  formFileName: _formFileName),
               builder: (context, AsyncSnapshot<Map> snapshot) {
                 if (snapshot.hasData) {
                   return FormBuilder(blueprint: snapshot.data as Map);

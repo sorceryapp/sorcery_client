@@ -13,6 +13,7 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
 }
 
 class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
+  final String _directoryName = 'authentication';
   final String _formFileName = 'reset_password.yaml';
 
   @override
@@ -30,8 +31,10 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
               style: const TextStyle(fontSize: 20),
             ),
             FutureBuilder<Map>(
-              future: FormConfig()
-                  .getFormConfig(context: context, formFileName: _formFileName),
+              future: FormConfig().getFormConfig(
+                  context: context,
+                  directoryName: _directoryName,
+                  formFileName: _formFileName),
               builder: (context, AsyncSnapshot<Map> snapshot) {
                 if (snapshot.hasData) {
                   return FormBuilder(blueprint: snapshot.data as Map);

@@ -14,6 +14,7 @@ class RequestVerifyAccountResendScreen extends StatelessWidget {
 
 class _RequestVerifyAccountResend extends StatelessWidget {
   const _RequestVerifyAccountResend({Key? key}) : super(key: key);
+  final String _directoryName = 'authentication';
   final String _formFileName = 'verify_account_resend.yaml';
 
   @override
@@ -32,8 +33,10 @@ class _RequestVerifyAccountResend extends StatelessWidget {
             ),
             box,
             FutureBuilder<Map>(
-              future: FormConfig()
-                  .getFormConfig(context: context, formFileName: _formFileName),
+              future: FormConfig().getFormConfig(
+                  context: context,
+                  directoryName: _directoryName,
+                  formFileName: _formFileName),
               builder: (context, AsyncSnapshot<Map> snapshot) {
                 if (snapshot.hasData) {
                   return FormBuilder(blueprint: snapshot.data as Map);

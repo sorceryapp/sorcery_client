@@ -14,6 +14,7 @@ class SignUpScreen extends StatelessWidget {
 
 class _SignUp extends StatelessWidget {
   const _SignUp({Key? key}) : super(key: key);
+  final String _directoryName = 'authentication';
   final String _formFileName = 'sign_up.yaml';
 
   @override
@@ -32,8 +33,10 @@ class _SignUp extends StatelessWidget {
             ),
             box,
             FutureBuilder<Map>(
-              future: FormConfig()
-                  .getFormConfig(context: context, formFileName: _formFileName),
+              future: FormConfig().getFormConfig(
+                  context: context,
+                  directoryName: _directoryName,
+                  formFileName: _formFileName),
               builder: (context, AsyncSnapshot<Map> snapshot) {
                 if (snapshot.hasData) {
                   return FormBuilder(blueprint: snapshot.data as Map);
