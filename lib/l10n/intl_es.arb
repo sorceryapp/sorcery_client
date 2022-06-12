@@ -103,5 +103,11 @@
     "description": "Error Text for date string field",
     "type": "text",
     "placeholders": {}
+  },
+  "passwordsDoNotMatchErrorText": "La contraseña y Confirmar contraseña deben coincidir.",
+  "@requiredErrorText": {
+    "description": "Error text for confirm password field",
+    "type": "text",
+    "placeholders": {}
   }
 }

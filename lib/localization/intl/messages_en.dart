@@ -80,6 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notEqualErrorText": m5,
         "numericErrorText":
             MessageLookupByLibrary.simpleMessage("Value must be numeric."),
+        "passwordsDoNotMatchErrorText": MessageLookupByLibrary.simpleMessage(
+            "Password and Confirm Password must match."),
         "requiredErrorText":
             MessageLookupByLibrary.simpleMessage("This field cannot be empty."),
         "resendVerifyAccountPageTitle":

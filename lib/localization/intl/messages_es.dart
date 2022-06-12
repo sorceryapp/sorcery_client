@@ -77,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "minLengthErrorText": m4,
         "numericErrorText":
             MessageLookupByLibrary.simpleMessage("El valor debe ser numérico."),
+        "passwordsDoNotMatchErrorText": MessageLookupByLibrary.simpleMessage(
+            "La contraseña y Confirmar contraseña deben coincidir."),
         "requiredErrorText": MessageLookupByLibrary.simpleMessage(
             "Este campo no puede estar vacío."),
         "resendVerifyAccountPageTitle": MessageLookupByLibrary.simpleMessage(

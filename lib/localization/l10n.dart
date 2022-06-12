@@ -286,7 +286,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field cannot be empty.',
       name: 'requiredErrorText',
-      desc: 'Error Text for required field',
+      desc: 'Error text for confirm password field',
       args: [],
     );
   }
@@ -296,7 +296,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value must be greater than or equal to $min.',
       name: 'minErrorText',
-      desc: 'Error Text for required field',
+      desc: 'Error text for required field',
       args: [min],
     );
   }
@@ -306,7 +306,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value must have a length greater than or equal to $minLength',
       name: 'minLengthErrorText',
-      desc: 'Error Text for required field',
+      desc: 'Error text for required field',
       args: [minLength],
     );
   }
@@ -316,7 +316,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value must be less than or equal to $max',
       name: 'maxErrorText',
-      desc: 'Error Text for required field',
+      desc: 'Error text for required field',
       args: [max],
     );
   }
@@ -326,7 +326,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value must have a length less than or equal to $maxLength',
       name: 'maxLengthErrorText',
-      desc: 'Error Text for required field',
+      desc: 'Error text for required field',
       args: [maxLength],
     );
   }
@@ -336,7 +336,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid email address.',
       name: 'emailErrorText',
-      desc: 'Error Text for email field',
+      desc: 'Error text for email field',
       args: [],
     );
   }
@@ -346,7 +346,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid integer.',
       name: 'integerErrorText',
-      desc: 'Error Text for integer validator',
+      desc: 'Error text for integer validator',
       args: [],
     );
   }
@@ -356,7 +356,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field value must be equal to $value.',
       name: 'equalErrorText',
-      desc: 'Error Text for equal validator',
+      desc: 'Error text for equal validator',
       args: [value],
     );
   }
@@ -366,7 +366,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field value must not be equal to $value.',
       name: 'notEqualErrorText',
-      desc: 'Error Text for not-equal validator',
+      desc: 'Error text for not-equal validator',
       args: [value],
     );
   }
@@ -376,7 +376,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid URL address.',
       name: 'urlErrorText',
-      desc: 'Error Text for URL field',
+      desc: 'Error text for URL field',
       args: [],
     );
   }
@@ -386,7 +386,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value does not match pattern.',
       name: 'matchErrorText',
-      desc: 'Error Text for pattern field',
+      desc: 'Error text for pattern field',
       args: [],
     );
   }
@@ -396,7 +396,7 @@ class SorceryLocalizations {
     return Intl.message(
       'Value must be numeric.',
       name: 'numericErrorText',
-      desc: 'Error Text for numeric field',
+      desc: 'Error text for numeric field',
       args: [],
     );
   }
@@ -406,7 +406,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid credit card number.',
       name: 'creditCardErrorText',
-      desc: 'Error Text for credit card field',
+      desc: 'Error text for credit card field',
       args: [],
     );
   }
@@ -416,7 +416,7 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid IP.',
       name: 'ipErrorText',
-      desc: 'Error Text for IP address field',
+      desc: 'Error text for IP address field',
       args: [],
     );
   }
@@ -426,7 +426,17 @@ class SorceryLocalizations {
     return Intl.message(
       'This field requires a valid date string.',
       name: 'dateStringErrorText',
-      desc: 'Error Text for date string field',
+      desc: 'Error text for date string field',
+      args: [],
+    );
+  }
+
+  /// `Password and Confirm Password must match.`
+  String get passwordsDoNotMatchErrorText {
+    return Intl.message(
+      'Password and Confirm Password must match.',
+      name: 'passwordsDoNotMatchErrorText',
+      desc: '',
       args: [],
     );
   }

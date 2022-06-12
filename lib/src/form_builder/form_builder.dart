@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/button_callbacks.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
@@ -159,7 +160,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           FormBuilderValidators.required(),
           (valueCandidate) {
             if (valueCandidate != _controllers['password']!.text) {
-              return 'password and confirm password must match';
+              return SorceryLocalizations.current.passwordsDoNotMatchErrorText;
             }
 
             return null;
