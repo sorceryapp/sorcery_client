@@ -18,6 +18,9 @@ class FormButtons {
       flex: flex,
       child: ElevatedButton(
         onPressed: () => callback(),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.grey[400],
+        ),
         child: Text(text),
       ),
     );
