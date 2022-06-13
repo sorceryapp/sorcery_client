@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
 class _SignUp extends StatelessWidget {
   const _SignUp({Key? key}) : super(key: key);
   final String _directoryName = 'authentication';
-  final String _formFileName = 'scratch.yaml';
+  final String _formFileName = 'sign_up.yaml';
 
   @override
   Widget build(BuildContext context) {

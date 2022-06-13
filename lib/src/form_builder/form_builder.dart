@@ -8,6 +8,7 @@ import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_props.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/validators/validators.dart';
+import 'package:url_launcher/link.dart';
 
 class FormBuilder extends ConsumerStatefulWidget {
   final Map<dynamic, dynamic> blueprint;
@@ -37,6 +38,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final formMap = widget.blueprint['form'];
     final formProps = getFormProps(formType: widget.blueprint['formType']);
     final controllerProvider = ControllerProviders(
         providerName: widget.blueprint['controllerProviderName']);
@@ -46,19 +48,18 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    widget.blueprint['form'].keys.forEach((branch) {
-      final widgets = _makeFormWidgets(branches: branch);
+    formMap.keys.forEach((propName) {
+      List<Widget> widgets = _makeFormWidgets(
+          controllerAction: controllerAction,
+          formMap: formMap,
+          propName: propName);
       formWidgets = [...formWidgets, ...widgets];
-
-      // for (final Widget widget in widgets) {
-      //   formWidgets.add(widget);
-      // }
     });
 
     return Form(
       key: _formKey,
       child: SizedBox(
-        width: formProps['width'],
+        width: formProps['width'].toDouble(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: formWidgets,
@@ -67,106 +68,97 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
   }
 
-  _makeFormWidgets({required branches}) {
-    branches.keys.forEach((branch) {
-      final branchName =
-          branch != 'cols' && branch.startsWith('col') ? 'col' : branch;
+  List<Widget> _makeFormWidgets(
+      {required controllerAction,
+      required Map<dynamic, dynamic> formMap,
+      required String propName}) {
+    String genericPropName = _makeGenericPropName(propName: propName);
 
-      switch (branchName) {
-        case 'formFields':
-          List<Widget> widgets = [];
+    switch (genericPropName) {
+      case 'formFields':
+        List<Widget> widgets = [];
 
-          widget.blueprint['form']['formFields'].forEach((formField) {
-            // i don't like this hardcoded path
-            Widget widget = _makeFormWidgets(branches: {
-              'formField': formField,
-            });
+        for (int i = 0; i < formMap[propName].length; i += 1) {
+          _makeFormWidgets(
+            controllerAction: controllerAction,
+            formMap: formMap[propName][i],
+            propName: 'formField',
+          ).forEach((widget) => widgets.add(widget));
+        }
 
-            widgets.add(widget);
-          });
+        return widgets;
+      case 'formField':
+        final name = formMap['name'];
+        final type = formMap['type'];
+        final labelText =
+            Localization().getText(localizationKey: formMap['labelText']);
 
-          return widgets;
-        case 'formField':
-          final name = branch['name'];
-          final type = branch['type'];
-          final labelText = Localization(context: context)
-              .getText(localizationKey: branch['labelText']);
+        _controllers[name] = _makeController(type: type);
 
-          _controllers[name] = _makeController(type: type);
-
-          return _makeFormField(
+        return [
+          _makeFormField(
             name: name,
             type: type,
             controller: _controllers[name],
             labelText: labelText,
-          );
-        case 'row':
-          List<Widget> widgets = [];
+          )
+        ];
+      case 'formButtons':
+        List<Widget> widgets = [];
 
-          // LEFT OFF HERE
+        for (int i = 0; i < formMap[propName].length; i += 1) {
+          _makeFormWidgets(
+            controllerAction: controllerAction,
+            formMap: formMap[propName][i],
+            propName: 'formButton',
+          ).forEach((widget) => widgets.add(widget));
+        }
 
-          widget.blueprint['form']['row'].forEach((formField) {
-            // i don't like this hardcoded path
-            Widget widget = _makeFormWidgets(branches: {
-              'formField': formField,
-            });
+        return widgets;
+      case 'formButton':
+        return [
+          _makeFormButton(
+              controllerAction: controllerAction, buttonProps: formMap)
+        ];
+      case 'row':
+        List<Widget> widgets = [];
 
-            widgets.add(widget);
-          });
+        for (int i = 0; i < formMap[propName].length; i += 1) {
+          String subPropName = formMap[propName][i].keys.first;
 
-          // iterate through the row, recursively calling _makeFormWidgets
-          List<Widget> widgets;
-          // do this
-          break;
-        case 'col':
-          // do this
-          break;
-        case 'formButtons':
-          widgets = _makeFormButtons(
-              formButtons: widget.blueprint['formFields'],
-              controllerAction: controllerAction);
+          _makeFormWidgets(
+            controllerAction: controllerAction,
+            formMap: formMap[propName][i],
+            propName: subPropName,
+          ).forEach((widget) => widgets.add(widget));
+        }
 
-          for (final Widget widget in widgets) {
-            formWidgets.add(widget);
-          }
-          break;
-        case 'formButton':
-          // this
-          break;
-        case 'link':
-          // do this
-          break;
-        default:
-          throw ('Error: unknown section name');
-      }
-    });
+        return [
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(children: <Widget>[...widgets]),
+          )
+        ];
+      case 'spacer':
+        return [Spacer(flex: formMap[propName]['flex'])];
+      case 'link':
+        return [
+          Link(
+            uri: Uri.parse(formMap[propName]['uri']),
+            builder: (context, followLink) => TextButton(
+              onPressed: followLink,
+              child: Text(
+                Localization()
+                    .getText(localizationKey: formMap[propName]['target']),
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+          ),
+        ];
+      default:
+        throw ('Error: unknown section name');
+    }
   }
-
-  // List<Widget> _makeFormFields(
-  //     {required List<Map<dynamic, dynamic>> formFields}) {
-  //   final List<Widget> widgets = [];
-
-  //   // Dynamically create all formField widgets
-  //   for (final fieldProps in formFields) {
-  //     final name = fieldProps['name'];
-  //     final type = fieldProps['type'];
-  //     final labelText = Localization(context: context)
-  //         .getText(localizationKey: fieldProps['labelText']);
-
-  //     _controllers[name] = _makeController(type: type);
-
-  //     final newField = _makeFormField(
-  //       name: name,
-  //       type: type,
-  //       controller: _controllers[name],
-  //       labelText: labelText,
-  //     );
-
-  //     widgets.add(newField);
-  //   }
-
-  //   return widgets;
-  // }
 
   Widget _makeFormField(
       {required type, required controller, required name, required labelText}) {
@@ -181,43 +173,38 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     throw ('Error in _FormBuilderState#_makeFormField');
   }
 
-  List<Widget> _makeFormButtons(
-      {required List<Map<dynamic, dynamic>> formButtons,
-      required controllerAction}) {
-    final List<Widget> widgets = [];
+  Widget _makeFormButton({required controllerAction, required buttonProps}) {
+    switch (buttonProps['name']) {
+      case 'submit':
+        final callback = ButtonCallbacks(context: context).submit(
+          formKey: _formKey,
+          getFormData: _getFormData,
+          controllerAction: controllerAction,
+          redirectPath: buttonProps['redirectPath'],
+        );
+        final text =
+            Localization().getText(localizationKey: buttonProps['text']);
 
-    for (final buttonProps in formButtons) {
-      switch (buttonProps['name']) {
-        case 'submit':
-          final callback = ButtonCallbacks(context: context).submit(
-            formKey: _formKey,
-            getFormData: _getFormData,
-            controllerAction: controllerAction,
-            redirectPath: buttonProps['redirectPath'],
-          );
-          final text = Localization(context: context)
-              .getText(localizationKey: buttonProps['text']);
+        return FormButtons().primary(
+          callback: callback,
+          text: text,
+          flex: buttonProps['flex'],
+        );
+      case 'cancel':
+        final callback = ButtonCallbacks(context: context).cancel(
+          redirectPath: buttonProps['redirectPath'],
+        );
+        final text =
+            Localization().getText(localizationKey: buttonProps['text']);
 
-          widgets.add(FormButtons().primary(
-            callback: callback,
-            text: text,
-          ));
-          break;
-        case 'cancel':
-          final callback = ButtonCallbacks(context: context).cancel(
-            redirectPath: buttonProps['redirectPath'],
-          );
-          final text = Localization(context: context)
-              .getText(localizationKey: buttonProps['text']);
-
-          widgets.add(FormButtons().secondary(
-            callback: callback,
-            text: text,
-          ));
-      }
+        return FormButtons().secondary(
+          callback: callback,
+          text: text,
+          flex: buttonProps['flex'],
+        );
+      default:
+        throw ('Error: error in _FormBuilderState#_makeFormButton');
     }
-
-    return widgets;
   }
 
   Map<dynamic, dynamic> _getFormData() {
@@ -269,5 +256,11 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
       case 'accountVerifyToken':
         return FormBuilderValidators.required();
     }
+  }
+
+  String _makeGenericPropName({required String propName}) {
+    final regex = RegExp('^[a-z]+', caseSensitive: false);
+    final match = regex.firstMatch(propName);
+    return match?.group(0) ?? propName;
   }
 }

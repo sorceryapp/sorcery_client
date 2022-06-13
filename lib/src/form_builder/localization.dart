@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/localization/l10n.dart';
 
 class Localization {
-  final BuildContext _context;
-  Localization({required context}) : _context = context;
-
   String getText({required String localizationKey}) {
     switch (localizationKey) {
       case 'accountFieldFirstName':
@@ -32,6 +28,8 @@ class Localization {
         return SorceryLocalizations.current.accountButtonVerifyAccount;
       case 'accountButtonCancel':
         return SorceryLocalizations.current.accountButtonCancel;
+      case 'resendVerifyAccountTextLink':
+        return SorceryLocalizations.current.resendVerifyAccountTextLink;
     }
 
     throw ('Error in Localization#getText');
