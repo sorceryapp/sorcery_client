@@ -1,0 +1,204 @@
+{
+  "@@last_modified": "2022-06-12T10:00:00.000000",
+  "@@locale": "en",
+  "homePageTitleUnauthenticated": "welcome to",
+  "@homePageTitleUnauthenticated": {
+    "description": "welcome unauthenticated users to Sorcery"
+  },
+  "homePageTitleAuthenticated": "hello",
+  "@homePageTitleAuthenticated": {
+    "description": "welcome authenticated users to Sorcery"
+  },
+  "signInPageTitle": "sign in",
+  "@signInPageTitle": {
+    "description": "sign in page title"
+  },
+  "signUpPageTitle": "sign up",
+  "@signUpPageTitle": {
+    "description": "sign up page title"
+  },
+  "verifyAccountPageTitle": "please verify your account",
+  "@verifyAccountPageTitle": {
+    "description": "verify account page title"
+  },
+  "verifyAccountPageBody": "We just sent you an email with a verification token. Grab the token, then paste it in the field below:",
+  "@verifyAccountPageBody": {
+    "description": "verify account page body"
+  },
+  "resendVerifyAccountPageTitle": "resend verify account email",
+  "@resendVerifyAccountPageTitle": {
+    "description": "resend verify account page title"
+  },
+  "resendVerifyAccountTextLink": "request a new verification email",
+  "@resendVerifyAccountTextLink": {
+    "description": "text for the request a new verification email link"
+  },
+  "verifyAccountTextLink": "please verify your account",
+  "@verifyAccountTextLink": {
+    "description": "text for the verify your account link"
+  },
+  "resetPasswordPageTitle": "reset your password",
+  "@resetPasswordPageTitle": {
+    "description": "reset password page title"
+  },
+  "accountFieldFirstName": "first",
+  "@accountFieldFirstName": {
+    "description": "field name for first name"
+  },
+  "accountFieldLastName": "last",
+  "@accountFieldLastName": {
+    "description": "field name for last name"
+  },
+  "accountFieldEmailAddress": "email",
+  "@accountFieldEmailAddress": {
+    "description": "field name for email address"
+  },
+  "accountFieldPassword": "password",
+  "@accountFieldPassword": {
+    "description": "field name for password"
+  },
+  "accountFieldConfirmPassword": "confirm password",
+  "@accountFieldConfirmPassword": {
+    "description": "field name for confirm password"
+  },
+  "accountFieldVerifyToken": "token",
+  "@accountFieldVerifyToken": {
+    "description": "field name for token"
+  },
+  "accountButtonSignIn": "sign in",
+  "@accountButtonSignIn": {
+    "description": "text for the sign in button"
+  },
+  "accountButtonSignUp": "sign up",
+  "@accountButtonSignUp": {
+    "description": "text for the sign up button"
+  },
+  "accountButtonLogout": "logout",
+  "@accountButtonLogout": {
+    "description": "text for the logout button"
+  },
+  "accountButtonCancel": "cancel",
+  "@accountButtonCancel": {
+    "description": "text for the cancel button"
+  },
+  "accountButtonVerifyAccount": "verify",
+  "@accountButtonVerifyAccount": {
+    "description": "text for the verify account button"
+  },
+  "accountButtonResendVerifyAccountEmail": "resend",
+  "@accountButtonResendVerifyAccountEmail": {
+    "description": "text for the resend verify account email button"
+  },
+  "accountButtonResetPassword": "reset",
+  "@accountButtonResetPassword": {
+    "description": "text for the reset password button"
+  },
+  "requiredErrorText": "This field cannot be empty.",
+  "@requiredErrorText": {
+    "description": "Error text for required field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "minErrorText": "Value must be greater than or equal to {min}.",
+  "@minErrorText": {
+    "description": "Error text for required field",
+    "type": "text",
+    "placeholders": {
+      "min": {}
+    }
+  },
+  "minLengthErrorText": "Value must have a length greater than or equal to {minLength}",
+  "@minLengthErrorText": {
+    "description": "Error text for required field",
+    "type": "text",
+    "placeholders": {
+      "minLength": {}
+    }
+  },
+  "maxErrorText": "Value must be less than or equal to {max}",
+  "@maxErrorText": {
+    "description": "Error text for required field",
+    "type": "text",
+    "placeholders": {
+      "max": {}
+    }
+  },
+  "maxLengthErrorText": "Value must have a length less than or equal to {maxLength}",
+  "@maxLengthErrorText": {
+    "description": "Error text for required field",
+    "type": "text",
+    "placeholders": {
+      "maxLength": {}
+    }
+  },
+  "emailErrorText": "This field requires a valid email address.",
+  "@emailErrorText": {
+    "description": "Error text for email field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "integerErrorText": "This field requires a valid integer.",
+  "@integerErrorText": {
+    "description": "Error text for integer validator",
+    "type": "text",
+    "placeholders": {}
+  },
+  "equalErrorText": "This field value must be equal to {value}.",
+  "@equalErrorText": {
+    "description": "Error text for equal validator",
+    "type": "text",
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "notEqualErrorText": "This field value must not be equal to {value}.",
+  "@notEqualErrorText": {
+    "description": "Error text for not-equal validator",
+    "type": "text",
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "urlErrorText": "This field requires a valid URL address.",
+  "@urlErrorText": {
+    "description": "Error text for URL field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "matchErrorText": "Value does not match pattern.",
+  "@matchErrorText": {
+    "description": "Error text for pattern field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "numericErrorText": "Value must be numeric.",
+  "@numericErrorText": {
+    "description": "Error text for numeric field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "creditCardErrorText": "This field requires a valid credit card number.",
+  "@creditCardErrorText": {
+    "description": "Error text for credit card field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ipErrorText": "This field requires a valid IP.",
+  "@ipErrorText": {
+    "description": "Error text for IP address field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dateStringErrorText": "This field requires a valid date string.",
+  "@dateStringErrorText": {
+    "description": "Error text for date string field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordsDoNotMatchErrorText": "Password and Confirm Password must match.",
+  "@requiredErrorText": {
+    "description": "Error text for confirm password field",
+    "type": "text",
+    "placeholders": {}
+  }
+}

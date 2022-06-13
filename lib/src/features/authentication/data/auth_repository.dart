@@ -94,8 +94,7 @@ abstract class AuthRepository {
     required String confirmPassword,
   });
   Future<void> verifyAccount({required String token});
-  Future<void> verifyAccountResend(
-      {required String email, required String password});
+  Future<void> verifyAccountResend({required String email});
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> logout();
@@ -170,10 +169,8 @@ class HttpAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> verifyAccountResend(
-      {required String email, required String password}) async {
-    final response =
-        await _authApi.verifyAccountResend(email: email, password: password);
+  Future<void> verifyAccountResend({required String email}) async {
+    final response = await _authApi.verifyAccountResend(email: email);
     int? statusCode = _getHttpStatusCode(response: response);
 
     if (statusCode != null) {

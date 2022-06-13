@@ -7,20 +7,12 @@ class AuthFormController extends StateNotifier<SignUpState> {
   final HttpAuthRepository authRepository;
 
   Future<bool> signUpWithEmailAndPassword({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String confirmPassword,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
       () => _signUpWithEmailAndPassword(
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
+        formData: formData,
       ),
     );
 
@@ -29,67 +21,53 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<void> _signUpWithEmailAndPassword({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String confirmPassword,
+    required Map formData,
   }) async {
     await authRepository.signUpWithEmailAndPassword(
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
+      firstName: formData['firstName'],
+      lastName: formData['lastName'],
+      email: formData['email'],
+      password: formData['password'],
+      confirmPassword: formData['confirmPassword'],
     );
   }
 
-  Future<bool> verifyAccount({required String token}) async {
+  Future<bool> verifyAccount({required Map formData}) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(() => _verifyAccount(token: token));
+    final value =
+        await AsyncValue.guard(() => _verifyAccount(formData: formData));
     state = state.copyWith(value: value);
     return value.hasError == false;
   }
 
-  Future<void> _verifyAccount({required String token}) async {
-    await authRepository.verifyAccount(token: token);
+  Future<void> _verifyAccount({required Map formData}) async {
+    await authRepository.verifyAccount(token: formData['accountVerifyToken']);
   }
 
   Future<bool> verifyAccountResend({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(
-      () => _verifyAccountResend(
-        email: email,
-        password: password,
-      ),
-    );
+    final value =
+        await AsyncValue.guard(() => _verifyAccountResend(formData: formData));
 
     state = state.copyWith(value: value);
     return value.hasError == false;
   }
 
   Future<void> _verifyAccountResend({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
-    await authRepository.verifyAccountResend(
-      email: email,
-      password: password,
-    );
+    await authRepository.verifyAccountResend(email: formData['email']);
   }
 
   Future<bool> signInWithEmailAndPassword({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     state = state.copyWith(value: const AsyncValue.loading());
     final value = await AsyncValue.guard(
       () => _signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        formData: formData,
       ),
     );
 
@@ -98,12 +76,11 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 
   Future<void> _signInWithEmailAndPassword({
-    required String email,
-    required String password,
+    required Map formData,
   }) async {
     await authRepository.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: formData['email'],
+      password: formData['password'],
     );
   }
 
@@ -123,8 +100,8 @@ class AuthFormController extends StateNotifier<SignUpState> {
 }
 
 final authControllerProvider =
-    // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
     StateNotifierProvider<AuthFormController, SignUpState>((ref) {
+  // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return AuthFormController(authRepository: authRepository);
 });

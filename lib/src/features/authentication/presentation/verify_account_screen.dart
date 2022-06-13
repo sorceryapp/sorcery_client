@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_builder.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_config.dart';
 
 class VerifyAccountScreen extends ConsumerStatefulWidget {
   const VerifyAccountScreen({Key? key}) : super(key: key);
@@ -12,6 +13,9 @@ class VerifyAccountScreen extends ConsumerStatefulWidget {
 }
 
 class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
+  final String _directoryName = 'authentication';
+  final String _formFileName = 'verify_account.yaml';
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateChangesProvider).value;
@@ -26,10 +30,23 @@ class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
           children: [
             box,
             Text(
-              '$firstName, ${AppLocalizations.of(context)!.verifyAccountPageTitle}',
+              '$firstName, ${SorceryLocalizations.current.verifyAccountPageTitle}',
               style: const TextStyle(fontSize: 20),
             ),
-            const VerifyAccountForm(),
+            box,
+            FutureBuilder<Map>(
+              future: FormConfig().getFormConfig(
+                  context: context,
+                  directoryName: _directoryName,
+                  formFileName: _formFileName),
+              builder: (context, AsyncSnapshot<Map> snapshot) {
+                if (snapshot.hasData) {
+                  return FormBuilder(blueprint: snapshot.data as Map);
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
           ],
         ),
       ),
