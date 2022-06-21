@@ -25,7 +25,6 @@ class FormBuilder extends ConsumerStatefulWidget {
 class _FormBuilderState extends ConsumerState<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
-  List<Widget> formWidgets = [];
 
   @override
   void dispose() {
@@ -38,6 +37,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> formWidgets = [];
     final formMap = widget.blueprint['form'];
     final formProps = getFormProps(formType: widget.blueprint['formType']);
     final controllerProvider = ControllerProviders(
@@ -48,7 +48,7 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    formMap.keys.forEach((propName) {
+    widget.blueprint['form'].keys.forEach((propName) {
       List<Widget> widgets = _makeFormWidgets(
           controllerAction: controllerAction,
           formMap: formMap,
