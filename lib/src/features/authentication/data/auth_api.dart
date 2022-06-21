@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sorcery_desktop_v3/src/shared/data/client.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 
-class AuthApi {
-  AuthApi({Dio? httpClient}) : _httpClient = httpClient ?? Dio();
-  final Dio _httpClient;
-  final _baseUrl = 'http://localhost:3000';
-
+class AuthApi extends Client {
   Future<dynamic> signUpWithEmailAndPassword({
     required String firstName,
     required String lastName,
@@ -15,7 +12,7 @@ class AuthApi {
     required String password,
     required String confirmPassword,
   }) async {
-    final url = '$_baseUrl/create-account';
+    final url = '$baseUrl/create-account';
     final data = json.encode({
       'first_name': firstName,
       'last_name': lastName,
@@ -25,7 +22,7 @@ class AuthApi {
     });
 
     try {
-      return await _httpClient.post(
+      return await httpClient.post(
         url,
         data: data,
         options: Options(
@@ -41,13 +38,13 @@ class AuthApi {
   }
 
   Future<dynamic> verifyAccount({required String token, String? jwt}) async {
-    final url = '$_baseUrl/verify-account?key=$token';
+    final url = '$baseUrl/verify-account?key=$token';
     final headers = jwt != null
         ? {'Content-Type': 'application/json', 'Authentication': jwt}
         : {'Content-Type': 'application/json'};
 
     try {
-      return await _httpClient.post(
+      return await httpClient.post(
         url,
         options: Options(
           headers: headers,
@@ -62,11 +59,11 @@ class AuthApi {
   }
 
   Future<dynamic> verifyAccountResend({required String email}) async {
-    final url = '$_baseUrl/verify-account-resend';
+    final url = '$baseUrl/verify-account-resend';
     final data = json.encode({'login': email});
 
     try {
-      return await _httpClient.post(
+      return await httpClient.post(
         url,
         data: data,
         options: Options(
@@ -83,11 +80,11 @@ class AuthApi {
 
   Future<dynamic> signInWithEmailAndPassword(
       {required String email, required String password}) async {
-    final url = '$_baseUrl/login';
+    final url = '$baseUrl/login';
     final data = json.encode({'login': email, 'password': password});
 
     try {
-      return await _httpClient.post(
+      return await httpClient.post(
         url,
         data: data,
         options: Options(
@@ -104,10 +101,10 @@ class AuthApi {
 
   Future<dynamic> logout() async {
     final jwt = SecureStorage().getJwt();
-    final url = '$_baseUrl/logout';
+    final url = '$baseUrl/logout';
 
     try {
-      return await _httpClient.post(
+      return await httpClient.post(
         url,
         options: Options(
           headers: {
