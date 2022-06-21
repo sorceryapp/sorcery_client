@@ -98,6 +98,17 @@ class UnauthenticatedContent extends StatelessWidget {
             style: const TextStyle(fontSize: 20),
           ),
           box,
+          Link(
+            uri: Uri.parse('/apps'),
+            builder: (context, followLink) => TextButton(
+              onPressed: followLink,
+              child: const Text(
+                'Apps',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+          ),
+          box,
           ElevatedButton(
             onPressed: () => context.goNamed(AppRoute.signIn.name),
             child: Text(SorceryLocalizations.current.accountButtonSignIn),
