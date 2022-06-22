@@ -5,9 +5,21 @@ class AppsCreateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'App Create Screen',
-      style: TextStyle(fontSize: 20),
+    const SizedBox box = SizedBox(height: 20);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sorcery')),
+      body: Center(
+        child: Column(
+          children: const [
+            box,
+            Text(
+              'Create App',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

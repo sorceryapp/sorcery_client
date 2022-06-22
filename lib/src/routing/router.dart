@@ -24,7 +24,6 @@ enum AppRoute {
   appsShow,
   appsCreate,
   appsUpdate,
-  appsDelete,
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -107,33 +106,30 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'apps',
             name: AppRoute.apps.name,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              fullscreenDialog: true,
-              child: const AppsScreen(),
-            ),
-          ),
-          GoRoute(
-            path: 'apps/create',
-            name: AppRoute.appsCreate.name,
-            builder: (context, state) => const AppsCreateScreen(),
-          ),
-          GoRoute(
-            path: 'apps/:a_id',
-            name: AppRoute.appsShow.name,
-            builder: (context, state) {
-              final appId = state.params['a_id']!;
-              return AppsShowScreen(appId: appId);
-            },
+            builder: (context, state) => const AppsScreen(),
             routes: [
               GoRoute(
-                path: 'update',
-                name: AppRoute.appsUpdate.name,
-                pageBuilder: (context, state) => MaterialPage(
-                  key: state.pageKey,
-                  fullscreenDialog: true,
-                  child: const AppsUpdateScreen(),
-                ),
+                path: 'create',
+                name: AppRoute.appsCreate.name,
+                builder: (context, state) => const AppsCreateScreen(),
+              ),
+              GoRoute(
+                path: ':a_id',
+                name: AppRoute.appsShow.name,
+                builder: (context, state) {
+                  final appId = state.params['a_id']!;
+                  return AppsShowScreen(appId: appId);
+                },
+                routes: [
+                  GoRoute(
+                    path: 'update',
+                    name: AppRoute.appsUpdate.name,
+                    builder: (context, state) {
+                      final appId = state.params['a_id']!;
+                      return AppsUpdateScreen(appId: appId);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
