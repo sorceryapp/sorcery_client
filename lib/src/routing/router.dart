@@ -133,7 +133,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
           GoRoute(
-            path: 'appsCreate',
+            path:
+                'appsCreate', // change this path to /apps/create when go_router 4.0.0 is fixed
             name: AppRoute.appsCreate.name,
             builder: (context, state) => const AppsCreateScreen(),
             // pageBuilder: (context, state) => MaterialPage(
