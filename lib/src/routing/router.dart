@@ -114,27 +114,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
-            path: 'apps/create',
-            name: AppRoute.appsCreate.name,
-            builder: (context, state) => const AppsCreateScreen(),
-            // pageBuilder: (context, state) => MaterialPage(
-            //   key: state.pageKey,
-            //   fullscreenDialog: true,
-            //   child: const AppsCreateScreen(),
-            // ),
-          ),
-          GoRoute(
             path: 'apps/:a_id',
             name: AppRoute.appsShow.name,
             builder: (context, state) {
               final appId = state.params['a_id']!;
               return AppsShowScreen(appId: appId);
             },
-            // pageBuilder: (context, state) => MaterialPage(
-            //   key: state.pageKey,
-            //   fullscreenDialog: true,
-            //   child: const AppsShowScreen(),
-            // ),
             routes: [
               GoRoute(
                 path: 'update',
@@ -146,6 +131,16 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ),
               ),
             ],
+          ),
+          GoRoute(
+            path: 'appsCreate',
+            name: AppRoute.appsCreate.name,
+            builder: (context, state) => const AppsCreateScreen(),
+            // pageBuilder: (context, state) => MaterialPage(
+            //   key: state.pageKey,
+            //   fullscreenDialog: true,
+            //   child: const AppsCreateScreen(),
+            // ),
           ),
         ],
       ),
