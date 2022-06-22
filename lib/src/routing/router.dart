@@ -114,6 +114,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
+            path: 'apps/create',
+            name: AppRoute.appsCreate.name,
+            builder: (context, state) => const AppsCreateScreen(),
+          ),
+          GoRoute(
             path: 'apps/:a_id',
             name: AppRoute.appsShow.name,
             builder: (context, state) {
@@ -131,17 +136,6 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ),
               ),
             ],
-          ),
-          GoRoute(
-            path:
-                'appsCreate', // change this path to /apps/create when go_router 4.0.0 is fixed
-            name: AppRoute.appsCreate.name,
-            builder: (context, state) => const AppsCreateScreen(),
-            // pageBuilder: (context, state) => MaterialPage(
-            //   key: state.pageKey,
-            //   fullscreenDialog: true,
-            //   child: const AppsCreateScreen(),
-            // ),
           ),
         ],
       ),
