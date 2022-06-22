@@ -7,14 +7,6 @@ import 'package:sorcery_desktop_v3/src/routing/router.dart';
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
 
-  // @override
-  // Widget build(BuildContext context) => MaterialApp.router(
-  //       routeInformationProvider: _router.routeInformationProvider,
-  //       routeInformationParser: _router.routeInformationParser,
-  //       routerDelegate: _router.routerDelegate,
-  //       title: 'GoRouter Example',
-  //     );
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(routerProvider);
@@ -29,7 +21,6 @@ class App extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         SorceryLocalizations.delegate,
       ],
-      routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
       routerDelegate: goRouter.routerDelegate,
       debugShowCheckedModeBanner: false,
