@@ -1,90 +1,14 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_api.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_client.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_errors.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/user_db.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
+import 'package:sorcery_desktop_v3/src/shared/data/repository.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
-class SignUpError implements Exception {
-  SignUpError([this.message = 'Signup error: an unknown exception occured.']);
-  final String message;
-
-  factory SignUpError.fromCode({required int code}) {
-    switch (code) {
-      case 422:
-        return SignUpError(
-            'There was an error creating your account: Unprocessable Entity (422)');
-      default:
-        return SignUpError();
-    }
-  }
-}
-
-class VerifyAccountError implements Exception {
-  VerifyAccountError(
-      [this.message =
-          'Unable to verify account: an unknown exception occurred.']);
-  final String message;
-
-  factory VerifyAccountError.fromCode({required int code}) {
-    switch (code) {
-      case 401:
-        return VerifyAccountError(
-            'Unable to verify account: Unauthorized (401)');
-      default:
-        return VerifyAccountError();
-    }
-  }
-}
-
-class VerifyAccountResendError implements Exception {
-  VerifyAccountResendError(
-      [this.message =
-          'Unable to verify account: an unknown exception occurred.']);
-  final String message;
-
-  factory VerifyAccountResendError.fromCode({required int code}) {
-    switch (code) {
-      case 400:
-        return VerifyAccountResendError(
-            'An email has recently been sent to you with a link to verify your account. Please wait 30 seconds before trying again: Bad Request (400)');
-      case 401:
-        return VerifyAccountResendError(
-            'Unable to resend verify account email: Unauthorized (401)');
-      default:
-        return VerifyAccountResendError();
-    }
-  }
-}
-
-class SignInError implements Exception {
-  SignInError([this.message = 'Signin error: an unknown exception occured.']);
-  final String message;
-
-  factory SignInError.fromCode({required int code}) {
-    switch (code) {
-      default:
-        return SignInError();
-    }
-  }
-}
-
-class LogoutError implements Exception {
-  LogoutError([this.message = 'Logout error: an unknown exception occured.']);
-  final String message;
-
-  factory LogoutError.fromCode({required int code}) {
-    switch (code) {
-      case 400:
-        return LogoutError('Unable to logout: Bad Request (400)');
-      default:
-        return LogoutError();
-    }
-  }
-}
-
 abstract class AuthRepository {
+  User? get currentUser;
   Stream<User?> authStateChanges();
   Future<void> signUpWithEmailAndPassword({
     required String firstName,
@@ -98,20 +22,19 @@ abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
   Future<void> logout();
-  User? get currentUser;
 }
 
-class HttpAuthRepository implements AuthRepository {
-  HttpAuthRepository({AuthApi? authApi}) : _authApi = authApi ?? AuthApi();
-  final AuthApi _authApi;
-
+class HttpAuthRepository extends SorceryRepository implements AuthRepository {
+  HttpAuthRepository({AuthClient? authClient})
+      : _authClient = authClient ?? AuthClient();
+  final AuthClient _authClient;
   final _authState = InMemoryStore<User?>(null);
 
   @override
-  Stream<User?> authStateChanges() => _authState.stream;
+  User? get currentUser => _authState.value;
 
   @override
-  User? get currentUser => _authState.value;
+  Stream<User?> authStateChanges() => _authState.stream;
 
   void dispose() => _authState.close();
 
@@ -123,14 +46,14 @@ class HttpAuthRepository implements AuthRepository {
     required String password,
     required String confirmPassword,
   }) async {
-    final response = await _authApi.signUpWithEmailAndPassword(
+    final response = await _authClient.signUpWithEmailAndPassword(
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
       confirmPassword: confirmPassword,
     );
-    int? statusCode = _getHttpStatusCode(response: response);
+    int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -149,9 +72,9 @@ class HttpAuthRepository implements AuthRepository {
 
   @override
   Future<void> verifyAccount({required String token}) async {
-    final jwt = await _getJwt();
-    final response = await _authApi.verifyAccount(token: token, jwt: jwt);
-    int? statusCode = _getHttpStatusCode(response: response);
+    final jwt = await getJwt();
+    final response = await _authClient.verifyAccount(token: token, jwt: jwt);
+    int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -170,8 +93,8 @@ class HttpAuthRepository implements AuthRepository {
 
   @override
   Future<void> verifyAccountResend({required String email}) async {
-    final response = await _authApi.verifyAccountResend(email: email);
-    int? statusCode = _getHttpStatusCode(response: response);
+    final response = await _authClient.verifyAccountResend(email: email);
+    int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -193,9 +116,9 @@ class HttpAuthRepository implements AuthRepository {
   @override
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password}) async {
-    final response = await _authApi.signInWithEmailAndPassword(
+    final response = await _authClient.signInWithEmailAndPassword(
         email: email, password: password);
-    int? statusCode = _getHttpStatusCode(response: response);
+    int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -212,8 +135,8 @@ class HttpAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    final response = await _authApi.logout();
-    int? statusCode = _getHttpStatusCode(response: response);
+    final response = await _authClient.logout();
+    int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
@@ -231,8 +154,8 @@ class HttpAuthRepository implements AuthRepository {
   }
 
   Future<void> _handleSuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
-    final payload = await _getJwtPayload();
+    await setJwt(jwt: response.headers['authorization'].toString());
+    final payload = await getJwtPayload();
     final user = _createHiveUser(payload: payload);
     _setUser(user: user);
 
@@ -244,50 +167,15 @@ class HttpAuthRepository implements AuthRepository {
   }
 
   Future<void> _handleVerifyAccountResendSuccess({required response}) async {
-    await _setJwt(jwt: response.headers['authorization'].toString());
+    await setJwt(jwt: response.headers['authorization'].toString());
   }
 
   Future<void> _handleLogoutSuccess() async {
-    await _deleteJwt();
+    await deleteJwt();
     _unsetUser();
   }
 
-  int? _getHttpStatusCode({required response}) {
-    if (response is Response<dynamic>) {
-      return response.statusCode;
-    } else if (response is int) {
-      return response;
-    }
-
-    return null;
-  }
-
-  Future<void> _setJwt({required String jwt}) async {
-    try {
-      await SecureStorage().setJwt(jwt);
-    } catch (e) {
-      print('Error in _setJwt: $e');
-    }
-  }
-
-  Future<String?> _getJwt() async {
-    try {
-      return await SecureStorage().getJwt();
-    } catch (e) {
-      print('Error in _getJwt: $e');
-      return null;
-    }
-  }
-
-  Future<void> _deleteJwt() async {
-    try {
-      await SecureStorage().deleteJwt();
-    } catch (e) {
-      print('Error in _deleteJwt: $e');
-    }
-  }
-
-  Future<Map<String, dynamic>> _getJwtPayload() async {
+  Future<Map<String, dynamic>> getJwtPayload() async {
     return await SecureStorage().getJwtPayload();
   }
 
