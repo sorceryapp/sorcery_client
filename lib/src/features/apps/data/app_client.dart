@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/client.dart';
 import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 
-class AuthApi extends Client {
+class AppClient extends Client {
   Future<dynamic> getApps() async {
     final jwt = SecureStorage().getJwt();
     final url = '$baseUrl/apps';
