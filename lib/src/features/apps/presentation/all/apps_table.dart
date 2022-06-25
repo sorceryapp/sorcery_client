@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/app_rows.dart';
-import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/table_columns.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/app_columns.dart';
 
 class AppTable {
   final List objectList;
