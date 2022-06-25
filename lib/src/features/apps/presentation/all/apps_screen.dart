@@ -34,7 +34,7 @@ class AppsScreen extends ConsumerWidget {
             ]),
             AsyncValueWidget<List<App>>(
                 value: appData,
-                data: (apps) => apps.isEmpty
+                data: (appList) => appList.isEmpty
                     ? Center(
                         child: Text(
                           'No products found',
@@ -42,7 +42,7 @@ class AppsScreen extends ConsumerWidget {
                         ),
                       )
                     : Center(
-                        child: AppTable(objectList: apps).makeTableWidget(),
+                        child: AppsTable(appList: appList).makeTableWidget(),
                       )),
           ],
         ),
