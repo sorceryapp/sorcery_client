@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_create_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_show_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_update_screen.dart';
-import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/apps_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_resend_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/reset_password_screen.dart';
