@@ -7,7 +7,8 @@ import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 class AppClient extends Client {
   Future<dynamic> getApps() async {
     final jwt = SecureStorage().getJwt();
-    final url = '$baseUrl/apps';
+    // final url = '$baseUrl/api/v1/apps';
+    final url = baseUrl + '/api/v1/apps';
 
     try {
       return await httpClient.get(

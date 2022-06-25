@@ -6,9 +6,9 @@ import 'package:sorcery_desktop_v3/src/shared/data/repository.dart';
 import 'package:sorcery_desktop_v3/src/utils/in_memory_store.dart';
 
 abstract class AppRepository {
-  App? get currentApp;
-  Stream<App?> appStateChanges();
-  Future<void> getApps();
+  // App? get currentApp;
+  // Stream<App?> appStateChanges();
+  Future<List<App?>?> getApps();
   Future<void> getApp({required String appId});
   Future<void> createApp({
     required String name,
@@ -34,30 +34,29 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   final AppClient _appClient;
   final _appState = InMemoryStore<App?>(null);
 
-  @override
-  App? get currentApp => _appState.value;
+  // @override
+  // App? get currentApp => _appState.value;
 
-  @override
-  Stream<App?> appStateChanges() => _appState.stream;
+  // @override
+  // Stream<App?> appStateChanges() => _appState.stream;
 
   void dispose() => _appState.close();
 
   @override
-  Future<void> getApps() async {
+  Future<List<App>> getApps() async {
     final response = await _appClient.getApps();
     int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          await _handleSuccess(response: response);
-          break;
+          return _handleGetAppsSuccess(response: response);
         default:
           throw GetAppsError();
       }
-    } else {
-      throw GetAppsError();
     }
+
+    throw GetAppsError();
   }
 
   @override
@@ -157,15 +156,44 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   }
 
   Future<void> _handleSuccess({required response}) async {}
+
+  List<App> _handleGetAppsSuccess({required response}) {
+    List<App> appList = [];
+
+    for (final appMap in response.data['data']) {
+      appList.add(App.fromMap(_updateIdKey(appMap: appMap['attributes'])));
+    }
+
+    return appList;
+  }
+
+  Map<String, dynamic> _updateIdKey({required appMap}) {
+    Map<String, dynamic> updatedAppMap = {};
+
+    appMap.forEach((k, v) {
+      if (k == 'id') {
+        updatedAppMap['appId'] = v;
+      } else {
+        updatedAppMap[k] = v;
+      }
+    });
+
+    return updatedAppMap;
+  }
 }
 
 final appRepositoryProvider = Provider<HttpAppRepository>((ref) {
-  final appRepository = HttpAppRepository();
+  HttpAppRepository appRepository = HttpAppRepository();
   ref.onDispose(() => appRepository.dispose());
   return appRepository;
 });
 
-final appStateChangesProvider = StreamProvider.autoDispose<App?>((ref) {
+// final appStateChangesProvider = StreamProvider.autoDispose<App?>((ref) {
+//   final appRepository = ref.watch(appRepositoryProvider);
+//   return appRepository.appStateChanges();
+// });
+
+final appListFutureProvider = FutureProvider.autoDispose<List<App>>((ref) {
   final appRepository = ref.watch(appRepositoryProvider);
-  return appRepository.appStateChanges();
+  return appRepository.getApps();
 });
