@@ -1,0 +1,39 @@
+---
+formName: 'create_app'
+formType: authentication
+controllerProviderName: 'authControllerProvider'
+controllerActionName: 'signUpWithEmailAndPassword'
+form:
+  formFields:
+    - name: 'name'
+      type: 'textFormField'
+      labelText: 'appFieldName'
+    - name: 'framework'
+      labelText: 'appFieldFramework'
+      type: 'radioButton'
+      options:
+        - values: 'Ruby on Rails'
+        - values: 'Djano'
+        - values: 'AdonisJS'
+    - name: 'type'
+      labelText: 'appFieldType'
+      type: 'radioButton'
+      options:
+        - values: 'API'
+        - values: 'Monolith'
+  row:
+    - formButtons:
+        - name: 'submit'
+          type: 'primary'
+          flex: 10
+          text: 'appButtonCreateNewAppSubmit'
+          redirectPath: 'newResource'
+          ## redirect to newly created resource
+    - spacer:
+        flex: 2
+    - formButtons:
+        - name: 'cancel'
+          type: 'secondary'
+          flex: 10
+          text: 'appButtonCreateNewAppCancel'
+          redirectPath: '/apps'
