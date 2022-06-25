@@ -25,6 +25,7 @@
   "accountButtonResendVerifyAccountEmail": "reenviar",
   "accountButtonResetPassword": "reiniciar",
   "requiredErrorText": "Este campo no puede estar vacío.",
+  "appButtonNewApp": "Nueva aplicación",
   "@requiredErrorText": {
     "description": "Error Text for required field",
     "type": "text",

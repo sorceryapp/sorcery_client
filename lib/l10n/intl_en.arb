@@ -93,6 +93,10 @@
   "@accountButtonResetPassword": {
     "description": "text for the reset password button"
   },
+  "appButtonNewApp": "New App",
+  "@appButtonNewApp": {
+    "description": "Text for the new app button"
+  },
   "requiredErrorText": "This field cannot be empty.",
   "@requiredErrorText": {
     "description": "Error text for required field",

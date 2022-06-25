@@ -281,6 +281,16 @@ class SorceryLocalizations {
     );
   }
 
+  /// `New App`
+  String get appButtonNewApp {
+    return Intl.message(
+      'New App',
+      name: 'appButtonNewApp',
+      desc: 'Text for the new app button',
+      args: [],
+    );
+  }
+
   /// `This field cannot be empty.`
   String get requiredErrorText {
     return Intl.message(
