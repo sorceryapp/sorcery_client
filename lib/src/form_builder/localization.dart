@@ -30,6 +30,18 @@ class Localization {
         return SorceryLocalizations.current.accountButtonCancel;
       case 'resendVerifyAccountTextLink':
         return SorceryLocalizations.current.resendVerifyAccountTextLink;
+      case 'appInputName':
+        return SorceryLocalizations.current.appInputName;
+      case 'appRadioFramework':
+        return SorceryLocalizations.current.appRadioFramework;
+      case 'appRadioType':
+        return SorceryLocalizations.current.appRadioType;
+      case 'appButtonCreateNewAppSubmit':
+        return SorceryLocalizations.current.appButtonCreateNewAppSubmit;
+      case 'appButtonCreateNewAppCancel':
+        return SorceryLocalizations.current.appButtonCreateNewAppCancel;
+      case 'appButtonNewApp':
+        return SorceryLocalizations.current.appButtonNewApp;
     }
 
     throw ('Error in Localization#getText');
