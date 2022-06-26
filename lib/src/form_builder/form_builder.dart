@@ -70,12 +70,13 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     required controllerAction,
     required element,
   }) {
-    final type = element['element'] ?? element.keys.toList().first;
+    final type = element['type'] ?? element.keys.toList().first;
 
     switch (type) {
       case 'input':
         final id = element['id'];
-        final label = Localization().getText(localizationKey: element['label']);
+        final label = Localization()
+            .getText(localizationKey: element['attributes']['label']);
         _controllers[id] = _makeController(type: type);
 
         return [
@@ -148,27 +149,27 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           formKey: _formKey,
           getFormData: _getFormData,
           controllerAction: controllerAction,
-          redirectPath: buttonProps['redirectPath'],
+          redirectPath: buttonProps['attributes']['redirectPath'],
         );
-        final text =
-            Localization().getText(localizationKey: buttonProps['text']);
+        final text = Localization()
+            .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().primary(
           callback: callback,
           text: text,
-          flex: buttonProps['flex'],
+          flex: buttonProps['attributes']['flex'],
         );
       case 'cancel':
         final callback = ButtonCallbacks(context: context).cancel(
-          redirectPath: buttonProps['redirectPath'],
+          redirectPath: buttonProps['attributes']['redirectPath'],
         );
-        final text =
-            Localization().getText(localizationKey: buttonProps['text']);
+        final text = Localization()
+            .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().secondary(
           callback: callback,
           text: text,
-          flex: buttonProps['flex'],
+          flex: buttonProps['attributes']['flex'],
         );
       default:
         throw ('Error: error in _FormBuilderState#_makeFormButton');
