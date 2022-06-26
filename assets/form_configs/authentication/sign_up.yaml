@@ -3,35 +3,57 @@ name: sign_up
 type: authentication
 controllerProviderName: authControllerProvider
 controllerActionName: signUpWithEmailAndPassword
-form:
-  formFields:
-    - id: firstName
-      type: input
+body:
+  - type: input
+    id: firstName
+    attributes:
       label: accountFieldFirstName
-    - id: lastName
-      type: input
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: lastName
+    attributes:
       label: accountFieldLastName
-    - id: email
-      type: input
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: email
+    attributes:
       label: accountFieldEmailAddress
-    - id: password
-      type: input
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: password
+    attributes:
       label: accountFieldPassword
-    - id: confirmPassword
-      type: input
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: confirmPassword
+    attributes:
       label: accountFieldConfirmPassword
-  row:
-    - formButtons:
-        - id: submit
-          type: primary
+      description: null
+      placeholder: null
+      value: null
+
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
           text: accountButtonSignUp
           redirectPath: /verifyAccount
-    - spacer:
+      - type: spacer
         flex: 2
-    - formButtons:
-        - id: cancel
-          type: secondary
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
           text: accountButtonCancel
           redirectPath: /
