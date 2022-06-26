@@ -6,6 +6,7 @@ import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_props.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_types/radio_group.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/validators/validators.dart';
 import 'package:url_launcher/link.dart';
@@ -84,6 +85,12 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
             element: element,
           )
         ];
+      case 'radio':
+        List<Widget> widgets = [];
+        List<dynamic> options = element['attributes']['options'].toList();
+        RadioGroup radioGroup = RadioGroup(options: options);
+        widgets.add(radioGroup);
+        return widgets;
       case 'button':
         return [
           _makeFormButton(
@@ -228,6 +235,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           }
         ]);
       case 'accountVerifyToken':
+        return FormBuilderValidators.required();
+      case 'name':
         return FormBuilderValidators.required();
     }
   }
