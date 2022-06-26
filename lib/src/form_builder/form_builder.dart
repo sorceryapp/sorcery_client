@@ -113,12 +113,12 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
       case 'link':
         return [
           Link(
-            uri: Uri.parse(element[type]['uri']),
+            uri: Uri.parse(element['attributes']['uri']),
             builder: (context, followLink) => TextButton(
               onPressed: followLink,
               child: Text(
                 Localization()
-                    .getText(localizationKey: element[type]['target']),
+                    .getText(localizationKey: element['attributes']['target']),
                 style: const TextStyle(fontSize: 12),
               ),
             ),

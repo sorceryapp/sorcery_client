@@ -3,26 +3,33 @@ name: verify_account
 type: authentication
 controllerProviderName: authControllerProvider
 controllerActionName: verifyAccount
-form:
-  formFields:
-    - id: accountVerifyToken
-      type: input
+body:
+  - type: input
+    id: accountVerifyToken
+    attributes:
       label: accountFieldVerifyToken
-  row:
-    - formButtons:
-        - id: submit
-          type: primary
+      description: null
+      placeholder: null
+      value: null
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
           text: accountButtonVerifyAccount
           redirectPath: /
-    - spacer:
+      - type: spacer
         flex: 2
-    - formButtons:
-        - id: cancel
-          type: secondary
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
           text: accountButtonCancel
           redirectPath: /
-  link:
-    uri: /requestVerifyAccountResend
-    target: resendVerifyAccountTextLink
+  - type: link
+    id: requestVerifyAccountResendLink
+    attributes:
+      uri: /requestVerifyAccountResend
+      target: resendVerifyAccountTextLink
