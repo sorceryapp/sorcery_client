@@ -1,37 +1,37 @@
 ---
-formName: 'sign_up'
-formType: authentication
-controllerProviderName: 'authControllerProvider'
-controllerActionName: 'signUpWithEmailAndPassword'
+name: sign_up
+type: authentication
+controllerProviderName: authControllerProvider
+controllerActionName: signUpWithEmailAndPassword
 form:
   formFields:
-    - name: 'firstName'
-      type: 'textFormField'
-      labelText: 'accountFieldFirstName'
-    - name: 'lastName'
-      type: 'textFormField'
-      labelText: 'accountFieldLastName'
-    - name: 'email'
-      type: 'textFormField'
-      labelText: 'accountFieldEmailAddress'
-    - name: 'password'
-      type: 'textFormField'
-      labelText: 'accountFieldPassword'
-    - name: 'confirmPassword'
-      type: 'textFormField'
-      labelText: 'accountFieldConfirmPassword'
+    - id: firstName
+      type: input
+      label: accountFieldFirstName
+    - id: lastName
+      type: input
+      label: accountFieldLastName
+    - id: email
+      type: input
+      label: accountFieldEmailAddress
+    - id: password
+      type: input
+      label: accountFieldPassword
+    - id: confirmPassword
+      type: input
+      label: accountFieldConfirmPassword
   row:
     - formButtons:
-        - name: 'submit'
-          type: 'primary'
+        - id: submit
+          type: primary
           flex: 10
-          text: 'accountButtonSignUp'
-          redirectPath: '/verifyAccount'
+          text: accountButtonSignUp
+          redirectPath: /verifyAccount
     - spacer:
         flex: 2
     - formButtons:
-        - name: 'cancel'
-          type: 'secondary'
+        - id: cancel
+          type: secondary
           flex: 10
-          text: 'accountButtonCancel'
-          redirectPath: '/'
+          text: accountButtonCancel
+          redirectPath: /

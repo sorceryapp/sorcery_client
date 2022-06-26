@@ -1,25 +1,25 @@
 ---
-formName: 'verify_account_resend'
-formType: authentication
-controllerProviderName: 'authControllerProvider'
-controllerActionName: 'verifyAccountResend'
+name: verify_account_resend
+type: authentication
+controllerProviderName: authControllerProvider
+controllerActionName: verifyAccountResend
 form:
   formFields:
-    - name: 'email'
-      type: 'textFormField'
-      labelText: 'accountFieldEmailAddress'
+    - id: email
+      type: input
+      label: accountFieldEmailAddress
   row:
     - formButtons:
-        - name: 'submit'
-          type: 'primary'
+        - id: submit
+          type: primary
           flex: 10
-          text: 'accountButtonResendVerifyAccountEmail'
-          redirectPath: '/verifyAccount'
+          text: accountButtonResendVerifyAccountEmail
+          redirectPath: /verifyAccount
     - spacer:
         flex: 2
     - formButtons:
-        - name: 'cancel'
-          type: 'secondary'
+        - id: cancel
+          type: secondary
           flex: 10
-          text: 'accountButtonCancel'
-          redirectPath: '/verifyAccount'
+          text: accountButtonCancel
+          redirectPath: /verifyAccount
