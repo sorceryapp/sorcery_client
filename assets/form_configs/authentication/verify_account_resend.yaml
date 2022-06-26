@@ -3,23 +3,28 @@ name: verify_account_resend
 type: authentication
 controllerProviderName: authControllerProvider
 controllerActionName: verifyAccountResend
-form:
-  formFields:
-    - id: email
-      type: input
+body:
+  - type: input
+    id: email
+    attributes:
       label: accountFieldEmailAddress
-  row:
-    - formButtons:
-        - id: submit
-          type: primary
+      description: null
+      placeholder: null
+      value: null
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
           text: accountButtonResendVerifyAccountEmail
           redirectPath: /verifyAccount
-    - spacer:
+      - type: spacer
         flex: 2
-    - formButtons:
-        - id: cancel
-          type: secondary
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
           text: accountButtonCancel
           redirectPath: /verifyAccount
