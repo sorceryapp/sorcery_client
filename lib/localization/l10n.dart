@@ -281,16 +281,6 @@ class SorceryLocalizations {
     );
   }
 
-  /// `New App`
-  String get appButtonNewApp {
-    return Intl.message(
-      'New App',
-      name: 'appButtonNewApp',
-      desc: 'Text for the new app button',
-      args: [],
-    );
-  }
-
   /// `This field cannot be empty.`
   String get requiredErrorText {
     return Intl.message(
@@ -447,6 +437,66 @@ class SorceryLocalizations {
       'Password and Confirm Password must match.',
       name: 'passwordsDoNotMatchErrorText',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `name`
+  String get appInputName {
+    return Intl.message(
+      'name',
+      name: 'appInputName',
+      desc: 'Input field for app name',
+      args: [],
+    );
+  }
+
+  /// `framework`
+  String get appRadioFramework {
+    return Intl.message(
+      'framework',
+      name: 'appRadioFramework',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `type`
+  String get appRadioType {
+    return Intl.message(
+      'type',
+      name: 'appRadioType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `create app`
+  String get appButtonCreateNewAppSubmit {
+    return Intl.message(
+      'create app',
+      name: 'appButtonCreateNewAppSubmit',
+      desc: 'Button text for create new app submit',
+      args: [],
+    );
+  }
+
+  /// `cancel`
+  String get appButtonCreateNewAppCancel {
+    return Intl.message(
+      'cancel',
+      name: 'appButtonCreateNewAppCancel',
+      desc: 'Button text for create new app submit',
+      args: [],
+    );
+  }
+
+  /// `New App`
+  String get appButtonNewApp {
+    return Intl.message(
+      'New App',
+      name: 'appButtonNewApp',
+      desc: 'Button text to go to the create app screen',
       args: [],
     );
   }

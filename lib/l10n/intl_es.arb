@@ -25,7 +25,6 @@
   "accountButtonResendVerifyAccountEmail": "reenviar",
   "accountButtonResetPassword": "reiniciar",
   "requiredErrorText": "Este campo no puede estar vacío.",
-  "appButtonNewApp": "Nueva aplicación",
   "@requiredErrorText": {
     "description": "Error Text for required field",
     "type": "text",
@@ -110,5 +109,29 @@
     "description": "Error text for confirm password field",
     "type": "text",
     "placeholders": {}
+  },
+  "appInputName": "nombre",
+  "@appInputName": {
+    "description": "Input field for app name"
+  },
+  "appRadioFramework": "estructura",
+  "@appFieldFramework": {
+    "description": "Radio button name for app framework selection"
+  },
+  "appRadioType": "tipo",
+  "@appFieldFramework": {
+    "description": "Radio button name for app type selection"
+  },
+  "appButtonCreateNewAppSubmit": "crear aplicación",
+  "@appButtonCreateNewAppSubmit": {
+    "description": "Button text for create new app submit"
+  },
+  "appButtonCreateNewAppCancel": "cancelar",
+  "@appButtonCreateNewAppCancel": {
+    "description": "Button text for create new app submit"
+  },
+  "appButtonNewApp": "nueva aplicación",
+  "@appButtonNewApp": {
+    "description": "Button text to go to the create app screen"
   }
 }
