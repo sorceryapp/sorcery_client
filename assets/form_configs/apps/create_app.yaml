@@ -7,27 +7,32 @@ body:
   - type: input
     id: name
     attributes:
-      label: appFieldName
+      label: appInputName
       description: null
       placeholder: null
       value: null
   - type: radio
     id: framework
     attributes:
-      label: appFieldFramework
+      label: appRadioFramework
       description: null
       options:
-        - values: Ruby on Rails
-        - values: Djano
-        - values: AdonisJS
+        - name: Ruby on Rails
+          id: 1
+        - name: Djano
+          id: 2
+        - name: AdonisJS
+          id: 3
   - type: radio
     id: framework
     attributes:
       label: appFieldType
       description: null
       options:
-        - values: API
-        - values: Monolith
+        - name: API
+          id: 2
+        - name: Monolith
+          id: 3
   - row:
       - type: button
         id: submit
