@@ -75,16 +75,13 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     switch (type) {
       case 'input':
         final id = element['id'];
-        final label = Localization()
-            .getText(localizationKey: element['attributes']['label']);
         _controllers[id] = _makeController(type: type);
 
         return [
           _makeFormField(
-            id: id,
             type: type,
             controller: _controllers[id],
-            label: label,
+            element: element,
           )
         ];
       case 'button':
@@ -129,14 +126,22 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     }
   }
 
-  Widget _makeFormField(
-      {required type, required controller, required id, required label}) {
+  Widget _makeFormField({
+    required type,
+    required controller,
+    required element,
+  }) {
     switch (type) {
       case 'input':
+        final id = element['id'];
+        final label = Localization()
+            .getText(localizationKey: element['attributes']['label']);
+
         final validator = _getValidator(id: id);
+        final obscureText = element['attributes']['obscureText'] ?? false;
         final formElements =
             FormElements(controller: controller, validator: validator);
-        return formElements.input(label: label);
+        return formElements.input(label: label, obscureText: obscureText);
     }
 
     throw ('Error in _FormBuilderState#_makeFormField');

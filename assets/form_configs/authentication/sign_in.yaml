@@ -18,6 +18,7 @@ body:
       description: null
       placeholder: null
       value: null
+      obscureText: true
   - row:
       - type: button
         id: submit

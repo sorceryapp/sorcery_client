@@ -8,10 +8,11 @@ class FormElements {
       : _controller = controller,
         _validator = validator;
 
-  Widget input({required String label}) {
+  Widget input({required String label, obscureText}) {
     return TextFormField(
       controller: _controller,
       validator: (value) => _validator(value),
+      obscureText: obscureText,
       decoration: InputDecoration(
         border: const UnderlineInputBorder(),
         labelText: label,
