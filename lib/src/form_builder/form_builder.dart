@@ -38,8 +38,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
   @override
   Widget build(BuildContext context) {
     List<Widget> formWidgets = [];
-    final formMap = widget.blueprint['form'];
-    final formProps = getFormProps(formType: widget.blueprint['formType']);
+    final formMap = widget.blueprint['body'].toList();
+    final formProps = getFormProps(type: widget.blueprint['type']);
     final controllerProvider = ControllerProviders(
         providerName: widget.blueprint['controllerProviderName']);
     final controllerAction = controllerProvider.getAction(
@@ -48,11 +48,9 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    widget.blueprint['form'].keys.forEach((propName) {
+    formMap.forEach((element) {
       List<Widget> widgets = _makeFormWidgets(
-          controllerAction: controllerAction,
-          formMap: formMap,
-          propName: propName);
+          controllerAction: controllerAction, element: element);
       formWidgets = [...formWidgets, ...widgets];
     });
 
@@ -68,68 +66,38 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     );
   }
 
-  List<Widget> _makeFormWidgets(
-      {required controllerAction,
-      required Map<dynamic, dynamic> formMap,
-      required String propName}) {
-    String genericPropName = _makeGenericPropName(propName: propName);
+  List<Widget> _makeFormWidgets({
+    required controllerAction,
+    required element,
+  }) {
+    final type = element['element'] ?? element.keys.toList().first;
 
-    switch (genericPropName) {
-      case 'formFields':
-        List<Widget> widgets = [];
-
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          _makeFormWidgets(
-            controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: 'formField',
-          ).forEach((widget) => widgets.add(widget));
-        }
-
-        return widgets;
-      case 'formField':
-        final name = formMap['name'];
-        final type = formMap['type'];
-        final labelText =
-            Localization().getText(localizationKey: formMap['labelText']);
-
-        _controllers[name] = _makeController(type: type);
+    switch (type) {
+      case 'input':
+        final id = element['id'];
+        final label = Localization().getText(localizationKey: element['label']);
+        _controllers[id] = _makeController(type: type);
 
         return [
           _makeFormField(
-            name: name,
+            id: id,
             type: type,
-            controller: _controllers[name],
-            labelText: labelText,
+            controller: _controllers[id],
+            label: label,
           )
         ];
-      case 'formButtons':
-        List<Widget> widgets = [];
-
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          _makeFormWidgets(
-            controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: 'formButton',
-          ).forEach((widget) => widgets.add(widget));
-        }
-
-        return widgets;
-      case 'formButton':
+      case 'button':
         return [
           _makeFormButton(
-              controllerAction: controllerAction, buttonProps: formMap)
+              controllerAction: controllerAction, buttonProps: element)
         ];
       case 'row':
         List<Widget> widgets = [];
 
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          String subPropName = formMap[propName][i].keys.first;
-
+        for (final element in element['row']) {
           _makeFormWidgets(
             controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: subPropName,
+            element: element,
           ).forEach((widget) => widgets.add(widget));
         }
 
@@ -140,16 +108,16 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           )
         ];
       case 'spacer':
-        return [Spacer(flex: formMap[propName]['flex'])];
+        return [Spacer(flex: element['flex'])];
       case 'link':
         return [
           Link(
-            uri: Uri.parse(formMap[propName]['uri']),
+            uri: Uri.parse(element[type]['uri']),
             builder: (context, followLink) => TextButton(
               onPressed: followLink,
               child: Text(
                 Localization()
-                    .getText(localizationKey: formMap[propName]['target']),
+                    .getText(localizationKey: element[type]['target']),
                 style: const TextStyle(fontSize: 12),
               ),
             ),
@@ -161,20 +129,20 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
   }
 
   Widget _makeFormField(
-      {required type, required controller, required name, required labelText}) {
+      {required type, required controller, required id, required label}) {
     switch (type) {
-      case 'textFormField':
-        final validator = _getValidator(name: name);
+      case 'input':
+        final validator = _getValidator(id: id);
         final formElements =
             FormElements(controller: controller, validator: validator);
-        return formElements.textFormField(labelText: labelText);
+        return formElements.input(label: label);
     }
 
     throw ('Error in _FormBuilderState#_makeFormField');
   }
 
   Widget _makeFormButton({required controllerAction, required buttonProps}) {
-    switch (buttonProps['name']) {
+    switch (buttonProps['id']) {
       case 'submit':
         final callback = ButtonCallbacks(context: context).submit(
           formKey: _formKey,
@@ -219,15 +187,15 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   dynamic _makeController({required type}) {
     switch (type) {
-      case 'textFormField':
+      case 'input':
         return TextEditingController();
     }
 
     throw ('Error in _FormBuilderState#_makeController');
   }
 
-  dynamic _getValidator({required name}) {
-    switch (name) {
+  dynamic _getValidator({required id}) {
+    switch (id) {
       case 'firstName':
         return FormBuilderValidators.required();
       case 'lastName':
@@ -256,11 +224,5 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
       case 'accountVerifyToken':
         return FormBuilderValidators.required();
     }
-  }
-
-  String _makeGenericPropName({required String propName}) {
-    final regex = RegExp('^[a-z]+', caseSensitive: false);
-    final match = regex.firstMatch(propName);
-    return match?.group(0) ?? propName;
   }
 }
