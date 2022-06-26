@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RadioGroup extends StatefulWidget {
-  const RadioGroup({required this.options, Key? key}) : super(key: key);
   final List<dynamic> options;
+  const RadioGroup({required this.options, Key? key}) : super(key: key);
 
   @override
   State<RadioGroup> createState() => _RadioGroupState();
@@ -10,7 +10,6 @@ class RadioGroup extends StatefulWidget {
 
 class _RadioGroupState extends State<RadioGroup> {
   int groupValue = -1;
-  int get getGroupValue => groupValue;
 
   @override
   Widget build(BuildContext context) {
