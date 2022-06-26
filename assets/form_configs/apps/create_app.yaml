@@ -3,37 +3,45 @@ name: create_app
 type: authentication
 controllerProviderName: authControllerProvider
 controllerActionName: signUpWithEmailAndPassword
-form:
-  formFields:
-    - id: name
-      type: input
+body:
+  - type: input
+    id: name
+    attributes:
       label: appFieldName
-    - id: framework
+      description: null
+      placeholder: null
+      value: null
+  - type: radio
+    id: framework
+    attributes:
       label: appFieldFramework
-      type: radioButton
+      description: null
       options:
         - values: Ruby on Rails
         - values: Djano
         - values: AdonisJS
-    - id: type
+  - type: radio
+    id: framework
+    attributes:
       label: appFieldType
-      type: radioButton
+      description: null
       options:
         - values: API
         - values: Monolith
-  row:
-    - formButtons:
-        - id: submit
-          type: primary
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
           text: appButtonCreateNewAppSubmit
           redirectPath: newResource
-          ## redirect to newly created resource
-    - spacer:
+      - type: spacer
         flex: 2
-    - formButtons:
-        - id: cancel
-          type: secondary
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
           text: appButtonCreateNewAppCancel
           redirectPath: /apps
