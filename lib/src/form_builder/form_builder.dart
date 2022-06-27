@@ -173,8 +173,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
             .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().primary(
-          // callback: callback,
-          callback: () => print(_radioGroupValues),
+          callback: callback,
+          // callback: () => print(_radioGroupValues),
           text: text,
           flex: buttonProps['attributes']['flex'],
         );

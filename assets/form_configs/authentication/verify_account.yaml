@@ -1,8 +1,9 @@
 ---
 name: verify_account
-type: authentication
-controllerProviderName: authControllerProvider
-controllerActionName: verifyAccount
+attributes:
+  type: authentication
+  controllerProviderName: authControllerProvider
+  controllerActionName: verifyAccount
 body:
   - type: input
     id: accountVerifyToken

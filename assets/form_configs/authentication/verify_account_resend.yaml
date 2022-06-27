@@ -1,8 +1,9 @@
 ---
 name: verify_account_resend
-type: authentication
-controllerProviderName: authControllerProvider
-controllerActionName: verifyAccountResend
+attributes:
+  type: authentication
+  controllerProviderName: authControllerProvider
+  controllerActionName: verifyAccountResend
 body:
   - type: input
     id: email

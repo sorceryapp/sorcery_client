@@ -1,8 +1,9 @@
 ---
 name: sign_in
-type: authentication
-controllerProviderName: authControllerProvider
-controllerActionName: signInWithEmailAndPassword
+attributes:
+  type: authentication
+  controllerProviderName: authControllerProvider
+  controllerActionName: signInWithEmailAndPassword
 body:
   - type: input
     id: email
