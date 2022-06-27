@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/common_widgets/async_value_widget.dart';
-import 'package:sorcery_desktop_v3/src/features/apps/data/app_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/apps_table.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_controller.dart';
 import 'package:sorcery_desktop_v3/src/routing/router.dart';
 
 class AppsScreen extends ConsumerWidget {

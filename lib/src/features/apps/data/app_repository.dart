@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_client.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_errors.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
@@ -182,18 +182,13 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   }
 }
 
-final appRepositoryProvider = Provider<HttpAppRepository>((ref) {
-  HttpAppRepository appRepository = HttpAppRepository();
-  ref.onDispose(() => appRepository.dispose());
-  return appRepository;
-});
+// final appRepositoryProvider = Provider<HttpAppRepository>((ref) {
+//   HttpAppRepository appRepository = HttpAppRepository();
+//   ref.onDispose(() => appRepository.dispose());
+//   return appRepository;
+// });
 
 // final appStateChangesProvider = StreamProvider.autoDispose<App?>((ref) {
 //   final appRepository = ref.watch(appRepositoryProvider);
 //   return appRepository.appStateChanges();
 // });
-
-final appListFutureProvider = FutureProvider.autoDispose<List<App>>((ref) {
-  final appRepository = ref.watch(appRepositoryProvider);
-  return appRepository.getApps();
-});

@@ -1,23 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_repository.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_state.dart';
 
 class AppController extends StateNotifier<AppState> {
   AppController({required this.appRepository}) : super(AppState());
   final HttpAppRepository appRepository;
 
-  Future<bool> getApps() async {
-    state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(
-      () => _getApps(),
-    );
-
-    state = state.copyWith(value: value);
-    return value.hasError == false;
+  Future<List<App>> getApps() async {
+    return await _getApps();
   }
 
-  Future<void> _getApps() async {
-    await appRepository.getApps();
+  Future<List<App>> _getApps() async {
+    return await appRepository.getApps();
   }
 
   Future<bool> getApp({required Map formData}) async {
@@ -99,9 +94,14 @@ class AppController extends StateNotifier<AppState> {
   }
 }
 
-final appControllerProvider =
-    StateNotifierProvider<AppController, AppState>((ref) {
-  // StateNotifierProvider.autoDispose<AppController, AppState>((ref) {
-  final appRepository = ref.watch(appRepositoryProvider);
-  return AppController(appRepository: appRepository);
+final appControllerProvider = Provider<AppController>((ref) {
+  AppController appController =
+      AppController(appRepository: HttpAppRepository());
+  ref.onDispose(() => appController.dispose());
+  return appController;
+});
+
+final appListFutureProvider = FutureProvider.autoDispose<List<App>>((ref) {
+  final appController = ref.watch(appControllerProvider);
+  return appController.getApps();
 });
