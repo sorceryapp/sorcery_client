@@ -8,7 +8,7 @@ class AppClient extends Client {
   Future<dynamic> getApps() async {
     final jwt = SecureStorage().getJwt();
     // final url = '$baseUrl/api/v1/apps';
-    final url = baseUrl + '/api/v1/apps';
+    final url = '$baseUrl/api/v1/apps';
 
     try {
       return await httpClient.get(
@@ -55,10 +55,10 @@ class AppClient extends Client {
     required int languageId,
     required int frameworkId,
     required int typeId,
-    required Map<dynamic, dynamic> blueprint,
+    Map<dynamic, dynamic> blueprint = const {},
   }) async {
     final jwt = SecureStorage().getJwt();
-    final url = '$baseUrl/apps';
+    final url = '$baseUrl/api/v1/apps';
     final data = json.encode({
       'name': name,
       'language_id': languageId,

@@ -64,7 +64,7 @@ class App {
 
   factory App.fromMap(Map<String, dynamic> map) {
     return App(
-      appId: map['appId'] as int,
+      appId: map['id'] as int,
       name: map['name'] as String,
       languageId: map['languageId'] as int,
       frameworkId: map['frameworkId'] as int,

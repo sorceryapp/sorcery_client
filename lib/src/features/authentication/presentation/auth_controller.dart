@@ -99,7 +99,7 @@ class AuthFormController extends StateNotifier<AuthState> {
   }
 }
 
-final authControllerProvider =
+final authControllerStateNotifierProvider =
     StateNotifierProvider<AuthFormController, AuthState>((ref) {
   // StateNotifierProvider.autoDispose<AuthFormController, AuthState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

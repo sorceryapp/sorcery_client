@@ -21,7 +21,7 @@ class _LogoutFormState extends ConsumerState<LogoutForm> {
   }
 
   _submit() async {
-    final controller = ref.read(authControllerProvider.notifier);
+    final controller = ref.read(authControllerStateNotifierProvider.notifier);
     final success = await controller.logout();
 
     if (success) {
@@ -33,7 +33,7 @@ class _LogoutFormState extends ConsumerState<LogoutForm> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
-      authControllerProvider.select((state) => state.value),
+      authControllerStateNotifierProvider.select((state) => state.value),
       (_, state) => state.showAlertDialogOnError(context),
     );
 

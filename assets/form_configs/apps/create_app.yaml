@@ -2,8 +2,8 @@
 name: create_app
 attributes:
   type: createApp
-  controllerProviderName: authControllerProvider
-  controllerActionName: signUpWithEmailAndPassword
+  controllerStateNotifierProvider: appControllerStateNotifierProvider
+  controllerAction: createApp
 body:
   - type: input
     id: name

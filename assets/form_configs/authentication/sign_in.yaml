@@ -2,8 +2,8 @@
 name: sign_in
 attributes:
   type: authentication
-  controllerProviderName: authControllerProvider
-  controllerActionName: signInWithEmailAndPassword
+  controllerStateNotifierProvider: authControllerStateNotifierProvider
+  controllerAction: signInWithEmailAndPassword
 body:
   - type: input
     id: email

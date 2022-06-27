@@ -8,10 +8,6 @@ class AppController extends StateNotifier<AppState> {
   final HttpAppRepository appRepository;
 
   Future<List<App>> getApps() async {
-    return await _getApps();
-  }
-
-  Future<List<App>> _getApps() async {
     return await appRepository.getApps();
   }
 
@@ -26,26 +22,8 @@ class AppController extends StateNotifier<AppState> {
     await appRepository.getApp(appId: formData['appId']);
   }
 
-  Future<bool> createApp({
-    required Map formData,
-  }) async {
-    state = state.copyWith(value: const AsyncValue.loading());
-    final value = await AsyncValue.guard(() => _createApp(formData: formData));
-
-    state = state.copyWith(value: value);
-    return value.hasError == false;
-  }
-
-  Future<void> _createApp({
-    required Map formData,
-  }) async {
-    await appRepository.createApp(
-      name: formData['name'],
-      languageId: formData['languageId'],
-      frameworkId: formData['frameworkId'],
-      typeId: formData['typeId'],
-      blueprint: formData['blueprint'],
-    );
+  Future<App> createApp({required Map formData}) async {
+    return await appRepository.createApp(formData: formData);
   }
 
   Future<bool> updateApp({
@@ -94,6 +72,12 @@ class AppController extends StateNotifier<AppState> {
   }
 }
 
+final appControllerStateNotifierProvider =
+    StateNotifierProvider.autoDispose<AppController, AppState>((ref) {
+  final appRepository = ref.watch(appRepositoryProvider);
+  return AppController(appRepository: appRepository);
+});
+
 final appControllerProvider = Provider<AppController>((ref) {
   AppController appController =
       AppController(appRepository: HttpAppRepository());
@@ -104,4 +88,10 @@ final appControllerProvider = Provider<AppController>((ref) {
 final appListFutureProvider = FutureProvider.autoDispose<List<App>>((ref) {
   final appController = ref.watch(appControllerProvider);
   return appController.getApps();
+});
+
+final createAppFutureProvider =
+    FutureProvider.autoDispose.family<App?, Map>((ref, formData) {
+  final appController = ref.watch(appControllerProvider);
+  return appController.createApp(formData: formData);
 });

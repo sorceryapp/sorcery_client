@@ -42,13 +42,32 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     List<Widget> widgetList = [];
     final formAttributes = widget.blueprint['attributes'];
     final controllerProvider = ControllerProviders(
-      providerName: formAttributes['controllerProviderName'],
+      providerName: formAttributes['controllerStateNotifierProvider'],
     );
     final controllerAction = controllerProvider.getAction(
       ref: ref,
-      controllerActionName: formAttributes['controllerActionName'],
+      controllerAction: formAttributes['controllerAction'],
     );
     controllerProvider.handleErrors(ref: ref, context: context);
+
+    // List<Widget> widgetList = [];
+    // final formAttributes = widget.blueprint['attributes'];
+    // // final providerType = formAttributes['controllerProvider'] ??
+    // //     formAttributes['controllerStateNotifierProvider'];
+    // // final providerName = formAttributes['controllerAction'] ??
+    // //     formAttributes['controllerProvider'];
+
+    // final controllerProvider = ControllerProviders(
+    //   providerType: formAttributes['controllerProvider'] ??
+    //     formAttributes['controllerStateNotifierProvider'],
+    //   providerName: formAttributes['controllerAction'] ??
+    //     formAttributes['controllerProvider'],
+    // );
+
+    // final controllerAction = controllerProvider.getAction(
+    //   ref: ref,
+    //   controllerAction: formAttributes['controllerAction'],
+    // );
 
     widget.blueprint['body'].toList().forEach((element) {
       List<Widget> widgets = _makeFormWidgets(

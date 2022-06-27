@@ -1,29 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class AppsCreateScreen extends StatelessWidget {
-//   const AppsCreateScreen({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     const SizedBox box = SizedBox(height: 20);
-
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Sorcery')),
-//       body: Center(
-//         child: Column(
-//           children: const [
-//             box,
-//             Text(
-//               'Create App',
-//               style: TextStyle(fontSize: 20),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 // import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_builder.dart';

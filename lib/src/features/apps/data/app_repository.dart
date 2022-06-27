@@ -1,4 +1,4 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_client.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_errors.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
@@ -10,13 +10,7 @@ abstract class AppRepository {
   // Stream<App?> appStateChanges();
   Future<List<App?>?> getApps();
   Future<void> getApp({required String appId});
-  Future<void> createApp({
-    required String name,
-    required int languageId,
-    required int frameworkId,
-    required int typeId,
-    required Map<dynamic, dynamic> blueprint,
-  });
+  Future<App> createApp({required formData});
   Future<void> updateApp({
     required String appId,
     required String name,
@@ -78,26 +72,24 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   }
 
   @override
-  Future<void> createApp(
-      {required String name,
-      required int languageId,
-      required int frameworkId,
-      required int typeId,
-      required Map blueprint}) async {
+  Future<App> createApp({required formData}) async {
     final response = await _appClient.createApp(
-      name: name,
-      languageId: languageId,
-      frameworkId: frameworkId,
-      typeId: typeId,
-      blueprint: blueprint,
+      name: 'Berry Winkle',
+      languageId: 1,
+      frameworkId: 1,
+      typeId: 1,
+      // name: formData['name'],
+      // languageId: formData['languageId'],
+      // frameworkId: formData['frameworkId'],
+      // typeId: formData['typeId'],
+      // blueprint: formData['blueprint'],
     );
     int? statusCode = getHttpStatusCode(response: response);
 
     if (statusCode != null) {
       switch (statusCode) {
         case 200:
-          await _handleSuccess(response: response);
-          break;
+          return _handleCreateAppSuccess(response: response);
         default:
           throw CreateAppError();
       }
@@ -161,32 +153,40 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
     List<App> appList = [];
 
     for (final appMap in response.data['data']) {
-      appList.add(App.fromMap(_updateIdKey(appMap: appMap['attributes'])));
+      // appList.add(App.fromMap(_updateIdKey(appMap: appMap['attributes'])));
+      appList.add(App.fromMap(appMap['attributes']));
     }
 
     return appList;
   }
 
-  Map<String, dynamic> _updateIdKey({required appMap}) {
-    Map<String, dynamic> updatedAppMap = {};
+  App _handleCreateAppSuccess({required response}) {
+    // save new app in local storage
+    return App.fromMap(response.data['data']['attributes']);
 
-    appMap.forEach((k, v) {
-      if (k == 'id') {
-        updatedAppMap['appId'] = v;
-      } else {
-        updatedAppMap[k] = v;
-      }
-    });
-
-    return updatedAppMap;
+    // return App.fromMap(_updateIdKey(appMap: response.data['data']['attributes']));
   }
+
+//   Map<String, dynamic> _updateIdKey({required appMap}) {
+//     Map<String, dynamic> updatedAppMap = {};
+
+//     appMap.forEach((k, v) {
+//       if (k == 'id') {
+//         updatedAppMap['appId'] = v;
+//       } else {
+//         updatedAppMap[k] = v;
+//       }
+//     });
+
+//     return updatedAppMap;
+//   }
 }
 
-// final appRepositoryProvider = Provider<HttpAppRepository>((ref) {
-//   HttpAppRepository appRepository = HttpAppRepository();
-//   ref.onDispose(() => appRepository.dispose());
-//   return appRepository;
-// });
+final appRepositoryProvider = Provider<HttpAppRepository>((ref) {
+  HttpAppRepository appRepository = HttpAppRepository();
+  ref.onDispose(() => appRepository.dispose());
+  return appRepository;
+});
 
 // final appStateChangesProvider = StreamProvider.autoDispose<App?>((ref) {
 //   final appRepository = ref.watch(appRepositoryProvider);

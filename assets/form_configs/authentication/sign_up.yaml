@@ -2,8 +2,8 @@
 name: sign_up
 attributes:
   type: authentication
-  controllerProviderName: authControllerProvider
-  controllerActionName: signUpWithEmailAndPassword
+  controllerStateNotifierProvider: authControllerStateNotifierProvider
+  controllerAction: signUpWithEmailAndPassword
 body:
   - type: input
     id: firstName
