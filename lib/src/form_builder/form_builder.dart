@@ -26,6 +26,7 @@ class FormBuilder extends ConsumerStatefulWidget {
 class _FormBuilderState extends ConsumerState<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
+  final Map _radioGroupValues = {};
 
   @override
   void dispose() {
@@ -38,30 +39,31 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> formWidgets = [];
-    final formMap = widget.blueprint['body'].toList();
-    final formProps = getFormProps(type: widget.blueprint['type']);
+    List<Widget> widgetList = [];
+    final formAttributes = widget.blueprint['attributes'];
     final controllerProvider = ControllerProviders(
-        providerName: widget.blueprint['controllerProviderName']);
+      providerName: formAttributes['controllerProviderName'],
+    );
     final controllerAction = controllerProvider.getAction(
       ref: ref,
-      controllerActionName: widget.blueprint['controllerActionName'],
+      controllerActionName: formAttributes['controllerActionName'],
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    formMap.forEach((element) {
+    widget.blueprint['body'].toList().forEach((element) {
       List<Widget> widgets = _makeFormWidgets(
           controllerAction: controllerAction, element: element);
-      formWidgets = [...formWidgets, ...widgets];
+      widgetList = [...widgetList, ...widgets];
     });
 
     return Form(
       key: _formKey,
       child: SizedBox(
-        width: formProps['width'].toDouble(),
+        width: getFormProps(type: formAttributes['type'])['width']
+            .toDouble(), // TODO i don't like this
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: formWidgets,
+          children: widgetList,
         ),
       ),
     );
@@ -75,22 +77,26 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
     switch (type) {
       case 'input':
-        final id = element['id'];
-        _controllers[id] = _makeController(type: type);
+        _controllers[element['id']] = _makeController(type: type);
 
         return [
           _makeFormField(
             type: type,
-            controller: _controllers[id],
+            controller: _controllers[element['id']],
             element: element,
           )
         ];
       case 'radio':
-        List<Widget> widgets = [];
-        List<dynamic> options = element['attributes']['options'].toList();
-        RadioGroup radioGroup = RadioGroup(options: options);
-        widgets.add(radioGroup);
-        return widgets;
+        _radioGroupValues[element['id']] =
+            element['attributes']['defaultValue'];
+
+        return [
+          RadioGroup(
+            id: element['id'],
+            groupValues: _radioGroupValues,
+            options: element['attributes']['options'].toList(),
+          )
+        ];
       case 'button':
         return [
           _makeFormButton(
@@ -167,7 +173,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
             .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().primary(
-          callback: callback,
+          // callback: callback,
+          callback: () => print(_radioGroupValues),
           text: text,
           flex: buttonProps['attributes']['flex'],
         );

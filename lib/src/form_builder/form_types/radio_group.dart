@@ -1,16 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class RadioGroup extends StatefulWidget {
+  final String id;
+  final dynamic groupValues;
   final List<dynamic> options;
-  const RadioGroup({required this.options, Key? key}) : super(key: key);
+  const RadioGroup({
+    Key? key,
+    required this.id,
+    required this.options,
+    required this.groupValues,
+  }) : super(key: key);
 
   @override
   State<RadioGroup> createState() => _RadioGroupState();
 }
 
 class _RadioGroupState extends State<RadioGroup> {
-  int groupValue = -1;
-
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
@@ -19,8 +25,9 @@ class _RadioGroupState extends State<RadioGroup> {
       widgets.add(
         _makeRadioButton(
             title: option['name'],
-            value: option['id'],
-            onChanged: (newValue) => setState(() => groupValue = newValue)),
+            value: option['value'],
+            onChanged: (newValue) =>
+                setState(() => widget.groupValues[widget.id] = newValue)),
       );
     }
 
@@ -34,7 +41,7 @@ class _RadioGroupState extends State<RadioGroup> {
   }) {
     return RadioListTile(
       title: Text(title),
-      groupValue: groupValue,
+      groupValue: widget.groupValues[widget.id],
       value: value,
       onChanged: onChanged,
     );
