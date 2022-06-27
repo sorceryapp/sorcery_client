@@ -1,8 +1,9 @@
 ---
 name: create_app
-type: authentication
-controllerProviderName: authControllerProvider
-controllerActionName: signUpWithEmailAndPassword
+attributes:
+  type: createApp
+  controllerProviderName: authControllerProvider
+  controllerActionName: signUpWithEmailAndPassword
 body:
   - type: input
     id: name
@@ -16,23 +17,25 @@ body:
     attributes:
       label: appRadioFramework
       description: null
+      defaultValue: 1
       options:
         - name: Ruby on Rails
-          id: 1
-        - name: Djano
-          id: 2
+          value: 1
+        - name: Django
+          value: 2
         - name: AdonisJS
-          id: 3
+          value: 3
   - type: radio
-    id: framework
+    id: type
     attributes:
       label: appFieldType
       description: null
+      defaultValue: 2
       options:
         - name: API
-          id: 2
+          value: 2
         - name: Monolith
-          id: 3
+          value: 3
   - row:
       - type: button
         id: submit
