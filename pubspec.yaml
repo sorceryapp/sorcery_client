@@ -75,13 +75,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   generate: true
-  assets:
-    - assets/form_configs/authentication/sign_up.yaml
-    - assets/form_configs/authentication/sign_in.yaml
-    - assets/form_configs/authentication/reset_password.yaml
-    - assets/form_configs/authentication/verify_account.yaml
-    - assets/form_configs/authentication/verify_account_resend.yaml
-    - assets/form_configs/apps/create_app.yaml
 
 flutter_intl:
   enabled: true
