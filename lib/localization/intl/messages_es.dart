@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountButtonCancel": MessageLookupByLibrary.simpleMessage("cancelar"),
         "accountButtonLogout":
             MessageLookupByLibrary.simpleMessage("cerrar sesión"),
-        "accountButtonResendVerifyAccountEmail":
+        "accountButtonVerifyAccountResend":
             MessageLookupByLibrary.simpleMessage("reenviar"),
         "accountButtonResetPassword":
             MessageLookupByLibrary.simpleMessage("reiniciar"),

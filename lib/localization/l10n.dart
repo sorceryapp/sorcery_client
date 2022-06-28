@@ -262,10 +262,10 @@ class SorceryLocalizations {
   }
 
   /// `resend`
-  String get accountButtonResendVerifyAccountEmail {
+  String get accountButtonVerifyAccountResend {
     return Intl.message(
       'resend',
-      name: 'accountButtonResendVerifyAccountEmail',
+      name: 'accountButtonVerifyAccountResend',
       desc: 'text for the resend verify account email button',
       args: [],
     );

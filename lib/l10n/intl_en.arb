@@ -85,8 +85,8 @@
   "@accountButtonVerifyAccount": {
     "description": "text for the verify account button"
   },
-  "accountButtonResendVerifyAccountEmail": "resend",
-  "@accountButtonResendVerifyAccountEmail": {
+  "accountButtonVerifyAccountResend": "resend",
+  "@accountButtonVerifyAccountResend": {
     "description": "text for the resend verify account email button"
   },
   "accountButtonResetPassword": "reset",

@@ -21,9 +21,8 @@ class Localization {
         return SorceryLocalizations.current.accountButtonSignUp;
       case 'accountButtonSignIn':
         return SorceryLocalizations.current.accountButtonSignIn;
-      case 'accountButtonResendVerifyAccountEmail':
-        return SorceryLocalizations
-            .current.accountButtonResendVerifyAccountEmail;
+      case 'accountButtonVerifyAccountResend':
+        return SorceryLocalizations.current.accountButtonVerifyAccountResend;
       case 'accountButtonVerifyAccount':
         return SorceryLocalizations.current.accountButtonVerifyAccount;
       case 'accountButtonCancel':

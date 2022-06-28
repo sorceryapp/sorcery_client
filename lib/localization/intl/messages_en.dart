@@ -38,7 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accountButtonCancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "accountButtonLogout": MessageLookupByLibrary.simpleMessage("logout"),
-        "accountButtonResendVerifyAccountEmail":
+        "accountButtonVerifyAccountResend":
             MessageLookupByLibrary.simpleMessage("resend"),
         "accountButtonResetPassword":
             MessageLookupByLibrary.simpleMessage("reset"),

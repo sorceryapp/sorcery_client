@@ -22,7 +22,7 @@
   "accountButtonLogout": "cerrar sesión",
   "accountButtonCancel": "cancelar",
   "accountButtonVerifyAccount": "verificar",
-  "accountButtonResendVerifyAccountEmail": "reenviar",
+  "accountButtonVerifyAccountResend": "reenviar",
   "accountButtonResetPassword": "reiniciar",
   "requiredErrorText": "Este campo no puede estar vacío.",
   "@requiredErrorText": {
