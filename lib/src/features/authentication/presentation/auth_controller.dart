@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
-import 'package:sorcery_desktop_v3/src/features/authentication/presentation/sign_up_state.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/auth_state.dart';
 
-class AuthFormController extends StateNotifier<SignUpState> {
-  AuthFormController({required this.authRepository}) : super(SignUpState());
+class AuthFormController extends StateNotifier<AuthState> {
+  AuthFormController({required this.authRepository}) : super(AuthState());
   final HttpAuthRepository authRepository;
 
   Future<bool> signUpWithEmailAndPassword({
@@ -99,9 +99,9 @@ class AuthFormController extends StateNotifier<SignUpState> {
   }
 }
 
-final authControllerProvider =
-    StateNotifierProvider<AuthFormController, SignUpState>((ref) {
-  // StateNotifierProvider.autoDispose<AuthFormController, SignUpState>((ref) {
+final authControllerStateNotifierProvider =
+    StateNotifierProvider<AuthFormController, AuthState>((ref) {
+  // StateNotifierProvider.autoDispose<AuthFormController, AuthState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return AuthFormController(authRepository: authRepository);
 });

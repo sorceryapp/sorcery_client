@@ -6,6 +6,7 @@ import 'package:sorcery_desktop_v3/src/form_builder/controller_providers.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_elements.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_buttons.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/form_props.dart';
+import 'package:sorcery_desktop_v3/src/form_builder/form_types/radio_group.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/localization.dart';
 import 'package:sorcery_desktop_v3/src/form_builder/validators/validators.dart';
 import 'package:url_launcher/link.dart';
@@ -25,7 +26,7 @@ class FormBuilder extends ConsumerStatefulWidget {
 class _FormBuilderState extends ConsumerState<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
-  List<Widget> formWidgets = [];
+  final Map _radioGroupValues = {};
 
   @override
   void dispose() {
@@ -38,98 +39,95 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    final formMap = widget.blueprint['form'];
-    final formProps = getFormProps(formType: widget.blueprint['formType']);
+    List<Widget> widgetList = [];
+    final formAttributes = widget.blueprint['attributes'];
     final controllerProvider = ControllerProviders(
-        providerName: widget.blueprint['controllerProviderName']);
+      providerName: formAttributes['controllerStateNotifierProvider'],
+    );
     final controllerAction = controllerProvider.getAction(
       ref: ref,
-      controllerActionName: widget.blueprint['controllerActionName'],
+      controllerAction: formAttributes['controllerAction'],
     );
     controllerProvider.handleErrors(ref: ref, context: context);
 
-    formMap.keys.forEach((propName) {
+    // List<Widget> widgetList = [];
+    // final formAttributes = widget.blueprint['attributes'];
+    // // final providerType = formAttributes['controllerProvider'] ??
+    // //     formAttributes['controllerStateNotifierProvider'];
+    // // final providerName = formAttributes['controllerAction'] ??
+    // //     formAttributes['controllerProvider'];
+
+    // final controllerProvider = ControllerProviders(
+    //   providerType: formAttributes['controllerProvider'] ??
+    //     formAttributes['controllerStateNotifierProvider'],
+    //   providerName: formAttributes['controllerAction'] ??
+    //     formAttributes['controllerProvider'],
+    // );
+
+    // final controllerAction = controllerProvider.getAction(
+    //   ref: ref,
+    //   controllerAction: formAttributes['controllerAction'],
+    // );
+
+    widget.blueprint['body'].toList().forEach((element) {
       List<Widget> widgets = _makeFormWidgets(
-          controllerAction: controllerAction,
-          formMap: formMap,
-          propName: propName);
-      formWidgets = [...formWidgets, ...widgets];
+          controllerAction: controllerAction, element: element);
+      widgetList = [...widgetList, ...widgets];
     });
 
     return Form(
       key: _formKey,
       child: SizedBox(
-        width: formProps['width'].toDouble(),
+        width: getFormProps(type: formAttributes['type'])['width']
+            .toDouble(), // TODO i don't like this
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: formWidgets,
+          children: widgetList,
         ),
       ),
     );
   }
 
-  List<Widget> _makeFormWidgets(
-      {required controllerAction,
-      required Map<dynamic, dynamic> formMap,
-      required String propName}) {
-    String genericPropName = _makeGenericPropName(propName: propName);
+  List<Widget> _makeFormWidgets({
+    required controllerAction,
+    required element,
+  }) {
+    final type = element['type'] ?? element.keys.toList().first;
 
-    switch (genericPropName) {
-      case 'formFields':
-        List<Widget> widgets = [];
-
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          _makeFormWidgets(
-            controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: 'formField',
-          ).forEach((widget) => widgets.add(widget));
-        }
-
-        return widgets;
-      case 'formField':
-        final name = formMap['name'];
-        final type = formMap['type'];
-        final labelText =
-            Localization().getText(localizationKey: formMap['labelText']);
-
-        _controllers[name] = _makeController(type: type);
+    switch (type) {
+      case 'input':
+        _controllers[element['id']] = _makeController(type: type);
 
         return [
           _makeFormField(
-            name: name,
             type: type,
-            controller: _controllers[name],
-            labelText: labelText,
+            controller: _controllers[element['id']],
+            element: element,
           )
         ];
-      case 'formButtons':
-        List<Widget> widgets = [];
+      case 'radio':
+        _radioGroupValues[element['id']] =
+            element['attributes']['defaultValue'];
 
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          _makeFormWidgets(
-            controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: 'formButton',
-          ).forEach((widget) => widgets.add(widget));
-        }
-
-        return widgets;
-      case 'formButton':
+        return [
+          RadioGroup(
+            id: element['id'],
+            groupValues: _radioGroupValues,
+            options: element['attributes']['options'].toList(),
+          )
+        ];
+      case 'button':
         return [
           _makeFormButton(
-              controllerAction: controllerAction, buttonProps: formMap)
+              controllerAction: controllerAction, buttonProps: element)
         ];
       case 'row':
         List<Widget> widgets = [];
 
-        for (int i = 0; i < formMap[propName].length; i += 1) {
-          String subPropName = formMap[propName][i].keys.first;
-
+        for (final element in element['row']) {
           _makeFormWidgets(
             controllerAction: controllerAction,
-            formMap: formMap[propName][i],
-            propName: subPropName,
+            element: element,
           ).forEach((widget) => widgets.add(widget));
         }
 
@@ -140,16 +138,16 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
           )
         ];
       case 'spacer':
-        return [Spacer(flex: formMap[propName]['flex'])];
+        return [Spacer(flex: element['flex'])];
       case 'link':
         return [
           Link(
-            uri: Uri.parse(formMap[propName]['uri']),
+            uri: Uri.parse(element['attributes']['uri']),
             builder: (context, followLink) => TextButton(
               onPressed: followLink,
               child: Text(
                 Localization()
-                    .getText(localizationKey: formMap[propName]['target']),
+                    .getText(localizationKey: element['attributes']['target']),
                 style: const TextStyle(fontSize: 12),
               ),
             ),
@@ -160,47 +158,56 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
     }
   }
 
-  Widget _makeFormField(
-      {required type, required controller, required name, required labelText}) {
+  Widget _makeFormField({
+    required type,
+    required controller,
+    required element,
+  }) {
     switch (type) {
-      case 'textFormField':
-        final validator = _getValidator(name: name);
+      case 'input':
+        final id = element['id'];
+        final label = Localization()
+            .getText(localizationKey: element['attributes']['label']);
+
+        final validator = _getValidator(id: id);
+        final obscureText = element['attributes']['obscureText'] ?? false;
         final formElements =
             FormElements(controller: controller, validator: validator);
-        return formElements.textFormField(labelText: labelText);
+        return formElements.input(label: label, obscureText: obscureText);
     }
 
     throw ('Error in _FormBuilderState#_makeFormField');
   }
 
   Widget _makeFormButton({required controllerAction, required buttonProps}) {
-    switch (buttonProps['name']) {
+    switch (buttonProps['id']) {
       case 'submit':
         final callback = ButtonCallbacks(context: context).submit(
           formKey: _formKey,
           getFormData: _getFormData,
           controllerAction: controllerAction,
-          redirectPath: buttonProps['redirectPath'],
+          redirectPath: buttonProps['attributes']['redirectPath'],
         );
-        final text =
-            Localization().getText(localizationKey: buttonProps['text']);
+        final text = Localization()
+            .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().primary(
           callback: callback,
+          // callback: () => print(_radioGroupValues),
           text: text,
-          flex: buttonProps['flex'],
+          flex: buttonProps['attributes']['flex'],
         );
       case 'cancel':
         final callback = ButtonCallbacks(context: context).cancel(
-          redirectPath: buttonProps['redirectPath'],
+          redirectPath: buttonProps['attributes']['redirectPath'],
         );
-        final text =
-            Localization().getText(localizationKey: buttonProps['text']);
+        final text = Localization()
+            .getText(localizationKey: buttonProps['attributes']['text']);
 
         return FormButtons().secondary(
           callback: callback,
           text: text,
-          flex: buttonProps['flex'],
+          flex: buttonProps['attributes']['flex'],
         );
       default:
         throw ('Error: error in _FormBuilderState#_makeFormButton');
@@ -219,15 +226,15 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
 
   dynamic _makeController({required type}) {
     switch (type) {
-      case 'textFormField':
+      case 'input':
         return TextEditingController();
     }
 
     throw ('Error in _FormBuilderState#_makeController');
   }
 
-  dynamic _getValidator({required name}) {
-    switch (name) {
+  dynamic _getValidator({required id}) {
+    switch (id) {
       case 'firstName':
         return FormBuilderValidators.required();
       case 'lastName':
@@ -255,12 +262,8 @@ class _FormBuilderState extends ConsumerState<FormBuilder> {
         ]);
       case 'accountVerifyToken':
         return FormBuilderValidators.required();
+      case 'name':
+        return FormBuilderValidators.required();
     }
-  }
-
-  String _makeGenericPropName({required String propName}) {
-    final regex = RegExp('^[a-z]+', caseSensitive: false);
-    final match = regex.firstMatch(propName);
-    return match?.group(0) ?? propName;
   }
 }

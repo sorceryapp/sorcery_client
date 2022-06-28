@@ -56,6 +56,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("password"),
         "accountFieldVerifyToken":
             MessageLookupByLibrary.simpleMessage("token"),
+        "appButtonCreateNewAppCancel":
+            MessageLookupByLibrary.simpleMessage("cancel"),
+        "appButtonCreateNewAppSubmit":
+            MessageLookupByLibrary.simpleMessage("create app"),
+        "appButtonNewApp": MessageLookupByLibrary.simpleMessage("New App"),
+        "appInputName": MessageLookupByLibrary.simpleMessage("name"),
+        "appRadioFramework": MessageLookupByLibrary.simpleMessage("framework"),
+        "appRadioType": MessageLookupByLibrary.simpleMessage("type"),
         "creditCardErrorText": MessageLookupByLibrary.simpleMessage(
             "This field requires a valid credit card number."),
         "dateStringErrorText": MessageLookupByLibrary.simpleMessage(

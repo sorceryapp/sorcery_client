@@ -1,28 +1,39 @@
 ---
-formName: 'sign_in'
-formType: authentication
-controllerProviderName: 'authControllerProvider'
-controllerActionName: 'signInWithEmailAndPassword'
-form:
-  formFields:
-    - name: 'email'
-      type: 'textFormField'
-      labelText: 'accountFieldEmailAddress'
-    - name: 'password'
-      type: 'textFormField'
-      labelText: 'accountFieldPassword'
-  row:
-    - formButtons:
-        - name: 'submit'
-          type: 'primary'
+name: sign_in
+attributes:
+  type: authentication
+  controllerStateNotifierProvider: authControllerStateNotifierProvider
+  controllerAction: signInWithEmailAndPassword
+body:
+  - type: input
+    id: email
+    attributes:
+      label: accountFieldEmailAddress
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: password
+    attributes:
+      label: accountFieldPassword
+      description: null
+      placeholder: null
+      value: null
+      obscureText: true
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
-          text: 'accountButtonSignIn'
-          redirectPath: '/'
-    - spacer:
+          text: accountButtonSignIn
+          redirectPath: /
+      - type: spacer
         flex: 2
-    - formButtons:
-        - name: 'cancel'
-          type: 'secondary'
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
-          text: 'accountButtonCancel'
-          redirectPath: '/'
+          text: accountButtonCancel
+          redirectPath: /

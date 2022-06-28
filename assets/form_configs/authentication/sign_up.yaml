@@ -1,37 +1,61 @@
 ---
-formName: 'sign_up'
-formType: authentication
-controllerProviderName: 'authControllerProvider'
-controllerActionName: 'signUpWithEmailAndPassword'
-form:
-  formFields:
-    - name: 'firstName'
-      type: 'textFormField'
-      labelText: 'accountFieldFirstName'
-    - name: 'lastName'
-      type: 'textFormField'
-      labelText: 'accountFieldLastName'
-    - name: 'email'
-      type: 'textFormField'
-      labelText: 'accountFieldEmailAddress'
-    - name: 'password'
-      type: 'textFormField'
-      labelText: 'accountFieldPassword'
-    - name: 'confirmPassword'
-      type: 'textFormField'
-      labelText: 'accountFieldConfirmPassword'
-  row:
-    - formButtons:
-        - name: 'submit'
-          type: 'primary'
+name: sign_up
+attributes:
+  type: authentication
+  controllerStateNotifierProvider: authControllerStateNotifierProvider
+  controllerAction: signUpWithEmailAndPassword
+body:
+  - type: input
+    id: firstName
+    attributes:
+      label: accountFieldFirstName
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: lastName
+    attributes:
+      label: accountFieldLastName
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: email
+    attributes:
+      label: accountFieldEmailAddress
+      description: null
+      placeholder: null
+      value: null
+  - type: input
+    id: password
+    attributes:
+      label: accountFieldPassword
+      description: null
+      placeholder: null
+      value: null
+      obscureText: true
+  - type: input
+    id: confirmPassword
+    attributes:
+      label: accountFieldConfirmPassword
+      description: null
+      placeholder: null
+      value: null
+      obscureText: true
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
-          text: 'accountButtonSignUp'
-          redirectPath: '/verifyAccount'
-    - spacer:
+          text: accountButtonSignUp
+          redirectPath: /verifyAccount
+      - type: spacer
         flex: 2
-    - formButtons:
-        - name: 'cancel'
-          type: 'secondary'
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
-          text: 'accountButtonCancel'
-          redirectPath: '/'
+          text: accountButtonCancel
+          redirectPath: /

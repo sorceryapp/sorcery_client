@@ -1,5 +1,5 @@
-Map<dynamic, dynamic> getFormProps({required String formType}) {
-  switch (formType) {
+Map<dynamic, dynamic> getFormProps({required String type}) {
+  switch (type) {
     case 'authentication':
       return {
         'width': 350,

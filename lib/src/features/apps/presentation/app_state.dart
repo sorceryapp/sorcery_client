@@ -1,30 +1,28 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpState {
-  SignUpState({
+class AppState {
+  final AsyncValue<void> value;
+  AppState({
     this.value = const AsyncValue.data(null),
   });
-  final AsyncValue<void> value;
 
-  bool get isLoading => value.isLoading;
-
-  SignUpState copyWith({
+  AppState copyWith({
     AsyncValue<void>? value,
   }) {
-    return SignUpState(
+    return AppState(
       value: value ?? this.value,
     );
   }
 
   @override
-  String toString() => 'SignUpState(value: $value)';
+  String toString() => 'AppState(value: $value)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is SignUpState && other.value == value;
+    return other is AppState && other.value == value;
   }
 
   @override

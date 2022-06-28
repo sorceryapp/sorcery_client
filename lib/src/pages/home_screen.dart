@@ -5,9 +5,8 @@ import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/logout_form.dart';
+import 'package:sorcery_desktop_v3/src/routing/router.dart';
 import 'package:url_launcher/link.dart';
-
-import '../routing/router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -96,6 +95,17 @@ class UnauthenticatedContent extends StatelessWidget {
           Text(
             '${SorceryLocalizations.current.homePageTitleUnauthenticated} Sorcery',
             style: const TextStyle(fontSize: 20),
+          ),
+          box,
+          Link(
+            uri: Uri.parse('/apps'),
+            builder: (context, followLink) => TextButton(
+              onPressed: followLink,
+              child: const Text(
+                'Apps',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
           ),
           box,
           ElevatedButton(

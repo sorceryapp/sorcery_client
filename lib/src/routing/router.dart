@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/create/apps_create_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_show_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_update_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/apps_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_resend_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/presentation/reset_password_screen.dart';
@@ -16,6 +20,10 @@ enum AppRoute {
   verifyAccount,
   requestVerifyAccountResend,
   resetPassword,
+  apps,
+  appsShow,
+  appsCreate,
+  appsUpdate,
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -94,6 +102,36 @@ final routerProvider = Provider<GoRouter>((ref) {
               fullscreenDialog: true,
               child: const ResetPasswordScreen(),
             ),
+          ),
+          GoRoute(
+            path: 'apps',
+            name: AppRoute.apps.name,
+            builder: (context, state) => const AppsScreen(),
+            routes: [
+              GoRoute(
+                path: 'create',
+                name: AppRoute.appsCreate.name,
+                builder: (context, state) => const AppsCreateScreen(),
+              ),
+              GoRoute(
+                path: ':a_id',
+                name: AppRoute.appsShow.name,
+                builder: (context, state) {
+                  final appId = state.params['a_id']!;
+                  return AppsShowScreen(appId: appId);
+                },
+                routes: [
+                  GoRoute(
+                    path: 'update',
+                    name: AppRoute.appsUpdate.name,
+                    builder: (context, state) {
+                      final appId = state.params['a_id']!;
+                      return AppsUpdateScreen(appId: appId);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

@@ -1,28 +1,36 @@
 ---
-formName: 'verify_account'
-formType: authentication
-controllerProviderName: 'authControllerProvider'
-controllerActionName: 'verifyAccount'
-form:
-  formFields:
-    - name: 'accountVerifyToken'
-      type: 'textFormField'
-      labelText: 'accountFieldVerifyToken'
-  row:
-    - formButtons:
-        - name: 'submit'
-          type: 'primary'
+name: verify_account
+attributes:
+  type: authentication
+  controllerStateNotifierProvider: authControllerStateNotifierProvider
+  controllerAction: verifyAccount
+body:
+  - type: input
+    id: accountVerifyToken
+    attributes:
+      label: accountFieldVerifyToken
+      description: null
+      placeholder: null
+      value: null
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
           flex: 10
-          text: 'accountButtonVerifyAccount'
-          redirectPath: '/'
-    - spacer:
+          text: accountButtonVerifyAccount
+          redirectPath: /
+      - type: spacer
         flex: 2
-    - formButtons:
-        - name: 'cancel'
-          type: 'secondary'
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
           flex: 10
-          text: 'accountButtonCancel'
-          redirectPath: '/'
-  link:
-    uri: '/requestVerifyAccountResend'
-    target: 'resendVerifyAccountTextLink'
+          text: accountButtonCancel
+          redirectPath: /
+  - type: link
+    id: requestVerifyAccountResendLink
+    attributes:
+      uri: /requestVerifyAccountResend
+      target: resendVerifyAccountTextLink

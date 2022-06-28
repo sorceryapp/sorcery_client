@@ -1,0 +1,55 @@
+---
+name: create_app
+attributes:
+  type: createApp
+  controllerStateNotifierProvider: appControllerStateNotifierProvider
+  controllerAction: createApp
+body:
+  - type: input
+    id: name
+    attributes:
+      label: appInputName
+      description: null
+      placeholder: null
+      value: null
+  - type: radio
+    id: framework
+    attributes:
+      label: appRadioFramework
+      description: null
+      defaultValue: 1
+      options:
+        - name: Ruby on Rails
+          value: 1
+        - name: Django
+          value: 2
+        - name: AdonisJS
+          value: 3
+  - type: radio
+    id: type
+    attributes:
+      label: appFieldType
+      description: null
+      defaultValue: 2
+      options:
+        - name: API
+          value: 2
+        - name: Monolith
+          value: 3
+  - row:
+      - type: button
+        id: submit
+        attributes:
+          class: primary
+          flex: 10
+          text: appButtonCreateNewAppSubmit
+          redirectPath: newResource
+      - type: spacer
+        flex: 2
+      - type: button
+        id: cancel
+        attributes:
+          class: secondary
+          flex: 10
+          text: appButtonCreateNewAppCancel
+          redirectPath: /apps
