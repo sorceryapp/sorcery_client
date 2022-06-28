@@ -2,6 +2,7 @@ import 'package:sorcery_desktop_v3/localization/l10n.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/reset_password_form.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class _ResetPasswordScreen extends ConsumerState<ResetPasswordScreen> {
               SorceryLocalizations.current.resetPasswordPageTitle,
               style: const TextStyle(fontSize: 20),
             ),
+            box,
+            const ResetPasswordForm(),
           ],
         ),
       ),
