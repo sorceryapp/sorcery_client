@@ -33,7 +33,10 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                     labelText:
                         SorceryLocalizations.current.accountFieldEmailAddress,
                   ),
-                  validator: FormBuilderValidators.required(),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.email(),
+                  ]),
                   keyboardType: TextInputType.number,
                 ),
                 FormBuilderTextField(
@@ -43,7 +46,10 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                         SorceryLocalizations.current.accountFieldPassword,
                   ),
                   obscureText: true,
-                  validator: FormBuilderValidators.required(),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(8),
+                  ]),
                   keyboardType: TextInputType.number,
                 ),
                 Row(
