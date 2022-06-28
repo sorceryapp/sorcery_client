@@ -29,7 +29,7 @@ class SignIn extends StatelessWidget {
               style: const TextStyle(fontSize: 20),
             ),
             box,
-            SignInForm(),
+            const SignInForm(),
           ],
         ),
       ),
