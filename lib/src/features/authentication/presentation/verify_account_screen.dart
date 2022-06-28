@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/localization/l10n.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
+import 'package:sorcery_desktop_v3/src/features/authentication/presentation/verify_account_form.dart';
 
 class VerifyAccountScreen extends ConsumerStatefulWidget {
   const VerifyAccountScreen({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _VerifyAccountScreen extends ConsumerState<VerifyAccountScreen> {
               style: const TextStyle(fontSize: 20),
             ),
             box,
+            const VerifyAccountForm(),
           ],
         ),
       ),
