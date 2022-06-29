@@ -44,12 +44,7 @@ class AppController extends StateNotifier<AppState> {
     required Map formData,
   }) async {
     await appRepository.updateApp(
-      appId: formData['appId'],
-      name: formData['name'],
-      languageId: formData['languageId'],
-      frameworkId: formData['frameworkId'],
-      typeId: formData['typeId'],
-      blueprint: formData['blueprint'],
+      formData: formData,
     );
   }
 

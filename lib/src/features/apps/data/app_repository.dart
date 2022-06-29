@@ -11,14 +11,7 @@ abstract class AppRepository {
   Future<List<App?>?> getApps();
   Future<void> getApp({required String appId});
   Future<App> createApp({required formData});
-  Future<void> updateApp({
-    required String appId,
-    required String name,
-    required int languageId,
-    required int frameworkId,
-    required int typeId,
-    required Map<dynamic, dynamic> blueprint,
-  });
+  Future<void> updateApp({required formData});
   Future<void> deleteApp({required String appId});
 }
 
@@ -74,15 +67,10 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   @override
   Future<App> createApp({required formData}) async {
     final response = await _appClient.createApp(
-      name: 'Berry Winkle',
-      languageId: 1,
-      frameworkId: 1,
-      typeId: 1,
-      // name: formData['name'],
-      // languageId: formData['languageId'],
-      // frameworkId: formData['frameworkId'],
-      // typeId: formData['typeId'],
-      // blueprint: formData['blueprint'],
+      name: formData['name'],
+      frameworkId: formData['frameworkId'],
+      typeId: formData['typeId'],
+      path: formData['path'],
     );
     int? statusCode = getHttpStatusCode(response: response);
 
@@ -99,20 +87,14 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   }
 
   @override
-  Future<void> updateApp(
-      {required String appId,
-      required String name,
-      required int languageId,
-      required int frameworkId,
-      required int typeId,
-      required Map blueprint}) async {
+  Future<void> updateApp({required formData}) async {
     final response = await _appClient.updateApp(
-      appId: appId,
-      name: name,
-      languageId: languageId,
-      frameworkId: frameworkId,
-      typeId: typeId,
-      blueprint: blueprint,
+      appId: formData['appId'],
+      name: formData['name'],
+      frameworkId: formData['frameworkId'],
+      typeId: formData['typeId'],
+      path: formData['path'],
+      blueprint: formData['blueprint'],
     );
     int? statusCode = getHttpStatusCode(response: response);
 
@@ -153,7 +135,6 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
     List<App> appList = [];
 
     for (final appMap in response.data['data']) {
-      // appList.add(App.fromMap(_updateIdKey(appMap: appMap['attributes'])));
       appList.add(App.fromMap(appMap['attributes']));
     }
 
@@ -163,23 +144,7 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   App _handleCreateAppSuccess({required response}) {
     // save new app in local storage
     return App.fromMap(response.data['data']['attributes']);
-
-    // return App.fromMap(_updateIdKey(appMap: response.data['data']['attributes']));
   }
-
-//   Map<String, dynamic> _updateIdKey({required appMap}) {
-//     Map<String, dynamic> updatedAppMap = {};
-
-//     appMap.forEach((k, v) {
-//       if (k == 'id') {
-//         updatedAppMap['appId'] = v;
-//       } else {
-//         updatedAppMap[k] = v;
-//       }
-//     });
-
-//     return updatedAppMap;
-//   }
 }
 
 final appRepositoryProvider = Provider<HttpAppRepository>((ref) {

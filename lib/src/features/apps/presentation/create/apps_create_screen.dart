@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/create/create_app_form.dart';
 // import 'package:sorcery_desktop_v3/localization/l10n.dart';
 
 class AppsCreateScreen extends StatelessWidget {
@@ -21,14 +22,15 @@ class CreateApp extends StatelessWidget {
       appBar: AppBar(title: const Text('Sorcery')),
       body: Center(
         child: Column(
-          children: [
+          children: const [
             box,
             Text(
               'Create App',
               // SorceryLocalizations.current.signInPageTitle,
-              style: const TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20),
             ),
             box,
+            CreateAppForm(),
           ],
         ),
       ),
