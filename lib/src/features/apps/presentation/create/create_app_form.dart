@@ -39,8 +39,9 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                 ),
                 FormBuilderRadioGroup(
                   name: 'framework',
-                  decoration:
-                      const InputDecoration(labelText: 'Choose a Framework'),
+                  decoration: InputDecoration(
+                    labelText: SorceryLocalizations.current.appRadioFramework,
+                  ),
                   validator: FormBuilderValidators.required(),
                   options: [
                     ...appAttributes['app']!['framework']!['idToName']!
@@ -55,7 +56,9 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                 ),
                 FormBuilderRadioGroup(
                   name: 'type',
-                  decoration: const InputDecoration(labelText: 'Choose a type'),
+                  decoration: InputDecoration(
+                    labelText: SorceryLocalizations.current.appRadioType,
+                  ),
                   validator: FormBuilderValidators.required(),
                   options: [
                     ...appAttributes['app']!['type']!['idToName']!
@@ -70,7 +73,7 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                 FormBuilderTextField(
                   name: 'path',
                   decoration: InputDecoration(
-                    labelText: 'path to app',
+                    labelText: SorceryLocalizations.current.appInputPathToApp,
                   ),
                   validator: FormBuilderValidators.required(),
                   keyboardType: TextInputType.number,

@@ -471,6 +471,16 @@ class SorceryLocalizations {
     );
   }
 
+  /// `path to app`
+  String get appInputPathToApp {
+    return Intl.message(
+      'path to app',
+      name: 'appInputPathToApp',
+      desc: 'Input field for path to app',
+      args: [],
+    );
+  }
+
   /// `create app`
   String get appButtonCreateNewAppSubmit {
     return Intl.message(

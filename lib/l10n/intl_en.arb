@@ -213,6 +213,10 @@
   "@appFieldFramework": {
     "description": "Radio button name for app type selection"
   },
+  "appInputPathToApp": "path to app",
+  "@appInputPathToApp": {
+    "description": "Input field for path to app"
+  },
   "appButtonCreateNewAppSubmit": "create app",
   "@appButtonCreateNewAppSubmit": {
     "description": "Button text for create new app submit"

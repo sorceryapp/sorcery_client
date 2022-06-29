@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("create app"),
         "appButtonNewApp": MessageLookupByLibrary.simpleMessage("New App"),
         "appInputName": MessageLookupByLibrary.simpleMessage("name"),
+        "appInputPathToApp":
+            MessageLookupByLibrary.simpleMessage("path to app"),
         "appRadioFramework": MessageLookupByLibrary.simpleMessage("framework"),
         "appRadioType": MessageLookupByLibrary.simpleMessage("type"),
         "appsIndexTableAppId": MessageLookupByLibrary.simpleMessage("app id"),
