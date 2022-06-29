@@ -500,6 +500,46 @@ class SorceryLocalizations {
       args: [],
     );
   }
+
+  /// `app id`
+  String get appsIndexTableAppId {
+    return Intl.message(
+      'app id',
+      name: 'appsIndexTableAppId',
+      desc: 'Column heading text for app id column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `name`
+  String get appsIndexTableName {
+    return Intl.message(
+      'name',
+      name: 'appsIndexTableName',
+      desc: 'Column heading text for name column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `framework`
+  String get appsIndexTableFrameworkId {
+    return Intl.message(
+      'framework',
+      name: 'appsIndexTableFrameworkId',
+      desc: 'Column heading text for framework column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `type`
+  String get appsIndexTableTypeId {
+    return Intl.message(
+      'type',
+      name: 'appsIndexTableTypeId',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate

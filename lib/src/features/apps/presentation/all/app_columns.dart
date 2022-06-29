@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/approved_columns.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/mapped_column_headers.dart';
 
 class TableColumns {
   final Iterable columnNames;
@@ -13,7 +14,8 @@ class TableColumns {
         columns.add(
           DataColumn(
             label: Text(
-              columnName,
+              mappedColumnHeaders[columnName] ??
+                  'Error: translation is missing',
               style: const TextStyle(fontStyle: FontStyle.italic),
             ),
           ),

@@ -133,5 +133,21 @@
   "appButtonNewApp": "nueva aplicación",
   "@appButtonNewApp": {
     "description": "Button text to go to the create app screen"
+  },
+  "appsIndexTableAppId": "ID de aplicación",
+  "@appsIndexTableAppId": {
+    "description": "Column heading text for app id column in apps index table"
+  },
+  "appsIndexTableName": "nombre",
+  "@appsIndexTableName": {
+    "description": "Column heading text for name column in apps index table"
+  },
+  "appsIndexTableFrameworkId": "estructura",
+  "@appsIndexTableFrameworkId": {
+    "description": "Column heading text for framework column in apps index table"
+  },
+  "appsIndexTableTypeId": "tipo",
+  "@appIndexTableTypeId": {
+    "description": "Column heading text for type column in apps index table"
   }
 }
