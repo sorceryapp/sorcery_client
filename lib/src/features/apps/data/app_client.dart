@@ -54,7 +54,6 @@ class AppClient extends Client {
     required int frameworkId,
     required int typeId,
     required String path,
-    Map<dynamic, dynamic> blueprint = const {},
   }) async {
     final jwt = SecureStorage().getJwt();
     final url = '$baseUrl/api/v1/apps';
@@ -62,7 +61,7 @@ class AppClient extends Client {
       'name': name,
       'framework_id': frameworkId,
       'type_id': typeId,
-      'path': path,
+      // 'path': path,
     });
 
     try {

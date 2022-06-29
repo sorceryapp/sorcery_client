@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/localization/l10n.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_attributes.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_controller.dart';
 import 'package:sorcery_desktop_v3/src/routing/router.dart';
 
@@ -42,9 +43,9 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                       const InputDecoration(labelText: 'Choose a Framework'),
                   validator: FormBuilderValidators.required(),
                   options: [
-                    'Ruby on Rails',
-                    'Django',
-                    'AdonisJS',
+                    ...appAttributes['app']!['framework']!['idToName']!
+                        .values
+                        .toList()
                   ]
                       .map((framework) =>
                           FormBuilderFieldOption(value: framework))
@@ -57,8 +58,9 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                   decoration: const InputDecoration(labelText: 'Choose a type'),
                   validator: FormBuilderValidators.required(),
                   options: [
-                    'API',
-                    'Monolith',
+                    ...appAttributes['app']!['type']!['idToName']!
+                        .values
+                        .toList()
                   ]
                       .map((framework) =>
                           FormBuilderFieldOption(value: framework))
@@ -66,7 +68,7 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                   orientation: OptionsOrientation.vertical,
                 ),
                 FormBuilderTextField(
-                  name: 'path to app',
+                  name: 'path',
                   decoration: InputDecoration(
                     labelText: 'path to app',
                   ),

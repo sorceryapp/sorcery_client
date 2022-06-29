@@ -68,8 +68,8 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
   Future<App> createApp({required formData}) async {
     final response = await _appClient.createApp(
       name: formData['name'],
-      frameworkId: formData['frameworkId'],
-      typeId: formData['typeId'],
+      frameworkId: formData['framework'],
+      typeId: formData['type'],
       path: formData['path'],
     );
     int? statusCode = getHttpStatusCode(response: response);
