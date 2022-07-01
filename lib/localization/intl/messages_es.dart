@@ -35,8 +35,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountButtonCancel": MessageLookupByLibrary.simpleMessage("cancelar"),
         "accountButtonLogout":
             MessageLookupByLibrary.simpleMessage("cerrar sesión"),
-        "accountButtonResendVerifyAccountEmail":
-            MessageLookupByLibrary.simpleMessage("reenviar"),
         "accountButtonResetPassword":
             MessageLookupByLibrary.simpleMessage("reiniciar"),
         "accountButtonSignIn":
@@ -45,6 +43,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("inscribirse"),
         "accountButtonVerifyAccount":
             MessageLookupByLibrary.simpleMessage("verificar"),
+        "accountButtonVerifyAccountResend":
+            MessageLookupByLibrary.simpleMessage("reenviar"),
         "accountFieldConfirmPassword":
             MessageLookupByLibrary.simpleMessage("confirmar contraseña"),
         "accountFieldEmailAddress":
@@ -64,8 +64,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "appButtonNewApp":
             MessageLookupByLibrary.simpleMessage("nueva aplicación"),
         "appInputName": MessageLookupByLibrary.simpleMessage("nombre"),
+        "appInputPathToApp":
+            MessageLookupByLibrary.simpleMessage("ruta a la aplicación"),
         "appRadioFramework": MessageLookupByLibrary.simpleMessage("estructura"),
         "appRadioType": MessageLookupByLibrary.simpleMessage("tipo"),
+        "appsIndexTableAppId":
+            MessageLookupByLibrary.simpleMessage("ID de aplicación"),
+        "appsIndexTableFrameworkId":
+            MessageLookupByLibrary.simpleMessage("estructura"),
+        "appsIndexTableName": MessageLookupByLibrary.simpleMessage("nombre"),
+        "appsIndexTableTypeId": MessageLookupByLibrary.simpleMessage("tipo"),
         "creditCardErrorText": MessageLookupByLibrary.simpleMessage(
             "Este campo requiere un número de tarjeta de crédito válido."),
         "dateStringErrorText": MessageLookupByLibrary.simpleMessage(

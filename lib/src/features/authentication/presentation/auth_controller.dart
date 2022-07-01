@@ -41,7 +41,7 @@ class AuthFormController extends StateNotifier<AuthState> {
   }
 
   Future<void> _verifyAccount({required Map formData}) async {
-    await authRepository.verifyAccount(token: formData['accountVerifyToken']);
+    await authRepository.verifyAccount(token: formData['token']);
   }
 
   Future<bool> verifyAccountResend({

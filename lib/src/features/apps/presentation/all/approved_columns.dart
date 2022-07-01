@@ -1,7 +1,1 @@
-List<String> approvedColumns = [
-  'appId',
-  'name',
-  'languageId',
-  'frameworkId',
-  'typeId'
-];
+List<String> approvedColumns = ['appId', 'name', 'frameworkId', 'typeId'];

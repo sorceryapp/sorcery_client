@@ -85,8 +85,8 @@
   "@accountButtonVerifyAccount": {
     "description": "text for the verify account button"
   },
-  "accountButtonResendVerifyAccountEmail": "resend",
-  "@accountButtonResendVerifyAccountEmail": {
+  "accountButtonVerifyAccountResend": "resend",
+  "@accountButtonVerifyAccountResend": {
     "description": "text for the resend verify account email button"
   },
   "accountButtonResetPassword": "reset",
@@ -213,6 +213,10 @@
   "@appFieldFramework": {
     "description": "Radio button name for app type selection"
   },
+  "appInputPathToApp": "path to app",
+  "@appInputPathToApp": {
+    "description": "Input field for path to app"
+  },
   "appButtonCreateNewAppSubmit": "create app",
   "@appButtonCreateNewAppSubmit": {
     "description": "Button text for create new app submit"
@@ -224,5 +228,21 @@
   "appButtonNewApp": "New App",
   "@appButtonNewApp": {
     "description": "Button text to go to the create app screen"
+  },
+  "appsIndexTableAppId": "app id",
+  "@appsIndexTableAppId": {
+    "description": "Column heading text for app id column in apps index table"
+  },
+  "appsIndexTableName": "name",
+  "@appsIndexTableName": {
+    "description": "Column heading text for name column in apps index table"
+  },
+  "appsIndexTableFrameworkId": "framework",
+  "@appsIndexTableFrameworkId": {
+    "description": "Column heading text for framework column in apps index table"
+  },
+  "appsIndexTableTypeId": "type",
+  "@appIndexTableTypeId": {
+    "description": "Column heading text for type column in apps index table"
   }
 }

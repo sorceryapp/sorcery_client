@@ -38,14 +38,14 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accountButtonCancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "accountButtonLogout": MessageLookupByLibrary.simpleMessage("logout"),
-        "accountButtonResendVerifyAccountEmail":
-            MessageLookupByLibrary.simpleMessage("resend"),
         "accountButtonResetPassword":
             MessageLookupByLibrary.simpleMessage("reset"),
         "accountButtonSignIn": MessageLookupByLibrary.simpleMessage("sign in"),
         "accountButtonSignUp": MessageLookupByLibrary.simpleMessage("sign up"),
         "accountButtonVerifyAccount":
             MessageLookupByLibrary.simpleMessage("verify"),
+        "accountButtonVerifyAccountResend":
+            MessageLookupByLibrary.simpleMessage("resend"),
         "accountFieldConfirmPassword":
             MessageLookupByLibrary.simpleMessage("confirm password"),
         "accountFieldEmailAddress":
@@ -62,8 +62,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("create app"),
         "appButtonNewApp": MessageLookupByLibrary.simpleMessage("New App"),
         "appInputName": MessageLookupByLibrary.simpleMessage("name"),
+        "appInputPathToApp":
+            MessageLookupByLibrary.simpleMessage("path to app"),
         "appRadioFramework": MessageLookupByLibrary.simpleMessage("framework"),
         "appRadioType": MessageLookupByLibrary.simpleMessage("type"),
+        "appsIndexTableAppId": MessageLookupByLibrary.simpleMessage("app id"),
+        "appsIndexTableFrameworkId":
+            MessageLookupByLibrary.simpleMessage("framework"),
+        "appsIndexTableName": MessageLookupByLibrary.simpleMessage("name"),
+        "appsIndexTableTypeId": MessageLookupByLibrary.simpleMessage("type"),
         "creditCardErrorText": MessageLookupByLibrary.simpleMessage(
             "This field requires a valid credit card number."),
         "dateStringErrorText": MessageLookupByLibrary.simpleMessage(

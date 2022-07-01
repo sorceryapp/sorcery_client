@@ -7,7 +7,6 @@ import 'package:sorcery_desktop_v3/src/shared/data/secure_storage.dart';
 class AppClient extends Client {
   Future<dynamic> getApps() async {
     final jwt = SecureStorage().getJwt();
-    // final url = '$baseUrl/api/v1/apps';
     final url = '$baseUrl/api/v1/apps';
 
     try {
@@ -52,19 +51,16 @@ class AppClient extends Client {
 
   Future<dynamic> createApp({
     required String name,
-    required int languageId,
     required int frameworkId,
     required int typeId,
-    Map<dynamic, dynamic> blueprint = const {},
+    required String path,
   }) async {
     final jwt = SecureStorage().getJwt();
     final url = '$baseUrl/api/v1/apps';
     final data = json.encode({
-      'name': name,
-      'language_id': languageId,
-      'framework_id': frameworkId,
-      'type_id': typeId,
-      'blueprint': blueprint,
+      'app': {'name': name, 'framework_id': frameworkId, 'type_id': typeId},
+      "app_user": {"user_id": 253, "app_permission_id": 5},
+      "app_root_path": {"path": path}
     });
 
     try {
@@ -89,18 +85,18 @@ class AppClient extends Client {
   Future<dynamic> updateApp({
     required String appId,
     required String name,
-    required int languageId,
     required int frameworkId,
     required int typeId,
+    required String path,
     required Map<dynamic, dynamic> blueprint,
   }) async {
     final jwt = SecureStorage().getJwt();
     final url = '$baseUrl/apps/$appId';
     final data = json.encode({
       'name': name,
-      'language_id': languageId,
       'framework_id': frameworkId,
       'type_id': typeId,
+      'path': path,
       'blueprint': blueprint,
     });
 

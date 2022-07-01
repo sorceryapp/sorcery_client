@@ -262,10 +262,10 @@ class SorceryLocalizations {
   }
 
   /// `resend`
-  String get accountButtonResendVerifyAccountEmail {
+  String get accountButtonVerifyAccountResend {
     return Intl.message(
       'resend',
-      name: 'accountButtonResendVerifyAccountEmail',
+      name: 'accountButtonVerifyAccountResend',
       desc: 'text for the resend verify account email button',
       args: [],
     );
@@ -471,6 +471,16 @@ class SorceryLocalizations {
     );
   }
 
+  /// `path to app`
+  String get appInputPathToApp {
+    return Intl.message(
+      'path to app',
+      name: 'appInputPathToApp',
+      desc: 'Input field for path to app',
+      args: [],
+    );
+  }
+
   /// `create app`
   String get appButtonCreateNewAppSubmit {
     return Intl.message(
@@ -497,6 +507,46 @@ class SorceryLocalizations {
       'New App',
       name: 'appButtonNewApp',
       desc: 'Button text to go to the create app screen',
+      args: [],
+    );
+  }
+
+  /// `app id`
+  String get appsIndexTableAppId {
+    return Intl.message(
+      'app id',
+      name: 'appsIndexTableAppId',
+      desc: 'Column heading text for app id column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `name`
+  String get appsIndexTableName {
+    return Intl.message(
+      'name',
+      name: 'appsIndexTableName',
+      desc: 'Column heading text for name column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `framework`
+  String get appsIndexTableFrameworkId {
+    return Intl.message(
+      'framework',
+      name: 'appsIndexTableFrameworkId',
+      desc: 'Column heading text for framework column in apps index table',
+      args: [],
+    );
+  }
+
+  /// `type`
+  String get appsIndexTableTypeId {
+    return Intl.message(
+      'type',
+      name: 'appsIndexTableTypeId',
+      desc: '',
       args: [],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/data/app_repository.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_attributes.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/app_state.dart';
 
 class AppController extends StateNotifier<AppState> {
@@ -23,7 +24,8 @@ class AppController extends StateNotifier<AppState> {
   }
 
   Future<App> createApp({required Map formData}) async {
-    return await appRepository.createApp(formData: formData);
+    return await appRepository.createApp(
+        formData: _convertNamedValuesToIds(formData));
   }
 
   Future<bool> updateApp({
@@ -44,12 +46,7 @@ class AppController extends StateNotifier<AppState> {
     required Map formData,
   }) async {
     await appRepository.updateApp(
-      appId: formData['appId'],
-      name: formData['name'],
-      languageId: formData['languageId'],
-      frameworkId: formData['frameworkId'],
-      typeId: formData['typeId'],
-      blueprint: formData['blueprint'],
+      formData: formData,
     );
   }
 
@@ -69,6 +66,20 @@ class AppController extends StateNotifier<AppState> {
     required Map formData,
   }) async {
     await appRepository.deleteApp(appId: formData['appId']);
+  }
+
+  Map<dynamic, dynamic> _convertNamedValuesToIds(Map formValues) {
+    final updatedFormValues = {};
+
+    formValues.forEach((k, v) {
+      if (k == 'framework' || k == 'type') {
+        updatedFormValues[k] = appAttributes['app']![k]!['nameToId']![v];
+      } else {
+        updatedFormValues[k] = v;
+      }
+    });
+
+    return updatedFormValues;
   }
 }
 
