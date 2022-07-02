@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/create/apps_create_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_show_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_update_screen.dart';
@@ -118,7 +119,19 @@ final routerProvider = Provider<GoRouter>((ref) {
                 name: AppRoute.appsShow.name,
                 builder: (context, state) {
                   final appId = state.params['a_id']!;
-                  return AppsShowScreen(appId: appId);
+                  App? app;
+
+                  try {
+                    app = state.extra! as App;
+                  } catch (_) {
+                    app = null;
+                  }
+
+                  if (app == null) {
+                    return AppsShowScreen(appId: appId);
+                  } else {
+                    return AppsShowScreen(appId: appId, app: app);
+                  }
                 },
                 routes: [
                   GoRoute(

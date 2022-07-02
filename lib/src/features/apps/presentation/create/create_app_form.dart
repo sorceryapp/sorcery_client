@@ -128,6 +128,7 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
       context.goNamed(
         AppRoute.appsShow.name,
         params: {'a_id': app.appId.toString()},
+        extra: app,
       );
     }
   }

@@ -138,6 +138,28 @@ class HttpAppRepository extends SorceryRepository implements AppRepository {
       appList.add(App.fromMap(appMap['attributes']));
     }
 
+    // where is the list of apps coming from?
+    // where could the apps have come from:
+    // they could be local
+    // they could have been created on a different machine
+    // they could have been created in the cloud
+    // they could be apps from another company that the user has been given access to
+    //
+    // what apps should be stored in the local database?
+    // only apps that have been 'opened' => when an app is opened then you set it up, add the root path, scan the code, etc.
+    //
+    // TODO
+    // diff the list from api request with the apps that are local
+    // perhaps a new app wasn't pushed to the cloud?
+    // perhaps an app was deleted and that wasn't pushed to the cloud?
+
+    // what if a user is offline?
+    // just sees the apps that are saved
+
+    // how can you diff deleted apps?
+    // how can you tell if an app is new, and not synced with api (so it's not in the get request response), vs an app that was deleted
+    // through the cloud or on another computer so it need to be deleted locally?
+
     return appList;
   }
 
