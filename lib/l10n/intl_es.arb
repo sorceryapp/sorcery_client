@@ -126,6 +126,10 @@
   "@appInputPathToApp": {
     "description": "Input field for path to app"
   },
+  "appButtonCreateNewAppPickPath": "elegir camino",
+  "@appButtonCreateNewAppPickPath": {
+    "description": "Button text for create new app pick path"
+  },
   "appButtonCreateNewAppSubmit": "crear aplicación",
   "@appButtonCreateNewAppSubmit": {
     "description": "Button text for create new app submit"

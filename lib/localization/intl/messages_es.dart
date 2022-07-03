@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("token"),
         "appButtonCreateNewAppCancel":
             MessageLookupByLibrary.simpleMessage("cancelar"),
+        "appButtonCreateNewAppPickPath":
+            MessageLookupByLibrary.simpleMessage("elegir camino"),
         "appButtonCreateNewAppSubmit":
             MessageLookupByLibrary.simpleMessage("crear aplicación"),
         "appButtonNewApp":

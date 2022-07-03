@@ -481,6 +481,16 @@ class SorceryLocalizations {
     );
   }
 
+  /// `pick path`
+  String get appButtonCreateNewAppPickPath {
+    return Intl.message(
+      'pick path',
+      name: 'appButtonCreateNewAppPickPath',
+      desc: 'Button text for create new app pick path',
+      args: [],
+    );
+  }
+
   /// `create app`
   String get appButtonCreateNewAppSubmit {
     return Intl.message(
