@@ -12,6 +12,7 @@ class App {
     required this.frameworkId,
     required this.typeId,
     required this.blueprint,
+    this.path,
   });
 
   @HiveField(0)
@@ -32,12 +33,16 @@ class App {
   @HiveField(5)
   final Map<dynamic, dynamic> blueprint;
 
+  @HiveField(6)
+  final String? path;
+
   App copyWith({
     int? appId,
     String? name,
     int? frameworkId,
     int? typeId,
     Map<dynamic, dynamic>? blueprint,
+    String? path,
   }) {
     return App(
       appId: appId ?? this.appId,
@@ -45,6 +50,7 @@ class App {
       frameworkId: frameworkId ?? this.frameworkId,
       typeId: typeId ?? this.typeId,
       blueprint: blueprint ?? this.blueprint,
+      path: path ?? this.path,
     );
   }
 
@@ -55,18 +61,20 @@ class App {
       'frameworkId': frameworkId,
       'typeId': typeId,
       'blueprint': blueprint,
+      'path': path,
     };
   }
 
   factory App.fromMap(Map<String, dynamic> map) {
     return App(
-        appId: map['id'] as int,
-        name: map['name'] as String,
-        frameworkId: map['frameworkId'] as int,
-        typeId: map['typeId'] as int,
-        blueprint: Map<dynamic, dynamic>.from(
-          (map['blueprint'] as Map<dynamic, dynamic>),
-        ));
+      appId: map['id'] as int,
+      name: map['name'] as String,
+      frameworkId: map['frameworkId'] as int,
+      typeId: map['typeId'] as int,
+      blueprint: Map<dynamic, dynamic>.from(
+          (map['blueprint'] as Map<dynamic, dynamic>)),
+      path: map['path'] != null ? map['path'] as String : null,
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -76,7 +84,7 @@ class App {
 
   @override
   String toString() {
-    return 'App(appId: $appId, name: $name, frameworkId: $frameworkId, typeId: $typeId, blueprint: $blueprint)';
+    return 'App(appId: $appId, name: $name, frameworkId: $frameworkId, typeId: $typeId, blueprint: $blueprint, path: $path)';
   }
 
   @override
@@ -88,7 +96,8 @@ class App {
         other.name == name &&
         other.frameworkId == frameworkId &&
         other.typeId == typeId &&
-        mapEquals(other.blueprint, blueprint);
+        mapEquals(other.blueprint, blueprint) &&
+        other.path == path;
   }
 
   @override
@@ -97,6 +106,7 @@ class App {
         name.hashCode ^
         frameworkId.hashCode ^
         typeId.hashCode ^
-        blueprint.hashCode;
+        blueprint.hashCode ^
+        path.hashCode;
   }
 }
