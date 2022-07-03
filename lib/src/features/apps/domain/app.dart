@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -13,6 +12,7 @@ class App {
     required this.typeId,
     required this.blueprint,
     this.path,
+    required this.permission,
   });
 
   @HiveField(0)
@@ -36,6 +36,9 @@ class App {
   @HiveField(6)
   final String? path;
 
+  @HiveField(7)
+  final String permission;
+
   App copyWith({
     int? appId,
     String? name,
@@ -43,6 +46,7 @@ class App {
     int? typeId,
     Map<dynamic, dynamic>? blueprint,
     String? path,
+    String? permission,
   }) {
     return App(
       appId: appId ?? this.appId,
@@ -51,6 +55,7 @@ class App {
       typeId: typeId ?? this.typeId,
       blueprint: blueprint ?? this.blueprint,
       path: path ?? this.path,
+      permission: permission ?? this.permission,
     );
   }
 
@@ -62,6 +67,7 @@ class App {
       'typeId': typeId,
       'blueprint': blueprint,
       'path': path,
+      'permission': permission,
     };
   }
 
@@ -74,6 +80,7 @@ class App {
       blueprint: Map<dynamic, dynamic>.from(
           (map['blueprint'] as Map<dynamic, dynamic>)),
       path: map['path'] != null ? map['path'] as String : null,
+      permission: map['permission'] as String,
     );
   }
 
@@ -84,7 +91,7 @@ class App {
 
   @override
   String toString() {
-    return 'App(appId: $appId, name: $name, frameworkId: $frameworkId, typeId: $typeId, blueprint: $blueprint, path: $path)';
+    return 'App(appId: $appId, name: $name, frameworkId: $frameworkId, typeId: $typeId, blueprint: $blueprint, path: $path, permission: $permission)';
   }
 
   @override
@@ -97,7 +104,8 @@ class App {
         other.frameworkId == frameworkId &&
         other.typeId == typeId &&
         mapEquals(other.blueprint, blueprint) &&
-        other.path == path;
+        other.path == path &&
+        other.permission == permission;
   }
 
   @override
@@ -107,6 +115,7 @@ class App {
         frameworkId.hashCode ^
         typeId.hashCode ^
         blueprint.hashCode ^
-        path.hashCode;
+        path.hashCode ^
+        permission.hashCode;
   }
 }
