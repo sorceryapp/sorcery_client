@@ -15,6 +15,17 @@ class AppsShowScreen extends StatelessWidget {
 
     if (_app != null) {
       print(_app.toString());
+
+      switch (_app!.frameworkId) {
+        case 22:
+          if (_app!.typeId == 23) {
+            // creat rails api app
+            print('create rails api app');
+          } else if (_app!.typeId == 24) {
+            // create rails monolith app
+            print('create rails monolith app');
+          }
+      }
     }
 
     return Scaffold(
