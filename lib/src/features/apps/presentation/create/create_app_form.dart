@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,11 +73,20 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                 ),
                 FormBuilderTextField(
                   name: 'path',
+                  // initialValue: _path,
                   decoration: InputDecoration(
                     labelText: SorceryLocalizations.current.appInputPathToApp,
                   ),
                   validator: FormBuilderValidators.required(),
                   keyboardType: TextInputType.number,
+                ),
+                MaterialButton(
+                  color: Theme.of(context).colorScheme.secondary,
+                  child: Text(
+                    SorceryLocalizations.current.appButtonCreateNewAppPickPath,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => _pickDirectory(),
                 ),
                 Row(
                   children: <Widget>[
@@ -115,7 +125,12 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
     );
   }
 
-  _submit() async {
+  Future<void> _pickDirectory() async {
+    String? path = await FilePicker.platform.getDirectoryPath();
+    _formKey.currentState!.fields['path']!.didChange(path);
+  }
+
+  Future _submit() async {
     if (_formKey.currentState!.validate()) {
       final formData = _formKey.currentState!.value;
       final controller = ref.watch(appControllerStateNotifierProvider.notifier);
