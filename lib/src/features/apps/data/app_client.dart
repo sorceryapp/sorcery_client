@@ -59,7 +59,7 @@ class AppClient extends Client {
     final url = '$baseUrl/api/v1/apps';
     final data = json.encode({
       'app': {'name': name, 'framework_id': frameworkId, 'type_id': typeId},
-      "app_user": {"user_id": 253, "app_permission_id": 5},
+      "app_user": {"user_id": 253},
       "app_root_path": {"path": path}
     });
 
