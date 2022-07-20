@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/domain/app.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/create/apps_create_screen.dart';
-import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_show_screen.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/presentation/show/apps_show_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/apps_update_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/apps/presentation/all/apps_screen.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/data/auth_repository.dart';
