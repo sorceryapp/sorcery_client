@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isar/isar.dart';
+import 'package:sorcery_desktop_v3/src/features/apps/domain/isar_blueprint_converter.dart';
 
-@HiveType(typeId: 2)
+part 'app.g.dart';
+
+@Collection()
 class App {
   App({
     required this.appId,
@@ -15,28 +18,15 @@ class App {
     required this.permission,
   });
 
-  @HiveField(0)
+  var id = Isar.autoIncrement;
   final int appId;
-
-  @HiveField(1)
   final String name;
-
-  // @HiveField(2)
-  // final int languageId;
-
-  @HiveField(3)
   final int frameworkId;
-
-  @HiveField(4)
   final int typeId;
 
-  @HiveField(5)
+  @IsarBlueprintConverter()
   final Map<dynamic, dynamic> blueprint;
-
-  @HiveField(6)
   final String? path;
-
-  @HiveField(7)
   final String permission;
 
   App copyWith({

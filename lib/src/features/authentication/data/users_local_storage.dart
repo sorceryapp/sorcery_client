@@ -1,14 +1,32 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sorcery_desktop_v3/src/features/authentication/domain/user.dart';
 
 class UsersLocalStorage {
-  Future<void> saveUser({required User user}) async {
-    await _saveUser(user: user);
+  static Future<UsersLocalStorage> getInstance() async {
+    final Isar isar = await _openIsar();
+    return UsersLocalStorage(isar);
   }
 
-  Future<void> _saveUser({required user}) async {
-    final box = await Hive.openBox('user');
-    final key = '${user.accountId}_user';
-    box.put(key, user);
+  Isar isar;
+  UsersLocalStorage(this.isar);
+
+  Future<void> saveUser({required User user}) async {
+    await isar.writeTxn(() async {
+      await isar.users.put(user);
+    });
+  }
+
+  Future<bool> closeIsar() async {
+    return await isar.close();
+  }
+
+  static Future<Isar> _openIsar() async {
+    final dir = await getApplicationSupportDirectory();
+
+    return await Isar.open(
+      [UserSchema],
+      directory: dir.path,
+    );
   }
 }

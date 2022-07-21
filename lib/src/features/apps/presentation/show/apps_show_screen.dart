@@ -26,13 +26,13 @@ class AppsShowScreen extends StatelessWidget {
             // creat rails api app
             final shell =
                 ShellCommands(path: '/Users/holdenhinkle/Documents/Projects');
-            print('Before ls');
-            shell.ls();
-            print('Before mkdir');
-            shell.mkdir();
-            print('Before rails new');
-            shell.railsNew();
-            print('After rails new');
+            // print('Before ls');
+            // shell.ls();
+            // print('Before mkdir');
+            // shell.mkdir();
+            // print('Before rails new');
+            // shell.railsNew();
+            // print('After rails new');
           } else if (_app!.typeId == 24) {
             // create rails monolith app
           }

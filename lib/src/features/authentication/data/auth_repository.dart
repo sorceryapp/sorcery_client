@@ -156,7 +156,7 @@ class HttpAuthRepository extends SorceryRepository implements AuthRepository {
   Future<void> _handleSuccess({required response}) async {
     await setJwt(jwt: response.headers['authorization'].toString());
     final payload = await getJwtPayload();
-    final user = _createHiveUser(payload: payload);
+    final user = _createUser(payload: payload);
     _setUser(user: user);
 
     try {
@@ -179,7 +179,7 @@ class HttpAuthRepository extends SorceryRepository implements AuthRepository {
     return await SecureStorage().getJwtPayload();
   }
 
-  User _createHiveUser({required payload}) {
+  User _createUser({required payload}) {
     final userData = payload['data']['user'];
 
     return User(
@@ -196,8 +196,8 @@ class HttpAuthRepository extends SorceryRepository implements AuthRepository {
   }
 
   Future<void> _saveUser({required User user}) async {
-    final authDatabase = UsersLocalStorage();
-    await authDatabase.saveUser(user: user);
+    final userStorage = await UsersLocalStorage.getInstance();
+    await userStorage.saveUser(user: user);
   }
 
   void _unsetUser() {

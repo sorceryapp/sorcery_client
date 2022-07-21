@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isar/isar.dart';
 
 part 'user.g.dart';
 
-@HiveType(typeId: 1)
+@Collection()
 class User {
   User({
     required this.accountId,
@@ -14,19 +13,11 @@ class User {
     required this.status,
   });
 
-  @HiveField(0)
+  var id = Isar.autoIncrement;
   final int accountId;
-
-  @HiveField(1)
   final String email;
-
-  @HiveField(2)
   final String firstName;
-
-  @HiveField(3)
   final String lastName;
-
-  @HiveField(4)
   final String status;
 
   User copyWith({

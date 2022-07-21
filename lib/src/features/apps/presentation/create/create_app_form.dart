@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,23 +71,23 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
                       .toList(growable: true),
                   orientation: OptionsOrientation.vertical,
                 ),
-                FormBuilderTextField(
-                  name: 'path',
-                  // initialValue: _path,
-                  decoration: InputDecoration(
-                    labelText: SorceryLocalizations.current.appInputPathToApp,
-                  ),
-                  validator: FormBuilderValidators.required(),
-                  keyboardType: TextInputType.number,
-                ),
-                MaterialButton(
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: Text(
-                    SorceryLocalizations.current.appButtonCreateNewAppPickPath,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () => _pickDirectory(),
-                ),
+                // FormBuilderTextField(
+                //   name: 'path',
+                //   // initialValue: _path,
+                //   decoration: InputDecoration(
+                //     labelText: SorceryLocalizations.current.appInputPathToApp,
+                //   ),
+                //   validator: FormBuilderValidators.required(),
+                //   keyboardType: TextInputType.number,
+                // ),
+                // MaterialButton(
+                //   color: Theme.of(context).colorScheme.secondary,
+                //   child: Text(
+                //     SorceryLocalizations.current.appButtonCreateNewAppPickPath,
+                //     style: const TextStyle(color: Colors.white),
+                //   ),
+                //   onPressed: () => _pickDirectory(),
+                // ),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -125,10 +125,10 @@ class _CreateAppFormState extends ConsumerState<CreateAppForm> {
     );
   }
 
-  Future<void> _pickDirectory() async {
-    String? path = await FilePicker.platform.getDirectoryPath();
-    _formKey.currentState!.fields['path']!.didChange(path);
-  }
+  // Future<void> _pickDirectory() async {
+  //   String? path = await FilePicker.platform.getDirectoryPath();
+  //   _formKey.currentState!.fields['path']!.didChange(path);
+  // }
 
   Future _submit() async {
     if (_formKey.currentState!.validate()) {
